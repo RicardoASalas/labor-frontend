@@ -1,25 +1,32 @@
 import React, { Fragment } from "react";
 import { NavLink, withRouter } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 import { connect } from "react-redux";
 
-import { session, getUrl } from "../../utils/uti";
-import { login } from "../../redux/actions/users";
-import { rdx_productSearchResults } from "../../redux/actions/products";
-
 import "./header.css";
+
+// import { session, getUrl } from "../../utils/uti";
+// import { login } from "../../redux/actions/users";
+// import { rdx_productSearchResults } from "../../redux/actions/products";
+import TextInput from "../textInput/textInput";
+
 
 
 
 class Header extends React.Component {
     constructor(props) {
         super(props);
-
+		
+		
         this.state = {
-            
-        };
+			
+			
+		};
+		
+		
+		// this.handleChange = this.handleChange.bind(this); // O esto o fnc flecha
+		
     }
-	
 	
 	
     // BotonesHeader() {
@@ -138,21 +145,27 @@ class Header extends React.Component {
 	
 	
 	
-    pulsaLogout() {
-        let token = session.get().token;
+    // pulsaLogout() {
+    //     let token = session.get().token;
 		
-        // Hago la llamada para borrar mi token
-        axios.get(getUrl(`/user/logout?token=${token}`));
+    //     // Hago la llamada para borrar mi token
+    //     axios.get(getUrl(`/user/logout?token=${token}`));
 		
-        // Borro mis datos de sesión
-        session.del();
+    //     // Borro mis datos de sesión
+    //     session.del();
 
-        // Digo que no estoy logeado (con redux)
-        login(false);
+    //     // Digo que no estoy logeado (con redux)
+    //     login(false);
 
-        // Redirección
-        this.props.history.push("/");
-	}
+    //     // Redirección
+    //     this.props.history.push("/");
+	// }
+	
+	
+	
+	handleChange = (ev, stateKey) => {
+		this.setState({ [stateKey]: ev.target.value });
+	};
 	
 	
 	
@@ -165,6 +178,20 @@ class Header extends React.Component {
                         <img src="https://trello-attachments.s3.amazonaws.com/5e1f276fc18d582b4781c087/5e1f2e19295ba37cfa41ebe6/d070adb352870f4da9f32d1f43ceee01/labor.png" alt="logo" />
                     </NavLink>
                 </div>
+				
+				
+				<TextInput
+					handler={ this.handleChange }
+					stateKey="username"
+					placeholder="Username"
+				/>
+				
+				<TextInput
+					handler={ this.handleChange }
+					stateKey="password"
+					placeholder="Contraseña"
+					type="password"
+				/>
 				
 				
 				<div className="cajaBusqueda">
