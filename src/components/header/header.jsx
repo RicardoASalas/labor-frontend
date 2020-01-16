@@ -161,9 +161,15 @@ class Header extends React.Component {
             <header>
                 <div className="logo">
                     <NavLink to="/">
-                        <img src="/img/logo.png" alt="logo" />
+                        {/* <img src="/img/logo.png" alt="logo" /> */}
+                        <img src="https://trello-attachments.s3.amazonaws.com/5e1f276fc18d582b4781c087/5e1f2e19295ba37cfa41ebe6/d070adb352870f4da9f32d1f43ceee01/labor.png" alt="logo" />
                     </NavLink>
                 </div>
+				
+				
+				<div className="cajaBusqueda">
+					<input type="text" placeholder="Búsqueda" />
+				</div>
 
                 
 				
@@ -171,6 +177,7 @@ class Header extends React.Component {
         );
     }
 }
+
 
 
 const mapStateToProps = state => {

@@ -1,33 +1,4 @@
 :root {
-   
-    /*Primary*/
-    --pri9: #212121;
-    --pri8: #424242;
-    --pri7: #616161;
-    --pri6: #757575;
-    --pri5: #9E9E9E;
-    --pri4: #BDBDBD;
-    --pri3: #E0E0E0;
-    --pri2: #EEEEEE;
-    --pri1: #F5F5F5;
-    --pri0: #FAFAFA;
-
-    --pri6: #4A6572;
-    --pri7: #344955;
-    --pri8: #232F34;
-
-
-    /*Secondary*/
-    --sec9: #004D40;
-    --sec8: #00695C;
-    --sec7: #00796B;
-    --sec6: #00897B;
-    --sec5: #009688;
-    --sec4: #26A69A;
-    --sec3: #4DB6AC;
-    --sec2: #80CBC4;
-    --sec1: #B2DFDB;
-    --sec0: #E0F2F1;
     
     /* Colors */
     --colVer: rgb(11, 226, 51);
@@ -37,20 +8,20 @@
     --colAzuCla: rgb(30, 165, 255);
     --colAma: rgb(255, 255, 28);
     --colNarCla: rgb(255, 197, 8);
-    --colNar: #F9AA33;
+	--colNar: #F9AA33;
+	--colNeg: rgb(22, 22, 22);
+	--colBla: rgb(255, 255, 255);
     
     
     /*Theme*/
-    --bac: rgb(237, 240, 242);
-    --card-bac: rgb(51,51,61);
-    --pri: var(--pri6);
-    --priVar: var(--pri8);
-    --sec: var(--sec6);
-    --secVar: var(--sec8);
+    --bac: rgb(242,242,242);
+    --card-bac: rgb(255,255,255);
+    --pri: #6105c8;
+    --priVar: #6d07e2;
+    --sec: rgb(0, 4, 255);
+    --secVar: red;
     
     
-    /* --bac: var(--pri0); */
-    --sur: var(--pri0);
     --err: var(--colRoj);
     --suc: var(--colVer);
     --onPri: var(--pri0);
@@ -58,7 +29,8 @@
     --onBac: var(--pri9);
     --onSur: var(--pri9);
     --onErr: var(--pri0);
-    --onSuc: var(--pri9);
+	--onSuc: var(--pri9);
+	
 }
 
 
@@ -67,13 +39,15 @@
     margin: 0;
     padding: 0;
     
-	color: var(--pri9);
+	color: var(--colNeg);
+	background: var(--colBla);
 	font-family: 'Hind', sans-serif;
 }
 
 html {
 	font-size: 15px;
 	background-color: var(--pri1);
+	background: var(--bac);
 }
 
 

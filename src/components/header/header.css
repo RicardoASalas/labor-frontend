@@ -10,8 +10,8 @@ header {
 	padding-bottom: 0.3em;
 	flex: 0;
 	
-    background: var(--pri9);
-    color: var(--sec6);
+	background: var(--colBla);
+	
 }
 
 
@@ -22,90 +22,32 @@ header {
 
 header .logo {
 	padding: 0 0.5em;
+	
+	background: none;
 }
 
 header .logo img {
-	height: 5em;
+	height: 3em;
+	width: 3em;
 	
-	min-height: 5em;
-	min-width: 5em;
-	
-	cursor: pointer;
-}
-
-
-
-/* --------------------------
-	SEARCH
--------------------------- */
-
-header .search {
-	display: flex;
-	flex-direction: row;
-	
-	padding-left: 1em;
-}
-
-header .search input {
-	font-size: 1.1em;
-	
-	border: none;
-	border-radius: 3px 0px 0px 3px;
-	
-	padding: 3px;
-	height: 1.4em;
-	
-	-webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-	box-sizing: border-box;
-	
-}
-
-header .search i {
-	border-radius: 0px 3px 3px 0px;
-	padding: 0 5px;
-	color: rgb(24, 24, 24);
-	background-color: rgb(245, 167, 0);
+	min-height: 2.4em;
+	min-width: 2.4em;
 	
 	cursor: pointer;
+	background: none;
 }
 
 
-
-
-/* --------------------------
-	NAV
--------------------------- */
-
-header .nav {
-	
+.cajaBusqueda {
 	display: flex;
-	justify-content: flex-end;
+	flex-direction: column;
 	
 	width: 100%;
-	padding-right: 1em;
 	
-	
+	align-items: center;
 }
 
-header .nav a {
-	padding: 0.3em 0.3em;
-	
+.cajaBusqueda input {
+	width: 5em;
 }
 
-header button {
-	
-	font-size: 1em;
-	margin-right: 0.75em;
-    
-} 
-
-header a {
-	all:unset;
-}
-
-
-
-header .logoutButton {
-	background-color: var(--colRojCla);
-}
