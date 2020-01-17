@@ -1,9 +1,7 @@
 
 header {
 	
-	
-	background: var(--colBla);
-	
+
 	
 	
 	.logo {
@@ -11,9 +9,10 @@ header {
 		flex-direction: row;
 		width: 33%;
 		align-items: center;
-		
+		background: none;
 		padding-top: 0.3em;
 		padding-bottom: 0.3em;
+		background: var(--colBla);
 	
 	}
 	
@@ -24,6 +23,8 @@ header {
 		align-items: center;
 		width: 33%;
 		justify-content: center;
+		background: none;
+		
 	}
 	
 	
@@ -33,6 +34,9 @@ header {
 		width: 33%;
 		justify-content: flex-end;
 		align-items: flex-end;
+		background: none;
+		
+
 	}
 	
 }
@@ -73,12 +77,13 @@ header .logo img {
 
 .cajaBusqueda input {
 	width: 5em;
+	
 }
 
 .header{
 	display: flex;
 	flex-direction: row;
-	background-color: red;
+	background: var(--colBla);
 }
 
 

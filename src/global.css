@@ -14,7 +14,7 @@
     
     
     /*Theme*/
-    --bac: rgb(242,242,242);
+    --bac: rgb(122, 121, 121);
     --card-bac: rgb(255,255,255);
     --pri: #6105c8;
     --priVar: #6d07e2;
@@ -39,16 +39,16 @@
     margin: 0;
     padding: 0;
     
-	color: var(--colNeg);
-	background: var(--colBla);
+	/* color: var(--colNeg); */
+	/* background: var(--colBla); */
 	font-family: 'Hind', sans-serif;
 }
 
 html {
 	font-size: 15px;
 	
-	/* background-color: var(--bac); */
 }
+
 
 
 /* Estados */

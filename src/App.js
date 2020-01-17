@@ -11,13 +11,14 @@ import Register from "./containers/register/register";
 
 
 // CSS
-// import "./global.css";
+import "./global.css";
 import "antd/dist/antd.css";
 import "./App.css";
 
+
 export default function App() {
 	return (
-		<div>
+		<div className="appClass">
 			<Router>
 				
 				<Header/>
