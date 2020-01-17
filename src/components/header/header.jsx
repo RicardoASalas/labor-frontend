@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import { NavLink, withRouter } from "react-router-dom";
 // import axios from "axios";
 import { connect } from "react-redux";
-
 import "./header.scss";
 
 // import { session, getUrl } from "../../utils/uti";
@@ -171,7 +170,7 @@ class Header extends React.Component {
 	
     render() {
         return (
-            <header>
+            <header className="header">
 				
 				<div className="logo">
                     <NavLink to="/">

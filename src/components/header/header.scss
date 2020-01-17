@@ -1,26 +1,28 @@
 
 header {
 	
+	
 	background: var(--colBla);
+	
 	
 	
 	.logo {
 		display: flex;
 		flex-direction: row;
-		
+		width: 33%;
 		align-items: center;
 		
 		padding-top: 0.3em;
 		padding-bottom: 0.3em;
-		flex: 0;
+	
 	}
 	
 	
 	.centro {
 		display: flex;
 		flex-direction: row;
-		
-		width: 10em;
+		align-items: center;
+		width: 33%;
 		justify-content: center;
 	}
 	
@@ -28,8 +30,9 @@ header {
 	.fin {
 		display: flex;
 		flex-direction: row;
-		
+		width: 33%;
 		justify-content: flex-end;
+		align-items: flex-end;
 	}
 	
 }
@@ -45,6 +48,7 @@ header .logo {
 	
 	background: none;
 }
+
 
 header .logo img {
 	height: 3em;
@@ -70,4 +74,12 @@ header .logo img {
 .cajaBusqueda input {
 	width: 5em;
 }
+
+.header{
+	display: flex;
+	flex-direction: row;
+	background-color: red;
+}
+
+
 
