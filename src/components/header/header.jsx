@@ -3,13 +3,13 @@ import { NavLink, withRouter } from "react-router-dom";
 // import axios from "axios";
 import { connect } from "react-redux";
 
-import "./header.css";
+import "./header.scss";
 
 // import { session, getUrl } from "../../utils/uti";
 // import { login } from "../../redux/actions/users";
 // import { rdx_productSearchResults } from "../../redux/actions/products";
-import TextInput from "../textInput/textInput";
 
+import { Button, Input, Icon } from "antd";
 
 
 
@@ -172,7 +172,8 @@ class Header extends React.Component {
     render() {
         return (
             <header>
-                <div className="logo">
+				
+				<div className="logo">
                     <NavLink to="/">
                         {/* <img src="/img/logo.png" alt="logo" /> */}
                         <img src="https://trello-attachments.s3.amazonaws.com/5e1f276fc18d582b4781c087/5e1f2e19295ba37cfa41ebe6/d070adb352870f4da9f32d1f43ceee01/labor.png" alt="logo" />
@@ -180,25 +181,14 @@ class Header extends React.Component {
                 </div>
 				
 				
-				<TextInput
-					handler={ this.handleChange }
-					stateKey="username"
-					placeholder="Username"
-				/>
-				
-				<TextInput
-					handler={ this.handleChange }
-					stateKey="password"
-					placeholder="Contraseña"
-					type="password"
-				/>
-				
-				
-				<div className="cajaBusqueda">
-					<input type="text" placeholder="Búsqueda" />
+				<div className="centro">
+					<Input addonAfter={<Icon type="search" />} defaultValue="" placeholder="Búsqueda" />
 				</div>
-
-                
+				
+				
+				<div className="fin">
+					<Button type="primary" shape="circle" icon="user" size="large" />	
+				</div>
 				
             </header>
         );

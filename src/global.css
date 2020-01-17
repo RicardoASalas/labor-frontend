@@ -46,8 +46,8 @@
 
 html {
 	font-size: 15px;
-	background-color: var(--pri1);
-	background: var(--bac);
+	
+	/* background-color: var(--bac); */
 }
 
 
@@ -109,57 +109,6 @@ html {
 .ml3 { margin-left: 1em;}
 .ml4 { margin-left: 1.5em;}
 .ml5 { margin-left: 2em;}
-
-
-/* Elementos */
-
-input {
-	font-size: 1.1em;
-	
-	border: none;
-	border-radius: 3px 3px 3px 3px;
-	
-	padding: 3px;
-	height: 1.4em;
-	
-	-webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-	box-sizing: border-box;
-	
-}
-
-button {
-    all: unset;
-	text-align: center;
-	
-	width: fit-content;
-	height: 2em;
-	
-    font-size: 1.3em;
-	padding: 0.1em 0.5em;
-    /* margin-top: 0.5em; */
-   
-    border-radius: 3px;
-    background: var(--colNar);
-	
-    cursor: pointer;
-	color: var(--pri9);
-	
-    transition: background-color 0.3s;
-}
-button:hover {
-    background-color: var(--colNarCla);
-    
-}
-
-.error {
-	/* margin-top: 1em; */
-	color: var(--colRojCla);
-}
-.success {
-	/* margin-top: 1em; */
-	color: var(--colVer);
-}
 
 
 

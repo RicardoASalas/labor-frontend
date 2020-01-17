@@ -4,6 +4,14 @@ import React, { Fragment } from "react";
 import "./textInput.scss";
 
 
+/*
+<TextInput
+	handler={ this.handleChange }
+	stateKey="username"
+	placeholder="Username"
+/>
+*/
+
 class TextInput extends React.Component {
 	
 	constructor (props) {

@@ -1,16 +1,36 @@
 
 header {
 	
-	display: flex;
-	flex-direction: row;
-	
-	align-items: center;
-	
-	padding-top: 0.3em;
-	padding-bottom: 0.3em;
-	flex: 0;
-	
 	background: var(--colBla);
+	
+	
+	.logo {
+		display: flex;
+		flex-direction: row;
+		
+		align-items: center;
+		
+		padding-top: 0.3em;
+		padding-bottom: 0.3em;
+		flex: 0;
+	}
+	
+	
+	.centro {
+		display: flex;
+		flex-direction: row;
+		
+		width: 10em;
+		justify-content: center;
+	}
+	
+	
+	.fin {
+		display: flex;
+		flex-direction: row;
+		
+		justify-content: flex-end;
+	}
 	
 }
 
