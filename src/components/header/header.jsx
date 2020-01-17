@@ -2,204 +2,233 @@ import React, { Fragment } from "react";
 import { NavLink, withRouter } from "react-router-dom";
 // import axios from "axios";
 import { connect } from "react-redux";
+
 import "./header.scss";
 
-// import { session, getUrl } from "../../utils/uti";
-// import { login } from "../../redux/actions/users";
-// import { rdx_productSearchResults } from "../../redux/actions/products";
+import { fade, makeStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import InputBase from "@material-ui/core/InputBase";
+import Badge from "@material-ui/core/Badge";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import MenuIcon from "@material-ui/icons/Menu";
+import SearchIcon from "@material-ui/icons/Search";
+import AccountCircle from "@material-ui/icons/AccountCircle";
+import MailIcon from "@material-ui/icons/Mail";
+import NotificationsIcon from "@material-ui/icons/Notifications";
+import MoreIcon from "@material-ui/icons/MoreVert";
 
-import { Button, Input, Icon } from "antd";
+const useStyles = makeStyles(theme => ({
+	grow: {
+		flexGrow: 1
+	},
+	menuButton: {
+		marginRight: theme.spacing(2)
+	},
+	title: {
+		display: "none",
+		[theme.breakpoints.up("sm")]: {
+			display: "block"
+		}
+	},
+	search: {
+		position: "relative",
+		borderRadius: theme.shape.borderRadius,
+		backgroundColor: fade(theme.palette.common.white, 0.15),
+		"&:hover": {
+			backgroundColor: fade(theme.palette.common.white, 0.25)
+		},
+		marginRight: theme.spacing(2),
+		marginLeft: 0,
+		width: "100%",
+		[theme.breakpoints.up("sm")]: {
+			marginLeft: theme.spacing(3),
+			width: "auto"
+		}
+	},
+	searchIcon: {
+		width: theme.spacing(7),
+		height: "100%",
+		position: "absolute",
+		pointerEvents: "none",
+		display: "flex",
+		alignItems: "center",
+		justifyContent: "center"
+	},
+	inputRoot: {
+		color: "inherit"
+	},
+	inputInput: {
+		padding: theme.spacing(1, 1, 1, 7),
+		transition: theme.transitions.create("width"),
+		width: "100%",
+		[theme.breakpoints.up("md")]: {
+			width: 200
+		}
+	},
+	sectionDesktop: {
+		display: "none",
+		[theme.breakpoints.up("md")]: {
+			display: "flex"
+		}
+	},
+	sectionMobile: {
+		display: "flex",
+		[theme.breakpoints.up("md")]: {
+			display: "none"
+		}
+	}
+}));
 
+function Header() {
+	const classes = useStyles();
+	const [anchorEl, setAnchorEl] = React.useState(null);
+	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
+	const isMenuOpen = Boolean(anchorEl);
+	const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-class Header extends React.Component {
-    constructor(props) {
-        super(props);
-		
-		
-        this.state = {
-			
-			
-		};
-		
-		
-		// this.handleChange = this.handleChange.bind(this); // O esto o fnc flecha
-		
-    }
-	
-	
-    // BotonesHeader() {
-    //     let nCesta = this.props.cart ? Object.keys(this.props.cart).length : 0;
-    //     let strNCesta = nCesta === 0 ? "" : `(${nCesta})`;
-
-    //     const userType = session.get()?.userType;
-        
-    //     if (this.props.isLoggedIn && userType) {
-    //         // si estoy logeado...
-            
-    //         switch (userType) {
-
-    //             case 1:
-    //                 //en el caso de que sea sólo comprador..
-                    
-    //                 return (
-    //                     <Fragment>
-    //                         <button>
-    //                             <NavLink exact to="/profile">
-    //                                 Perfil
-    //                             </NavLink>
-    //                         </button>
-    //                         <button>
-    //                             <NavLink exact to="/cart">
-    //                                 Cesta {strNCesta}
-    //                             </NavLink>
-    //                         </button>
-    //                         <button className="logoutButton" onClick={() => this.pulsaLogout()}>
-    //                             Logout
-    //                         </button>
-    //                     </Fragment>
-    //                 );
-
-    //             case 2:
-                    
-    //                 return (
-    //                     <Fragment>
-    //                         <button>
-    //                             <NavLink exact to="/profile">
-    //                                 Perfil
-    //                             </NavLink>
-    //                         </button>
-    //                         <button>
-    //                             <NavLink exact to="/storage">
-    //                                 Mi inventario
-    //                             </NavLink>
-    //                         </button>
-    //                         <button>
-    //                             <NavLink exact to="/cart">
-    //                                 Cesta {strNCesta}
-    //                             </NavLink>
-    //                         </button>
-    //                         <button className="logoutButton" onClick={() => this.pulsaLogout()}>
-    //                             Logout
-    //                         </button>
-    //                     </Fragment>
-    //                 );
-
-    //             case 3:
-    //                 return (
-    //                     <Fragment>
-    //                         <button>
-    //                             <NavLink exact to="/admin">
-    //                                 Admin
-    //                             </NavLink>
-    //                         </button>
-    //                         <button>
-    //                             <NavLink exact to="/profile">
-    //                                 Perfil
-    //                             </NavLink>
-    //                         </button>
-    //                         <button>
-    //                             <NavLink exact to="/storage">
-    //                                 Mi inventario
-    //                             </NavLink>
-    //                         </button>
-    //                         <button>
-    //                             <NavLink exact to="/cart">
-    //                                 Cesta {strNCesta}
-    //                             </NavLink>
-    //                         </button>
-    //                         <button className="logoutButton" onClick={() => this.pulsaLogout()}>
-    //                             Logout
-    //                         </button>
-    //                     </Fragment>
-    //                 );
-
-    //             default:
-    //                 console.log( "USERTYPE ERROR - not buyer, not seller, not admin" );
-                
-    //         }
-    //     } else {
-    //         //visito la página de forma anónima..
-    //         return (
-    //             <Fragment>
-    //                 <button>
-    //                     <NavLink exact to="/login">
-    //                         Acceder
-    //                     </NavLink>
-    //                 </button>
-    //                 <button>
-    //                     <NavLink exact to="/register">
-    //                         Registrarse
-    //                     </NavLink>
-    //                 </button>
-    //                 <button>
-    //                     <NavLink exact to="/cart">
-    //                         Cesta {strNCesta}
-    //                     </NavLink>
-    //                 </button>
-    //             </Fragment>
-    //         );
-    //     }
-	// }
-	
-	
-	
-    // pulsaLogout() {
-    //     let token = session.get().token;
-		
-    //     // Hago la llamada para borrar mi token
-    //     axios.get(getUrl(`/user/logout?token=${token}`));
-		
-    //     // Borro mis datos de sesión
-    //     session.del();
-
-    //     // Digo que no estoy logeado (con redux)
-    //     login(false);
-
-    //     // Redirección
-    //     this.props.history.push("/");
-	// }
-	
-	
-	
-	handleChange = (ev, stateKey) => {
-		this.setState({ [stateKey]: ev.target.value });
+	const handleProfileMenuOpen = event => {
+		setAnchorEl(event.currentTarget);
 	};
-	
-	
-	
-    render() {
-        return (
-            <header className="header">
-				
-				<div className="logo">
-                    <NavLink to="/">
-                        {/* <img src="/img/logo.png" alt="logo" /> */}
-                        <img src="https://trello-attachments.s3.amazonaws.com/5e1f276fc18d582b4781c087/5e1f2e19295ba37cfa41ebe6/d070adb352870f4da9f32d1f43ceee01/labor.png" alt="logo" />
-                    </NavLink>
-                </div>
-				
-				
-				<div className="centro">
-					<Input addonAfter={<Icon type="search" />} defaultValue="" placeholder="Búsqueda" />
-				</div>
-				
-				
-				<div className="fin">
-					<Button type="primary" shape="circle" icon="user" size="large" />	
-				</div>
-				
-            </header>
-        );
-    }
+
+	const handleMobileMenuClose = () => {
+		setMobileMoreAnchorEl(null);
+	};
+
+	const handleMenuClose = () => {
+		setAnchorEl(null);
+		handleMobileMenuClose();
+	};
+
+	const handleMobileMenuOpen = event => {
+		setMobileMoreAnchorEl(event.currentTarget);
+	};
+
+	const menuId = "primary-search-account-menu";
+	const renderMenu = (
+		<Menu
+			anchorEl={anchorEl}
+			anchorOrigin={{ vertical: "top", horizontal: "right" }}
+			id={menuId}
+			keepMounted
+			transformOrigin={{ vertical: "top", horizontal: "right" }}
+			open={isMenuOpen}
+			onClose={handleMenuClose}>
+			<MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+			<MenuItem onClick={handleMenuClose}>My account</MenuItem>
+		</Menu>
+	);
+
+	const mobileMenuId = "primary-search-account-menu-mobile";
+	const renderMobileMenu = (
+		<Menu
+			anchorEl={mobileMoreAnchorEl}
+			anchorOrigin={{ vertical: "top", horizontal: "right" }}
+			id={mobileMenuId}
+			keepMounted
+			transformOrigin={{ vertical: "top", horizontal: "right" }}
+			open={isMobileMenuOpen}
+			onClose={handleMobileMenuClose}>
+			<MenuItem>
+				<IconButton aria-label="show 4 new mails" color="inherit">
+					<Badge badgeContent={4} color="secondary">
+						<MailIcon />
+					</Badge>
+				</IconButton>
+				<p>Messages</p>
+			</MenuItem>
+			<MenuItem>
+				<IconButton aria-label="show 11 new notifications" color="inherit">
+					<Badge badgeContent={11} color="secondary">
+						<NotificationsIcon />
+					</Badge>
+				</IconButton>
+				<p>Notifications</p>
+			</MenuItem>
+			<MenuItem onClick={handleProfileMenuOpen}>
+				<IconButton
+					aria-label="account of current user"
+					aria-controls="primary-search-account-menu"
+					aria-haspopup="true"
+					color="inherit">
+					<AccountCircle />
+				</IconButton>
+				<p>Profile</p>
+			</MenuItem>
+		</Menu>
+	);
+
+	return (
+		<div className={classes.grow}>
+			<AppBar position="static">
+				<Toolbar>
+					<IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="open drawer">
+						<MenuIcon />
+					</IconButton>
+					<Typography className={classes.title} variant="h6" noWrap>
+						Labor
+					</Typography>
+					<div className={classes.search}>
+						<div className={classes.searchIcon}>
+							<SearchIcon />
+						</div>
+						<InputBase
+							placeholder="Search..."
+							classes={{
+								root: classes.inputRoot,
+								input: classes.inputInput
+							}}
+							inputProps={{ "aria-label": "search" }}
+						/>
+					</div>
+					<div className={classes.grow} />
+					<div className={classes.sectionDesktop}>
+						<IconButton aria-label="show 4 new mails" color="inherit">
+							<Badge badgeContent={4} color="secondary">
+								<MailIcon />
+							</Badge>
+						</IconButton>
+						<IconButton aria-label="show 17 new notifications" color="inherit">
+							<Badge badgeContent={17} color="secondary">
+								<NotificationsIcon />
+							</Badge>
+						</IconButton>
+						<IconButton
+							edge="end"
+							aria-label="account of current user"
+							aria-controls={menuId}
+							aria-haspopup="true"
+							onClick={handleProfileMenuOpen}
+							color="inherit">
+							<AccountCircle />
+						</IconButton>
+					</div>
+					<div className={classes.sectionMobile}>
+						<IconButton
+							aria-label="show more"
+							aria-controls={mobileMenuId}
+							aria-haspopup="true"
+							onClick={handleMobileMenuOpen}
+							color="inherit">
+							<MoreIcon />
+						</IconButton>
+					</div>
+				</Toolbar>
+			</AppBar>
+			{renderMobileMenu}
+			{renderMenu}
+		</div>
+	);
 }
 
 
 
 const mapStateToProps = state => {
-    return {
-        
-    };
+	return {};
 };
 
 export default connect(mapStateToProps)(withRouter(Header));
