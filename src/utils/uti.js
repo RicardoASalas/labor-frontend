@@ -185,36 +185,73 @@ export const listaCategorias = {
 
 
 /*
-	Devuelve un número en función de lo que tenga el usuario:
-		1: Sólo tarjeta de crédito
-		2: Sólo paypal
-		3: Ambos
+	Valida un string y devuelve el mensaje de error.
+	Devuelve "" en caso de que la validación sea correcta.
 	
 	Import:
-		import { userBillingOptions } from "./utils/uti"
+		import { validate } from "./utils/uti"
+		
+	Ejemplos:
+		validate("asdf", "email", 5); 			// "Tiene que tener 5 caracteres..."
+		validate("asdf", "email", 5); 			// "Email inválido."
+		validate("asdf@asd.es", "email"); 		// ""
 	.
+	
 */
 
-export const userBillingOptions = (userCard,userPaypal) => {
+export const validate = (str, type, minLength = 0) => {
+	
+	// console.log( str, type, minLength );
+	
+	// Pido longitud?
+	if (minLength > 0) {
+		if (str.length < minLength) {
+			return `Tiene que tener mínimo ${minLength} caracteres.`;
+		};
+	};
+	
+	
+	// Empiezo validación
+	switch (type) {
+		
+		case "email": 
+			if (! /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(str) ) {
+				return "El email no es válido."
+			};
+		break;
+		
+		
+		case "phone":
+			if (! /[\d()+-\s]*$/g.test(str) ) {
+				return "El teléfono no es válido."
+			};
+		break;
+		
+		
+		case "123":
+			if (! /^[0-9]*$/g.test(str) ) {
+				return "Sólo puede contener números."
+			};
+		break;
+		
+		
+		case "abc":
+			if (! /^[a-z]*$/gi.test(str) ) {
+				return "Sólo puede contener letras."
+			};
+		break;
+		
+		
+		default: break;
+		
+	}
+	
+	
+	return "";
+	
+	
+};
 
-	let userBilling = 0;
-
-	if (userCard && !userPaypal) {
-		//Comprobamos si el usuario disponde de tarjeta de crédito pero no de paypal.
-		userBilling = 1;
-	  }
-	  if (!userCard && userPaypal) {
-		//Comprobamos si el usuario disponde de paypal pero no de tarjeta de crédito.
-		userBilling = 2;
-	  }
-	  if (userCard && userPaypal) {
-		//Comprobamos si el usuario disponde de ambos sistemas de pago.
-		userBilling = 3;
-	  }
-
-	  return userBilling;
-
-}
 
 
 

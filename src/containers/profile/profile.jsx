@@ -1,7 +1,7 @@
 import React from "react";
 
 import axios from "axios";
-import { getUrl, session, userBillingOptions } from "../../utils/uti";
+import { getUrl, session } from "../../utils/uti";
 
 import "./profile.scss";
 
@@ -29,49 +29,9 @@ class Profile extends React.Component {
             console.error(err);
         }
     }
-
-    muestraBilling() {
-        let userCard = this.state.userData.billing?.card.number;
-        let userPaypal = this.state.userData.billing?.paypal;
-
-        let userBilling = userBillingOptions(userCard, userPaypal);
-
-        switch (userBilling) {
-            case 1:
-                return (
-                    <div className="userDataField">
-                        <div className="userDataFieldTitle">Tarjeta de Crédito : </div>
-                        <div className="userDataFieldContent">{this.state.userData.billing.card.number}</div>
-                    </div>
-                );
-
-            case 2:
-                return (
-                    <div className="userDataField">
-                        <div className="userDataFieldTitle">Paypal : </div>
-                        <div className="userDataFieldContent">{this.state.userData.billing.paypal}</div>
-                    </div>
-                );
-
-            case 3:
-                return (
-                    <div className="userBothBilling">
-                        <div className="userDataField">
-                            <div className="userDataFieldTitle">Tarjeta de Crédito : </div>
-                            <div className="userDataFieldContent">{this.state.userData.billing.card.number}</div>
-                        </div>
-                        <div className="userDataField">
-                            <div className="userDataFieldTitle">Paypal : </div>
-                            <div className="userDataFieldContent">{this.state.userData.billing.paypal}</div>
-                        </div>
-                    </div>
-                );
-
-            default:
-                console.error("default");
-        }
-    }
-
+	
+	
+	
     render() {
         let userType = this.state.userData.userType === 1 ? "Cliente" : "Vendedor";
 
