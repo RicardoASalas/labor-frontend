@@ -199,14 +199,29 @@ export const listaCategorias = {
 	
 */
 
-export const validate = (str, type, minLength = 0) => {
+export const validate = (str = "", type, minLength = 0, canBeEmpty = false, maxLenght = 0) => {
 	
 	// console.log( str, type, minLength );
+	
+	
+	// Compruebo si puede estar vacío
+	if (! canBeEmpty) {
+		if (str.length === 0) {
+			return "No puede estar vacío.";
+		};
+	};
+	
 	
 	// Pido longitud?
 	if (minLength > 0) {
 		if (str.length < minLength) {
 			return `Tiene que tener mínimo ${minLength} caracteres.`;
+		};
+	};
+	
+	if (maxLenght > 0) {
+		if (str.length > maxLenght) {
+			return `Tiene que tener máximo ${maxLenght} caracteres.`;
 		};
 	};
 	
