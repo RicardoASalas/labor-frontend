@@ -201,9 +201,6 @@ export const listaCategorias = {
 
 export const validate = (str = "", type, minLength = 0, canBeEmpty = false, maxLenght = 0) => {
 	
-	// console.log( str, type, minLength );
-	
-	
 	// Compruebo si puede estar vacío
 	if (! canBeEmpty) {
 		if (str.length === 0) {
@@ -237,7 +234,7 @@ export const validate = (str = "", type, minLength = 0, canBeEmpty = false, maxL
 		
 		
 		case "phone":
-			if (! /[\d()+-\s]*$/g.test(str) ) {
+			if (! /^[\d()+-\s]*$/g.test(str) ) {
 				return "El teléfono no es válido."
 			};
 		break;
