@@ -23,6 +23,19 @@
 			text-align: center;
 		}
 		
+		
+		.boxButtons {
+			display: flex;
+			width: 100%;
+			
+			.btn {
+				margin-left: 0.5em;
+				margin-right: 0.5em;
+				flex-grow: 0.5;
+			}
+			
+		}
+		
 	}
 	
 }
