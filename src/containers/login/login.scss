@@ -1,60 +1,54 @@
 .loginMain {
-    background-color: var(--pri1);
+    background-color:var(--bac);
     display: flex;
     justify-content: center;
-
-    .loginCard {
-        display: flex;
-        flex-direction: column;
-
-        height: 29em;
-        width: 26em;
-        border-radius: 3px;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-        background: var(--pri0);
-        margin-top: 3em;
-    }
-
-    .header {
-        display: flex;
-        justify-content: center;
-        height: 15em;
-    }
-
-    .loginCard .header .image {
-        width: 12em;
-        top: 6em;
-        position: absolute;
-    }
-
-    h1 {
-        margin-top: 5em;
-        height: 1em;
-    }
-
-    .body {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .body input {
-        margin-bottom: 0.5em;
-        font-size: 1.5em;
-        background: var(--pri1);
-        border-style: solid;
-        border-width: 0.5px;
-        border-color: var(--pri9);
-    }
+   
+	width: 100wh;
+	height: 100vh;
 	
-	.error {
-		margin-top: 1em;
-		color: var(--colRojCla);
-	}
-	.success {
-		margin-top: 1em;
-		color: var(--colVer);
+	
+	.boxImg {
+		display: flex;
+		justify-content: center;
+		
+		
+		ImageLabor {
+			position: absolute;
+			top: -1.5em;
+		}
+		
 	}
 	
+	
+	form {
+		background-color: white;
+		
+		padding: 1em;
+		
+		display: flex;
+		flex-direction: column;
+		
+		width: 35em;
+		height: fit-content;
+		
+		
+		.titulo {
+			text-align: center;
+		}
+		
+		
+		.boxButtons {
+			display: flex;
+			width: 100%;
+			
+			.btn {
+				margin-left: 0.5em;
+				margin-right: 0.5em;
+				flex-grow: 0.5;
+			}
+			
+		}
+		
+	}
 	
 }

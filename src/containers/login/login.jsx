@@ -1,72 +1,65 @@
 
-import React from "react";
-import { NavLink } from "react-router-dom";
+import React, {  } from "react";
+
+import "./login.scss";
+
+import TextField from "@material-ui/core/TextField";
+import { FormControl, Button } from '@material-ui/core';
+import { validate, session, getUrl } from "../../utils/uti"
 import axios from "axios";
-
-import { session, getUrl } from "../../utils/uti";
-
-import './login.scss';
-import { login } from "../../redux/actions/users";
+import ImageLabor from "../../components/image/image";
 
 
-
-class Login extends React.Component {
+export default class Login extends React.Component {
 	
 	constructor (props) {
 		super(props);
-		 
+		
 		this.state = {
-			username: "",
-			password: "",
 			
-			message: "",
-			errorTime: 0,
-			messageClassName: "error",
+			
 		};
 		
-		// this.handleChange = this.handleChange.bind(this); // esto es para que el this de la función clásica pille el de la instancia de la clase Login y no otra
-		
-	};
-	
-	
-	handleChange(event, key) {
-		
-		this.setState({
-			[key]: event.target.value
-		});
-		
 	};
 	
 	
 	
-	async pulsaLogin() {
+	inputToStatus = (ev, stateKey) => {
+		this.setState({ [stateKey]: ev.target.value });
+	};
+	
+	
+	
+	send = async () => {
+		
+		let validation;
+		let correct = true;
+		
 		
 		// Validación
-		let username = this.state.username;
-		let password = this.state.password;
+		validation = validate(this.state.username, "abc123", 4, false, 12);
+		if (!! validation) { correct = false };
+		this.setState({ err_username: validation });
+		
+		validation = validate(this.state.password, "abc123!", 4);
+		if (!! validation) { correct = false };
+		this.setState({ err_password: validation });
 		
 		
-		if (username === "") {
-			this.muestraError("El usuario / email no puede estar vacío.");
-			return;
-		};
-		if (password === "") {
-			this.muestraError("La contraseña no puede estar vacía.");
-			return;
-		};
+		// Exit?
+		if (! correct) return;
 		
 		
-		
+		// Axios
 		try {
 			
 			// Llamada
-			let body = {
-				username: username,
-				password: password
+			let loginData = {
+				username: this.state.username,
+				password: this.state.password
 			};
 			
-			let res = await axios.post( getUrl("/user/login"), body);
-			
+			let res = await axios.post( getUrl("/user/login"), loginData);
 			let data = res.data;
 			
 			
@@ -84,7 +77,7 @@ class Login extends React.Component {
 			
 			
 			// Digo que estoy logeado
-			login(true);
+			// login(true);
 			
 			
 			// Redirección
@@ -95,11 +88,6 @@ class Login extends React.Component {
 			
 			let res = err.response.data;
 			
-			
-			if (res.errorCode === "user_login_1") {
-				this.muestraError("Usuario no encontrado o contraseña incorrecta.");
-				return;
-			};
 			
 			if (res.errorCode === "user_login_2") {
 				
@@ -113,17 +101,18 @@ class Login extends React.Component {
 				
 				
 				// Muestro mensaje
-				this.muestraError("Ya estabas logeado.", 2);
+				// this.muestraError("Ya estabas logeado.", 2);
 				
 				
 				// Digo que estoy logeado
-				login(true);
+				// login(true);
 				
 				
 				// Redirijo
 				setTimeout( () => {
 					this.props.history.push("/");
-				}, 2000)
+				}, 2000);
+				
 				
 				return;
 				
@@ -132,90 +121,75 @@ class Login extends React.Component {
 		};
 		
 		
+		
 	};
 	
 	
 	
-	muestraError (message, timeout = 3, isError = true) {
+	c_input = (label, type, stateKey) => {
 		
-		// Pongo la clase
-		let className = isError ? "error" : "success";
-		this.setState({messageClassName: className});
-		
-		
-		// Pongo el mensaje
-		this.setState({message: message});
+		let errTxt = this.state?.[`err_${stateKey}`];
+		let err = !! errTxt;
 		
 		
-		// Ya estoy en loop
-		if (this.state.errorTime > 0) {
-			this.setState({errorTime: timeout});
-			return; // y salgo
-		};
-		
-		
-		this.setState({errorTime: timeout}); // Entro por primera vez, pongo tiempo
-		
-		
-		// Loop
-		let loop = setInterval( ()=> {
+		return (
 			
-			if (this.state.errorTime <= 0) {
-				this.setState({message: ""});
-				clearInterval(loop); // salgo del loop
-			};
+			<FormControl className="mt3">
+				<TextField
+					error={ err }
+					helperText={ errTxt }
+					// id="outlined-basic"
+					type={type}
+					label={label}
+					variant="outlined"
+					onChange={ (ev) => this.inputToStatus(ev, stateKey) }
+					value={this.state[stateKey] ? this.state[stateKey] : ""}
+				/>
+			</FormControl>
 			
-			
-			this.setState( preState => ( {errorTime: preState.errorTime - 1}) );
-			
-		}, 1000);
+		);
 		
 	};
 	
 	
 	
 	render() {
-		return(
+		
+		return (
 			<div className="loginMain">
-				<div className="loginCard">
-					<div className="header">
-						<img className="image"
-							src="https://trello-attachments.s3.amazonaws.com/5de522b655e9ad63df7441fb/5def57a617949c786fc8ec01/261e294ef093b2db52c2bf6d093c2bd1/logoMonetae_3.png"
+				<form className="br mt5">
+					
+					<div className="boxImg">
+						<ImageLabor
+							className="img"
+							src="https://trello-attachments.s3.amazonaws.com/5e1f2e19295ba37cfa41ebe6/1000x1000/8f347b573dc849fc8e5d6771afad8307/labor.png"
+							w={8}
 							alt="logo"
+							measure="em"
 						/>
-						<h1>Acceder</h1>
 					</div>
-					<div className="body">
+					
+					<div className="titulo mb2">
 						
-						<input
-							type="text"
-							placeholder="Usuario / email"
-							onChange={ (ev) => {this.handleChange(ev, "username")} }
-						></input>
-						
-						<input
-							type="password"
-							placeholder="Contraseña"
-							onChange={ (ev) => {this.handleChange(ev, "password")} }
-						></input>
-						
-						<button onClick={ () => this.pulsaLogin() }>Entrar</button>
-						
-						<NavLink to="/passwordRecovery">
-							<p>¿Has olvidado la contraseña?</p>
-						</NavLink>
-						
-						<p className={this.state.messageClassName}> {this.state.message} </p>
+						<h2> Acceso </h2>
 						
 					</div>
-				</div>
+					
+					
+					{ this.c_input("Nombre de usuario", "text", "username") }
+					{ this.c_input("Contraseña", "password", "password") }
+					
+					
+					<Button className="mt3" variant="contained" color="primary"
+						onClick={ () => this.send() }
+					>
+						Acceder
+					</Button>
+					
+				</form>
 			</div>
+			
 		);
+	
 	};
-	
-	
-};
-
-
-
-export default Login;
+}
