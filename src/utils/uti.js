@@ -190,6 +190,16 @@ export const listaCategorias = {
 	
 	Import:
 		import { validate } from "./utils/uti"
+	
+	Params:
+		0 (str): STRING - String a validar.
+		1 (type): STRING - Tipo de validación.
+		2 (minLength): NUMBER - Carácteres mínimos que debería tener el string. Usar 0 para no comprobar.
+		3 (canBeEmpty): BOOL - ¿Puede estar vacío?
+		4 (maxLength): NUMBER - Carácteres máximos que debería tener el string. Usar 0 para no comprobar.
+	
+	Tipos de validación:
+		abc, 123, abc123, abc123!, email, phone
 		
 	Ejemplos:
 		validate("asdf", "email", 5); 			// "Tiene que tener 5 caracteres..."
@@ -250,6 +260,20 @@ export const validate = (str = "", type, minLength = 0, canBeEmpty = false, maxL
 		case "abc":
 			if (! /^[a-z]*$/gi.test(str) ) {
 				return "Sólo puede contener letras."
+			};
+		break;
+		
+		
+		case "abc123":
+			if (! /^[a-z0-9]*$/gi.test(str) ) {
+				return "Sólo puede contener letras y números."
+			};
+		break;
+		
+		
+		case "abc123!":
+			if (! /^[a-z0-9#·$%&()?¿!¡@|+_ºª]*$/gi.test(str) ) {
+				return "Sólo puede contener letras, números y los siguientes caracteres especiales: #·$%&()?¿!¡@|+_ºª "
 			};
 		break;
 		
