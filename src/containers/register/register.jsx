@@ -56,11 +56,7 @@ export default class Register extends React.Component {
 			
 			case 1:
 				
-				// caso undefined
-				// caso ""
-				// caso "error asd"
-				
-				validation = validate(this.state.username, "abc", 4, false, 12);
+				validation = validate(this.state.username, "abc123", 4, false, 12);
 				if (!! validation) { correct = false };
 				this.setState({ err_username: validation });
 				
@@ -68,11 +64,11 @@ export default class Register extends React.Component {
 				if (!! validation) { correct = false };
 				this.setState({ err_email: validation });
 				
-				validation = validate(this.state.password, "password", 4);
+				validation = validate(this.state.password, "abc123!", 4);
 				if (!! validation) { correct = false };
 				this.setState({ err_password: validation });
 				
-				validation = validate(this.state.password2, "password", 4);
+				validation = validate(this.state.password2, "abc123!", 4);
 				if (!! validation) { correct = false };
 				this.setState({ err_password2: validation });
 				
