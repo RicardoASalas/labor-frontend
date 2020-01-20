@@ -83,7 +83,7 @@ export default class Register extends React.Component {
 			
 			case 2:
 				
-				console.log( /[\d()+-\s]*$/g.test("1234") );
+				// console.log( /[\d()+-\s]*$/g.test("1234") );
 				
 				validation = validate(this.state.phone, "phone");
 				if (!! validation) { correct = false };

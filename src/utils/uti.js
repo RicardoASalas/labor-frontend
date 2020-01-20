@@ -271,6 +271,13 @@ export const validate = (str = "", type, minLength = 0, canBeEmpty = false, maxL
 		break;
 		
 		
+		case "123!":
+			if (! /^[0-9#·$%&()?¿!¡@|+_ºª]*$/gi.test(str) ) {
+				return "Sólo puede contener letras los siguientes caracteres especiales: #·$%&()?¿!¡@|+_ºª "
+			};
+		break;
+		
+		
 		case "abc123!":
 			if (! /^[a-z0-9#·$%&()?¿!¡@|+_ºª]*$/gi.test(str) ) {
 				return "Sólo puede contener letras, números y los siguientes caracteres especiales: #·$%&()?¿!¡@|+_ºª "
