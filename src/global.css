@@ -14,7 +14,7 @@
     
     
     /*Theme*/
-    --bac: rgb(218, 218, 218);
+    --bac:rgb(242,242,242);
     --card-bac: rgb(255,255,255);
     --pri: #6105c8;
     --priVar: #6d07e2;
@@ -52,7 +52,8 @@ html {
 
 
 /* Estados */
-.br { border-radius: 3px}
+.br { border-radius: 3px }
+.bs { box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) }
 .hide {
 	visibility: hidden;
 	display: none;
@@ -109,6 +110,16 @@ html {
 .ml3 { margin-left: 1em !important; }
 .ml4 { margin-left: 1.5em !important; }
 .ml5 { margin-left: 2em !important; }
+
+
+.error {
+	color: #f44336;
+	font-size: 0.75rem;
+}
+.success {
+	color: var(--colVer);
+	font-size: 0.75rem;
+}
 
 
 

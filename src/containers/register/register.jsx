@@ -4,7 +4,7 @@ import React, { Fragment } from "react";
 import "./register.scss";
 
 import TextField from "@material-ui/core/TextField";
-import { FormControl, Button } from '@material-ui/core';
+import { FormControl, Button, Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 import { validate } from "../../utils/uti"
 
 
@@ -19,6 +19,8 @@ export default class Register extends React.Component {
 			step: 2,
 			
 			
+			userTypeSelectionPending: true,
+			
 		};
 		
 	};
@@ -29,9 +31,15 @@ export default class Register extends React.Component {
 		this.setState({ [stateKey]: ev.target.value });
 	};
 	
+	handleUserTypeSelection = (ev) => {
+		this.setState({ isEnterprise: ev.target.value === "true" });
+		this.setState({ userTypeSelectionPending: false });
+	};
 	
 	
-	setStep = (futureStep, isBack = false) => {
+	
+	
+	setStep = (futureStep, isBack = false, asd) => {
 		
 		if (isBack) {
 			this.setState({ step: futureStep });
@@ -56,20 +64,20 @@ export default class Register extends React.Component {
 			
 			case 1:
 				
-				validation = validate(this.state.username, "abc123", 4, false, 12);
-				if (!! validation) { correct = false };
+				validation = validate(this.state.username, "abc123", 4, 12);
+				if (validation !== "") { correct = false };
 				this.setState({ err_username: validation });
 				
-				validation = validate(this.state.email, "email", 1, false, 24);
-				if (!! validation) { correct = false };
+				validation = validate(this.state.email, "email", 1, 24);
+				if (validation !== "") { correct = false };
 				this.setState({ err_email: validation });
 				
 				validation = validate(this.state.password, "abc123!", 4);
-				if (!! validation) { correct = false };
+				if (validation !== "") { correct = false };
 				this.setState({ err_password: validation });
 				
 				validation = validate(this.state.password2, "abc123!", 4);
-				if (!! validation) { correct = false };
+				if (validation !== "") { correct = false };
 				this.setState({ err_password2: validation });
 				
 				if (this.state?.password !== this.state?.password2) {
@@ -83,19 +91,21 @@ export default class Register extends React.Component {
 			
 			case 2:
 				
-				// console.log( /[\d()+-\s]*$/g.test("1234") );
-				
-				validation = validate(this.state.phone, "phone");
-				if (!! validation) { correct = false };
+				validation = validate(this.state.phone, "phone", 1);
+				if (validation !== "") { correct = false };
 				this.setState({ err_phone: validation });
 				
-				validation = validate(this.state.country, "abc");
-				if (!! validation) { correct = false };
+				validation = validate(this.state.country, "abc", 1);
+				if (validation !== "") { correct = false };
 				this.setState({ err_country: validation });
 				
-				validation = validate(this.state.province, "abc");
-				if (!! validation) { correct = false };
+				validation = validate(this.state.province, "abc", 1);
+				if (validation !== "") { correct = false };
 				this.setState({ err_province: validation });
+				
+				if (this.state.userTypeSelectionPending) { correct = false };
+				this.setState({ err_isEnterprise: "Debes elegir si eres trabajador o empresa." });				
+				
 				
 			break;
 			
@@ -177,6 +187,35 @@ export default class Register extends React.Component {
 					{ this.c_input("País", "text", "country") }
 					{ this.c_input("Provincia", "text", "province") }
 					
+					<RadioGroup
+						className="mt3"
+						aria-label="Employed or enterprise"
+						name="isEnterprise"
+						// value={this.state.isEnterprise}
+						onChange={ this.handleUserTypeSelection }
+					>
+						
+						<FormControlLabel
+							value={ "false" }
+							control={<Radio color="primary" />}
+							label="Soy empleado"
+							labelPlacement="end"
+						/>
+						<FormControlLabel
+							value={ "true" }
+							control={<Radio color="primary" />}
+							label="Soy empresa"
+							labelPlacement="end"
+						/>
+						
+						<p
+							className="error"
+						>
+							{this.state?.err_isEnterprise}
+						</p>
+						
+					</RadioGroup>
+					
 					
 					<div className="boxButtons">
 						
@@ -208,15 +247,17 @@ export default class Register extends React.Component {
 	};
 	
 	
+	
 	render() {
 		
 		return (
 			<div className="registerMain">
-				<form className="br mt3">
+				<form className="br bs mt3">
 					
 					<div className="titulo">
 						<h2> Registro </h2>
 					</div>
+					
 					
 					{this.showForm()}
 					

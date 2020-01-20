@@ -195,7 +195,6 @@ export const listaCategorias = {
 		0 (str): STRING - String a validar.
 		1 (type): STRING - Tipo de validación.
 		2 (minLength): NUMBER - Carácteres mínimos que debería tener el string. Usar 0 para no comprobar.
-		3 (canBeEmpty): BOOL - ¿Puede estar vacío?
 		4 (maxLength): NUMBER - Carácteres máximos que debería tener el string. Usar 0 para no comprobar.
 	
 	Tipos de validación:
@@ -209,18 +208,15 @@ export const listaCategorias = {
 	
 */
 
-export const validate = (str = "", type, minLength = 0, canBeEmpty = false, maxLenght = 0) => {
-	
-	// Compruebo si puede estar vacío
-	if (! canBeEmpty) {
-		if (str.length === 0) {
-			return "No puede estar vacío.";
-		};
-	};
-	
+export const validate = (str = "", type, minLength = 0, maxLenght = 0) => {
 	
 	// Pido longitud?
 	if (minLength > 0) {
+		
+		if (str.length === 0) {
+			return "No puede estar vacío.";
+		};
+		
 		if (str.length < minLength) {
 			return `Tiene que tener mínimo ${minLength} caracteres.`;
 		};
