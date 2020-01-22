@@ -11,7 +11,7 @@ import store from "./redux/store";
 
 // Theme
 import { createMuiTheme } from "@material-ui/core/styles";
-import primary from "@material-ui/core/colors/blue";
+import primary from "@material-ui/core/colors/blueGrey";
 import { ThemeProvider } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
