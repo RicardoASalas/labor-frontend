@@ -58,6 +58,14 @@ html {
 	visibility: hidden;
 	display: none;
 }
+.flex-dir-r {
+	display: flex;
+	flex-direction: row;
+}
+.flex-dir-c {
+	display: flex;
+	flex-direction: column;
+}
 
 
 /* Padding */
