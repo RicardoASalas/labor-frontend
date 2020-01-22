@@ -157,7 +157,7 @@ export default class Login extends React.Component {
 		
 		return (
 			<div className="loginMain">
-				<form className="br mt5">
+				<form className="br bs mt5">
 					
 					<div className="boxImg">
 						<ImageLabor
