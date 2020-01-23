@@ -13,6 +13,7 @@ import Login from "./containers/login/login";
 import Profile from "./containers/profile/profile";
 import Register from "./containers/register/register";
 import Search from "./containers/search/search";
+import RegisterOffer from "./containers/registerOffer/registerOffer";
 
 
 export default function App() {
@@ -28,6 +29,8 @@ export default function App() {
 					<Route path="/register" exact component={Register} />
 					<Route path="/search" exact component={Search} />
 					<Route path="/profile" exact component={Profile} />
+					
+					<Route path="/register-offer" exact component={RegisterOffer} />
 					
 				</Switch>
 				
