@@ -6,7 +6,7 @@ import "./register.scss";
 import TextField from "@material-ui/core/TextField";
 import { FormControl, Button, Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 import { validate } from "../../utils/uti"
-
+import DropdownLabor from "../../components/dropdown/dropdown";
 
 
 export default class Register extends React.Component {
@@ -184,8 +184,16 @@ export default class Register extends React.Component {
 				<Fragment>
 					
 					{ this.c_input("Teléfono", "text", "phone") }
-					{ this.c_input("País", "text", "country") }
-					{ this.c_input("Provincia", "text", "province") }
+					
+					<DropdownLabor
+						className={"br mt4 mb2"}
+						defaultValue={"Selecciona una provincia"}
+						elements={[
+							["1", "Sí"],
+							["0", "No"]
+						]}
+						onChange={ (ev) => {this.setState({ province: ev.target.value }) } }
+					/>
 					
 					<RadioGroup
 						className="mt3"
@@ -215,6 +223,12 @@ export default class Register extends React.Component {
 						</p>
 						
 					</RadioGroup>
+					
+					
+					{ this.c_input("Nombre", "text", "name") }
+					{ this.c_input("Apellidos", "text", "surname") }
+					{ this.c_input("NIF", "text", "nif") }
+					{ this.c_input("CIF", "text", "cif") }
 					
 					
 					<div className="boxButtons">
