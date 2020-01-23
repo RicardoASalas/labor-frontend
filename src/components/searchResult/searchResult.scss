@@ -1,0 +1,53 @@
+
+.resultCard {
+				
+	background: white;
+	
+	
+	.col1 {
+		
+		padding: 0 1.5em;
+		
+		.image {
+			// padding: 1.5em;
+		}
+		
+	}
+	
+	.col2 {
+		
+		.title {
+			font-size: 1.7em;
+			font-weight: bold;
+			margin: 0;
+		}
+		
+		.companyName {
+			font-size: 1.0em;
+			font-weight: bold;
+			color: var(--colAzuCla);
+			line-height: 1.5em;
+		}
+		
+		.offerInfo {
+			color: var(--colGri);
+			font-size: 0.9em;
+		}
+		
+		.description {
+			font-size: 1.1em;
+			
+			// Limite a 2 lineas
+			overflow: hidden;
+			text-overflow: ellipsis;
+			display: -webkit-box;
+			line-height: 1em;     /* fallback */
+			max-height: 2em;      /* fallback */
+			-webkit-line-clamp: 2; /* number of lines to show */
+			-webkit-box-orient: vertical;
+			
+		}
+		
+	}
+
+};
