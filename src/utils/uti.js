@@ -232,6 +232,19 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0) => {
 	// Empiezo validación
 	switch (type) {
 		
+		
+		case "nif":
+			if(!/^(\d{8})([A-Z])$/ || /^[XYZ]\d{7,8}[A-Z]$/){
+				return "El NIF/NIE no es correcto."
+			};
+		break;
+
+		case "nif":
+			if(!/^([ABCDEFGHJKLMNPQRSUVW])(\d{7})([0-9A-J])$/){
+				return "El CIF no es correcto."
+			};
+		break;
+
 		case "email": 
 			if (! /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(str) ) {
 				return "El email no es válido."
