@@ -10,12 +10,13 @@ import "./dropdown.scss";
 	
 	<DropdownLabor
 		className={"br"}
+		label={"Test"}
 		defaultValue={"Selecciona una opción"}
 		elements={[
 			["1", "Uno"],
 			["2", "Dos"]
 		]}
-		onChange={ (ev) => {console.log( ev.target.value );} }
+		onChange={ (ev) => {this.setState({ test: "test" }) } }
 	/>
 	
 */
@@ -31,13 +32,20 @@ export default class DropdownLabor extends React.Component {
 	
 	render() {
 		return (
-			<div className="dropdownLabor">
+			
+			<div className={ "dropdownLabor " + (this.props.className ? this.props.className : "") }>
+				
+				<p className="label">{this.props.label}</p>
+				
 				<select
-					className={this.props.className}
 					value={this.props.value}
 					onChange={this.props.onChange}>
 					
-					<option value="">{this.props.defaultValue}</option>
+					{
+						this.props.defaultValue &&
+						<option value="">{this.props.defaultValue}</option>
+					}
+					
 					
 					{
 						this.props.elements.map( (_x) => {
