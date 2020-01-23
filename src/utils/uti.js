@@ -195,7 +195,7 @@ export const listaCategorias = {
 		0 (str): STRING - String a validar.
 		1 (type): STRING - Tipo de validación.
 		2 (minLength): NUMBER - Carácteres mínimos que debería tener el string. Usar 0 para no comprobar.
-		4 (maxLength): NUMBER - Carácteres máximos que debería tener el string. Usar 0 para no comprobar.
+		3 (maxLength): NUMBER - Carácteres máximos que debería tener el string. Usar 0 para no comprobar.
 	
 	Tipos de validación:
 		abc, 123, abc123, abc123!, email, phone

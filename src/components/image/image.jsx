@@ -3,14 +3,14 @@ import React, {  } from "react";
 
 
 /*
-	<Image_labor
-		src="https://trello-attachments.s3.amazonaws.com/5e1f2e19295ba37cfa41ebe6/1000x1000/8f347b573dc849fc8e5d6771afad8307/labor.png"
-		w=100
-		h=200
-		alt="hola"
+	<ImageLabor
+		className="br"
+		src="https://about.canva.com/wp-content/uploads/sites/3/2016/08/logos-1.png"
+		w={100}
+		alt="imagen de la empresa"
 		measure="px"
+		br={15}
 	/>
-
 */
 
 
@@ -21,10 +21,12 @@ export default class ImageLabor extends React.Component {
 		const measure = this.props.measure ? this.props.measure : "px"
 		const w = `${this.props.w}${measure}`;
 		const h = this.props.h ? `${this.props.h}${measure}` : w;
+		const br = this.props.br ? `${this.props.br}%` : "0%";
 		
 		const style = {
 			width: w,
 			height: h,
+			borderRadius: br
 		};
 		
 		
