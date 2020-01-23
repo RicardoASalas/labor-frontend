@@ -7,13 +7,6 @@ import "./textInput.scss";
 import { FormControl, TextField } from '@material-ui/core';
 
 
-/*
-<TextInput
-	handler={ this.handleChange }
-	stateKey="username"
-	placeholder="Username"
-/>
-*/
 
 export default class TextInput extends React.Component {
 	
@@ -50,10 +43,19 @@ export default class TextInput extends React.Component {
 				isError={true}
 			/>
 			
+			<TextInput
+				className="mt5"
+				label="Casa"
+				type="text"
+				onChange={ (ev) => this.setState({ casa: ev.target.value }) }
+				value={this.state.casa}
+				validate={true}
+			/>
+			
 		*/
 		
-		let errTxt = this.props?.error;
-		let isError = !! errTxt;
+		
+		// let helperText = this.props?.helperText;
 		
 		
 		
