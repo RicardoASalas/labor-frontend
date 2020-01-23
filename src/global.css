@@ -55,6 +55,8 @@ html {
 /* Estados */
 .br { border-radius: 3px }
 .bs { box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) }
+.bss {box-shadow: 0 4px 4px 0 rgba(0,0,0,0.04), 0 1px 16px 0 rgba(0,0,0,0.16), 0 2px 4px 0 rgba(0,0,0,0.08)}
+
 .hide {
 	visibility: hidden;
 	display: none;
@@ -67,6 +69,7 @@ html {
 	display: flex;
 	flex-direction: column;
 }
+
 
 
 /* Padding */

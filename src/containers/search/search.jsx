@@ -116,7 +116,6 @@ export default class Search extends React.Component {
 					<div className="results br">
 						
 						<SearchResultLabor
-							className="mb3"
 							img={"https://about.canva.com/wp-content/uploads/sites/3/2016/08/logos-1.png"}
 							title="Full stack developer (MERN stack)"
 							companyName="Nombre de empresa 02"

@@ -79,7 +79,7 @@ export default class searchResultLabor extends React.Component {
 					<div className="image">
 						<ImageLabor
 							className="br"
-							src={ this.props?.img }
+							src={ this.props.img ? this.props.img : "/img/companyLogoPlaceholder.png" }
 							w={100}
 							alt="imagen de la empresa"
 							measure="px"
