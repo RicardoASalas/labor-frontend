@@ -198,7 +198,17 @@ export const listaCategorias = {
 		3 (maxLength): NUMBER - Carácteres máximos que debería tener el string. Usar 0 para no comprobar.
 	
 	Tipos de validación:
-		abc, 123, abc123, abc123!, email, phone
+		email: asd@asd.es
+		phone: +34 123-456
+		123: 12345
+		abc: hola
+		abc_: hola adios
+		abc123: hola123
+		abc123_: hola123 adios456
+		123!: 123_$%&
+		123!_: 123$ %&456
+		abc123!: hola123$%$()=456
+		abc123!_: hola123$% adios$()=456
 		
 	Ejemplos:
 		validate("asdf", "email", 5); 			// "Tiene que tener 5 caracteres..."
@@ -258,11 +268,21 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0) => {
 				return "Sólo puede contener letras."
 			};
 		break;
+		case "abc_":
+			if (! /^[a-z\s]*$/gi.test(str) ) {
+				return "Sólo puede contener letras y espacios."
+			};
+		break;
 		
 		
 		case "abc123":
 			if (! /^[a-z0-9]*$/gi.test(str) ) {
 				return "Sólo puede contener letras y números."
+			};
+		break;
+		case "abc123_":
+			if (! /^[a-z0-9\s]*$/gi.test(str) ) {
+				return "Sólo puede contener letras, números y espacios."
 			};
 		break;
 		
@@ -272,11 +292,21 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0) => {
 				return "Sólo puede contener letras los siguientes caracteres especiales: #·$%&()?¿!¡@|+_ºª "
 			};
 		break;
+		case "123!_":
+			if (! /^[0-9#·$%&()?¿!¡@|+_ºª\s]*$/gi.test(str) ) {
+				return "Sólo puede contener letras, espacios y los siguientes caracteres especiales: #·$%&()?¿!¡@|+_ºª "
+			};
+		break;
 		
 		
 		case "abc123!":
 			if (! /^[a-z0-9#·$%&()?¿!¡@|+_ºª]*$/gi.test(str) ) {
 				return "Sólo puede contener letras, números y los siguientes caracteres especiales: #·$%&()?¿!¡@|+_ºª "
+			};
+		break;
+		case "abc123!_":
+			if (! /^[a-z0-9#·$%&()?¿!¡@|+_ºª]*$/gi.test(str) ) {
+				return "Sólo puede contener letras, números, espacios y los siguientes caracteres especiales: #·$%&()?¿!¡@|+_ºª "
 			};
 		break;
 		
