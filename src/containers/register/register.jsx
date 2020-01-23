@@ -5,8 +5,9 @@ import "./register.scss";
 
 import TextField from "@material-ui/core/TextField";
 import { FormControl, Button, Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
-import { validate } from "../../utils/uti"
+import { validate } from "../../utils/uti";
 import DropdownLabor from "../../components/dropdown/dropdown";
+
 
 
 export default class Register extends React.Component {
@@ -16,9 +17,9 @@ export default class Register extends React.Component {
 		
 		this.state = {
 			
-			step: 2,
-			
-			
+			step: 1,
+			province: "",
+			city: "",
 			userTypeSelectionPending: true,
 			
 		};
@@ -68,7 +69,7 @@ export default class Register extends React.Component {
 				if (validation !== "") { correct = false };
 				this.setState({ err_username: validation });
 				
-				validation = validate(this.state.email, "email", 1, 24);
+				validation = validate(this.state.email, "email", 1, 30);
 				if (validation !== "") { correct = false };
 				this.setState({ err_email: validation });
 				
@@ -85,28 +86,55 @@ export default class Register extends React.Component {
 					correct = false;
 				};
 				
+				// validation = validate(this.state.province, "abc", 1);
+				if (validation !== "") { correct = false };
+				this.setState({ err_province: validation });
 				
+				// validation = validate(this.state.city, "abc", 1);
+				if (validation !== "") { correct = false };
+				this.setState({ err_city: validation });
+
+				if (this.state.userTypeSelectionPending) { correct = false };
+				this.setState({ err_isEnterprise: "Debes elegir si eres trabajador o empresa." });
+
 			break;
 			
 			
 			case 2:
-				
-				validation = validate(this.state.phone, "phone", 1);
-				if (validation !== "") { correct = false };
-				this.setState({ err_phone: validation });
-				
-				validation = validate(this.state.country, "abc", 1);
-				if (validation !== "") { correct = false };
-				this.setState({ err_country: validation });
-				
-				validation = validate(this.state.province, "abc", 1);
-				if (validation !== "") { correct = false };
-				this.setState({ err_province: validation });
-				
-				if (this.state.userTypeSelectionPending) { correct = false };
-				this.setState({ err_isEnterprise: "Debes elegir si eres trabajador o empresa." });				
-				
-				
+
+				if(this.state.isEnterprise === false){
+
+					validation = validate(this.state.name, "name", 1);
+					if (validation !== "") { correct = false };
+					this.setState({ err_name: validation });
+
+					validation = validate(this.state.surname, "surname", 1);
+					if (validation !== "") { correct = false };
+					this.setState({ err_surname: validation });
+
+					validation = validate(this.state.phone, "phone", 1);
+					if (validation !== "") { correct = false };
+					this.setState({ err_phone: validation });
+
+					validation = validate(this.state.nif, "nif", 1);
+					if (validation !== "") { correct = false };
+					this.setState({ err_nif: validation });
+
+				}else{
+
+					validation = validate(this.state.name, "name", 1);
+					if (validation !== "") { correct = false };
+					this.setState({ err_name: validation });
+
+					validation = validate(this.state.phone, "phone", 1);
+					if (validation !== "") { correct = false };
+					this.setState({ err_phone: validation });
+
+					validation = validate(this.state.cif, "cif", 1);
+					if (validation !== "") { correct = false };
+					this.setState({ err_cif: validation });
+				}
+											
 			break;
 			
 			
@@ -169,40 +197,34 @@ export default class Register extends React.Component {
 					{ this.c_input("Email", "email", "email") }
 					{ this.c_input("Contraseña", "password", "password") }
 					{ this.c_input("Repite contraseña", "password", "password2") }
-					
-					<Button className="mt3" variant="contained" color="primary"
-						onClick={ () => this.setStep(2) }
-					>
-						Siguiente
-					</Button>
-				</Fragment>
-			);
-			
-			
-			
-			case 2: return (
-				<Fragment>
-					
-					{ this.c_input("Teléfono", "text", "phone") }
-					
+					<div className="flex-dir-r">
 					<DropdownLabor
-						className={"br mt4 mb2"}
-						defaultValue={"Selecciona una provincia"}
-						elements={[
-							["1", "Sí"],
-							["0", "No"]
-						]}
-						onChange={ (ev) => {this.setState({ province: ev.target.value }) } }
-					/>
-					
-					<RadioGroup
-						className="mt3"
-						aria-label="Employed or enterprise"
-						name="isEnterprise"
-						// value={this.state.isEnterprise}
-						onChange={ this.handleUserTypeSelection }
-					>
-						
+							className={"br mt3 mr3"}
+							defaultValue={"Selecciona una provincia:"}
+							elements={[
+								["1", "valencia"],
+								["2", "valencia"]
+							]}
+							onChange={ (ev) => {this.setState({province : ev.target.value });} }
+						/>
+						<DropdownLabor
+							className={"br mt3 mr3"}
+							defaultValue={"Selecciona un municipio:"}
+							elements={[
+								["1", "malaga"],
+								["2", "malaga"]
+							]}
+							onChange={ (ev) => {this.setState({city : ev.target.value}) ;} }
+						/>
+					</div>
+					<div className="flex-dir-r">
+						<RadioGroup
+							className="mt3"
+							aria-label="Employed or enterprise"
+							name="isEnterprise"
+							// value={this.state.isEnterprise}
+							onChange={ this.handleUserTypeSelection }
+						>
 						<FormControlLabel
 							value={ "false" }
 							control={<Radio color="primary" />}
@@ -215,6 +237,8 @@ export default class Register extends React.Component {
 							label="Soy empresa"
 							labelPlacement="end"
 						/>
+						</RadioGroup>
+						</div>
 						
 						<p
 							className="error"
@@ -222,15 +246,31 @@ export default class Register extends React.Component {
 							{this.state?.err_isEnterprise}
 						</p>
 						
-					</RadioGroup>
-					
-					
-					{ this.c_input("Nombre", "text", "name") }
-					{ this.c_input("Apellidos", "text", "surname") }
+					<Button className="mt3" variant="contained" color="primary"
+						onClick={ () =>{ 
+							
+							this.setStep(2)
+						}}
+					>
+						Siguiente
+					</Button>
+				</Fragment>
+			);
+			
+			
+			
+			case 2: 
+			if(this.state.isEnterprise == false){
+			return (
+				<Fragment>
+
+					{ this.c_input("Name", "text", "name") }
+					{ this.c_input("Surname", "text", "surname") }
+					{ this.c_input("Teléfono", "text", "phone") }
 					{ this.c_input("NIF", "text", "nif") }
-					{ this.c_input("CIF", "text", "cif") }
-					
-					
+	
+
+
 					<div className="boxButtons">
 						
 						<Button className="btn mt3" variant="contained" color="primary"
@@ -251,7 +291,35 @@ export default class Register extends React.Component {
 					
 				</Fragment>
 			);
-			
+			}else{
+				return (
+					<Fragment>
+	
+						{ this.c_input("Name", "text", "name") }
+						{ this.c_input("Teléfono", "text", "phone") }
+						{ this.c_input("CIF", "text", "cif") }
+
+						<div className="boxButtons">
+							
+							<Button className="btn mt3" variant="contained" color="primary"
+								onClick={ () => this.setStep(1, true) }
+							>
+								« Anterior
+							</Button>
+							
+							<Button className="btn mt3" variant="contained" color="secondary"
+								onClick={ () => this.send() }
+							>
+								Enviar
+							</Button>
+							
+						</div>
+						
+						
+						
+					</Fragment>
+				);
+			}
 			
 			
 			default: return "asd";
