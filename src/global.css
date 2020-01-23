@@ -52,6 +52,7 @@ html {
 
 
 
+
 /* Estados */
 .br { border-radius: 3px }
 .bs { box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19) }
@@ -61,6 +62,7 @@ html {
 	visibility: hidden;
 	display: none;
 }
+
 .flex-dir-r {
 	display: flex;
 	flex-direction: row;
@@ -69,6 +71,14 @@ html {
 	display: flex;
 	flex-direction: column;
 }
+.jcc {justify-content: center}
+.jcfs {justify-content: flex-start}
+.jcfe {justify-content: flex-end}
+.aic {align-items: center}
+.aifs {align-items: flex-start}
+.aife {align-items: flex-end}
+
+.wft {width: fit-content}
 
 
 
@@ -131,6 +141,11 @@ html {
 .success {
 	color: var(--colVer);
 	font-size: 0.75rem;
+}
+.label {
+	color: var(--colGri);
+	margin: 0;
+	font-size: 0.9em;
 }
 
 
