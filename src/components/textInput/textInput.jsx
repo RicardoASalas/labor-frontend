@@ -72,7 +72,7 @@ export default class TextInput extends React.Component {
 					variant="outlined"
 					// onChange={ (ev) => this.inputToStatus(ev, stateKey) }
 					onChange={ this.props.onChange }
-					value={ this.props.value }
+					// value={ this.props.value }
 				/>
 			</FormControl>
 			
