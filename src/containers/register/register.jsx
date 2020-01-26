@@ -259,69 +259,71 @@ export default class Register extends React.Component {
 			
 			
 			
-			case 2: 
-			if(this.state.isEnterprise == false){
-			return (
-				<Fragment>
-
-					{ this.c_input("Name", "text", "name") }
-					{ this.c_input("Surname", "text", "surname") }
-					{ this.c_input("Teléfono", "text", "phone") }
-					{ this.c_input("NIF", "text", "nif") }
-	
-
-
-					<div className="boxButtons">
-						
-						<Button className="btn mt3" variant="contained" color="primary"
-							onClick={ () => this.setStep(1, true) }
-						>
-							« Anterior
-						</Button>
-						
-						<Button className="btn mt3" variant="contained" color="secondary"
-							onClick={ () => this.send() }
-						>
-							Enviar
-						</Button>
-						
-					</div>
-					
-					
-					
-				</Fragment>
-			);
-			}else{
-				return (
-					<Fragment>
-	
-						{ this.c_input("Name", "text", "name") }
-						{ this.c_input("Teléfono", "text", "phone") }
-						{ this.c_input("CIF", "text", "cif") }
-
-						<div className="boxButtons">
-							
-							<Button className="btn mt3" variant="contained" color="primary"
-								onClick={ () => this.setStep(1, true) }
-							>
-								« Anterior
-							</Button>
-							
-							<Button className="btn mt3" variant="contained" color="secondary"
-								onClick={ () => this.send() }
-							>
-								Enviar
-							</Button>
-							
-						</div>
-						
-						
-						
-					</Fragment>
-				);
-			}
+			case 2:
 			
+				if (! this.state.isEnterprise){
+					return (
+						<Fragment>
+
+							{ this.c_input("Name", "text", "name") }
+							{ this.c_input("Surname", "text", "surname") }
+							{ this.c_input("Teléfono", "text", "phone") }
+							{ this.c_input("NIF", "text", "nif") }
 			
+
+
+							<div className="boxButtons">
+								
+								<Button className="btn mt3" variant="contained" color="primary"
+									onClick={ () => this.setStep(1, true) }
+								>
+									« Anterior
+								</Button>
+								
+								<Button className="btn mt3" variant="contained" color="secondary"
+									onClick={ () => this.send() }
+								>
+									Enviar
+								</Button>
+								
+							</div>
+							
+							
+							
+						</Fragment>
+					);
+					
+				} else {
+					
+					return (
+						<Fragment>
+		
+							{ this.c_input("Name", "text", "name") }
+							{ this.c_input("Teléfono", "text", "phone") }
+							{ this.c_input("CIF", "text", "cif") }
+
+							<div className="boxButtons">
+								
+								<Button className="btn mt3" variant="contained" color="primary"
+									onClick={ () => this.setStep(1, true) }
+								>
+									« Anterior
+								</Button>
+								
+								<Button className="btn mt3" variant="contained" color="secondary"
+									onClick={ () => this.send() }
+								>
+									Enviar
+								</Button>
+								
+							</div>
+							
+							
+							
+						</Fragment>
+					);
+				};
+				
 			default: return "asd";
 			
 		};		

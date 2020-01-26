@@ -135,15 +135,15 @@ html {
 
 
 .error {
-	color: #f44336;
+	color: #f44336 !important;
 	font-size: 0.75rem;
 }
 .success {
-	color: var(--colVer);
+	color: var(--colVer) !important;
 	font-size: 0.75rem;
 }
 .label {
-	color: var(--colGri);
+	color: var(--colGri) !important;
 	margin: 0;
 	font-size: 0.9em;
 }

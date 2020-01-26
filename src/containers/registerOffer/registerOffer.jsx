@@ -4,8 +4,8 @@ import React, { Fragment } from "react";
 import "./registerOffer.scss";
 
 import TextField from "@material-ui/core/TextField";
-import { FormControl, Button, Radio, RadioGroup, FormControlLabel, TextareaAutosize } from '@material-ui/core';
-import { validate, numToStr } from "../../utils/uti"
+import { Button } from '@material-ui/core';
+import { validate } from "../../utils/uti"
 import DropdownLabor from "../../components/dropdown/dropdown";
 import TextInputLabor from "../../components/textInput/textInput";
 
@@ -34,7 +34,6 @@ export default class RegisterOffer extends React.Component {
 	
 	
 	
-	
 	setStep = (futureStep, isBack = false, asd) => {
 		
 		if (isBack) {
@@ -60,11 +59,15 @@ export default class RegisterOffer extends React.Component {
 			
 			case 1:
 				
-				validation = validate(this.state.title, "a b c", 4, 32);
+				validation = validate(this.state.title, "abc_", 4, 32);
 				if (validation !== "") { correct = false };
 				this.setState({ err_title: validation });
 				
-				validation = validate(this.state.description, "abc123!", 4, 256);
+				validation = validate(this.state.sector, "abc_", 4, 32);
+				if (validation !== "") { correct = false };
+				this.setState({ err_sector: validation });
+				
+				validation = validate(this.state.description, "abc123!_", 4, 256, "gim");
 				if (validation !== "") { correct = false };
 				this.setState({ err_description: validation });	
 				
@@ -73,20 +76,32 @@ export default class RegisterOffer extends React.Component {
 			
 			case 2:
 				
-				validation = validate(this.state.phone, "phone", 1);
-				if (validation !== "") { correct = false };
-				this.setState({ err_phone: validation });
+				if (! this.state.experience) {
+					this.setState({ err_experience: "No puede estar vacío."});
+				} else {
+					this.setState({ err_experience: "" });
+				};
 				
-				validation = validate(this.state.country, "abc", 1);
-				if (validation !== "") { correct = false };
-				this.setState({ err_country: validation });
+				if (! this.state.workDay) {
+					this.setState({ err_workDay: "No puede estar vacío."});
+				} else {
+					this.setState({ err_workDay: "" });
+				};
 				
-				validation = validate(this.state.province, "abc", 1);
-				if (validation !== "") { correct = false };
-				this.setState({ err_province: validation });
 				
-				if (this.state.userTypeSelectionPending) { correct = false };
-				this.setState({ err_isEnterprise: "Debes elegir si eres trabajador o empresa." });				
+				validation = validate(this.state.minSalary, "123", 1);
+				if (validation !== "") { correct = false };
+				this.setState({ err_minSalary: validation });
+				
+				validation = validate(this.state.maxSalary, "123");
+				if (validation !== "") { correct = false };
+				this.setState({ err_maxSalary: validation });
+				
+				validation = validate(this.state.vacancy, "123", 1);
+				if (validation !== "") { correct = false };
+				this.setState({ err_vacancy: validation });
+				
+							
 				
 				
 			break;
@@ -113,33 +128,6 @@ export default class RegisterOffer extends React.Component {
 	
 	
 	
-	c_input = (label, type, stateKey) => {
-		
-		let errTxt = this.state?.[`err_${stateKey}`];
-		let err = !! errTxt;
-		
-		
-		return (
-			
-			<FormControl className="mt3">
-				<TextField
-					error={ err }
-					helperText={ errTxt }
-					// id="outlined-basic"
-					type={type}
-					label={label}
-					variant="outlined"
-					onChange={ (ev) => this.inputToStatus(ev, stateKey) }
-					value={this.state[stateKey] ? this.state[stateKey] : ""}
-				/>
-			</FormControl>
-			
-		);
-		
-	};
-	
-	
-	
 	showForm() {
 		
 		switch (this.state.step) {
@@ -155,6 +143,16 @@ export default class RegisterOffer extends React.Component {
 						value={this.state.title}
 						helperText={this.state.err_title}
 						isError={!! this.state?.err_title}
+					/>
+					
+					<TextInputLabor
+						className="mt3"
+						label="Sector"
+						type="text"
+						onChange={ (ev) => this.setState({ sector: ev.target.value }) }
+						value={this.state.sector}
+						helperText={this.state.err_sector}
+						isError={!! this.state?.err_sector}
 					/>
 					
 					<TextField
@@ -188,6 +186,7 @@ export default class RegisterOffer extends React.Component {
 						className={"br mt4 mb2"}
 						label={"Experiencia mínima requerida"}
 						elements={[
+							["", "Selecciona una experiencia"],
 							["0", "Sin experiencia"],
 							["1", "1 año"],
 							["2", "2 años"],
@@ -201,12 +200,15 @@ export default class RegisterOffer extends React.Component {
 						onChange={ (ev) => {this.setState({ experience: ev.target.value }) } }
 					/>
 					
+					<p className="error">{this.state.err_experience}</p>
+					
 					
 					
 					<DropdownLabor
 						className={"br mt3"}
 						label={"Tipo de jornada"}
 						elements={[
+							["", "Selecciona una jornada"],
 							["mj", "Media jornada"],
 							["jc", "Jornada completa"],
 							["jim", "Jornada intensiva mañana"],
@@ -217,19 +219,21 @@ export default class RegisterOffer extends React.Component {
 						onChange={ (ev) => {this.setState({ workDay: ev.target.value })} }
 					/>
 					
+					<p className="error">{this.state.err_workDay}</p>
+					
 					
 					
 					<div className="flex-dir-c mt3">
 						
-						<p className="label">Salario anual (€ brutos / año)</p>
+						<p className="label mb2">Salario anual (€ brutos / año)</p>
 						
 						<div className="flex-dir-r">
 							<TextInputLabor
 								className=""
 								label="Mínimo"
 								type="number"
-								onChange={ (ev) => this.setState({ minSalary: ev.target.value }) }
-								value={this.state.minSalary}
+								onChange={ (ev) => {this.setState({ minSalary: Math.abs (ev.target.value) })} }
+								value={ this.state.minSalaryStr }
 								helperText={this.state.err_minSalary}
 								isError={!! this.state?.err_minSalary}
 							/>
@@ -238,13 +242,12 @@ export default class RegisterOffer extends React.Component {
 								className="ml3"
 								label="Máximo"
 								type="number"
-								onChange={ (ev) => this.setState({ maxSalary: ev.target.value }) }
-								value={ this.state.maxSalary }
+								onChange={ (ev) => this.setState({ maxSalary: Math.abs (ev.target.value) }) }
+								value={ this.state.err_maxSalary }
 								helperText={this.state.err_maxSalary}
 								isError={!! this.state?.err_maxSalary}
 							/>
 						</div>
-						
 						
 					</div>
 					
@@ -254,7 +257,7 @@ export default class RegisterOffer extends React.Component {
 						className="mt3"
 						label="Número de vacantes"
 						type="number"
-						onChange={ (ev) => this.setState({ vacancy: ev.target.value }) }
+						onChange={ (ev) => this.setState({ vacancy: Math.abs (ev.target.value) }) }
 						value={this.state.vacancy}
 						helperText={this.state.err_vacancy}
 						isError={!! this.state?.err_vacancy}

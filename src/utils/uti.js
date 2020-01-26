@@ -194,8 +194,9 @@ export const listaCategorias = {
 	Params:
 		0 (str): STRING - String a validar.
 		1 (type): STRING - Tipo de validación.
-		2 (minLength): NUMBER - Carácteres mínimos que debería tener el string. Usar 0 para no comprobar.
-		3 (maxLength): NUMBER - Carácteres máximos que debería tener el string. Usar 0 para no comprobar.
+		2 (minLength): NUMBER (opc) - Carácteres mínimos que debería tener el string. Usar 0 para no comprobar.
+		3 (maxLength): NUMBER (opc) - Carácteres máximos que debería tener el string. Usar 0 para no comprobar.
+		4 (flags): STRING (opc) - Flags para poner al regex. Default: "gi".
 	
 	Tipos de validación:
 		email: asd@asd.es
@@ -209,7 +210,12 @@ export const listaCategorias = {
 		123!_: 123$ %&456
 		abc123!: hola123$%$()=456
 		abc123!_: hola123$% adios$()=456
-		
+	
+	Tipos de flags:
+		g: global
+		i: ignore case
+		m: multiline
+	
 	Ejemplos:
 		validate("asdf", "email", 5); 			// "Tiene que tener 5 caracteres..."
 		validate("asdf", "email", 5); 			// "Email inválido."
@@ -218,7 +224,9 @@ export const listaCategorias = {
 	
 */
 
-export const validate = (str = "", type, minLength = 0, maxLenght = 0) => {
+/* eslint-disable no-useless-escape */
+
+export const validate = (str = "", type, minLength = 0, maxLenght = 0, flags = "gi") => {
 	
 	// Pido longitud?
 	if (minLength > 0) {
@@ -234,106 +242,112 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0) => {
 	
 	if (maxLenght > 0) {
 		if (str.length > maxLenght) {
-			return `Tiene que tener máximo ${maxLenght} caracteres.`;
+			return `Tiene que tener máximo ${maxLenght} caracteres (${str.length}/${maxLenght}).`;
 		};
 	};
 	
 	
+	
 	// Empiezo validación
+	const specialCharacters = "#·:$%&()?¿!¡@|+_-ºª";
+	
+	let regex;
+	let errorMessage = "";
+	
+	
 	switch (type) {
 		
+		// Específicos
+		case "nif":
+			regex = RegExp("^(\d{8})([a-z])$/ || /^[xyz]\d{7,8}[a-z]$", flags);
+			errorMessage = "El NIF/NIE no es válido.";
+		break;
 		
-		case "nif":
-			if(!/^(\d{8})([A-Z])$/ || /^[XYZ]\d{7,8}[A-Z]$/){
-				return "El NIF/NIE no es correcto."
-			};
+		case "cif":
+			regex = RegExp("^([abcdefghjklmnpqrsuvw])(\d{7})([0-9a-j])$", flags);
+			errorMessage = "El CIF no es válido.";
 		break;
-
-		case "nif":
-			if(!/^([ABCDEFGHJKLMNPQRSUVW])(\d{7})([0-9A-J])$/){
-				return "El CIF no es correcto."
-			};
-		break;
-
+		
 		case "email": 
-			if (! /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(str) ) {
-				return "El email no es válido."
-			};
+			regex = RegExp("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$", flags);
+			errorMessage = "El email no es válido.";
 		break;
-		
 		
 		case "phone":
-			if (! /^[\d()+-\s]*$/g.test(str) ) {
-				return "El teléfono no es válido."
-			};
+			regex = RegExp("^[\d()+-\s]*$", flags);
+			errorMessage = "El teléfono no es válido.";
 		break;
 		
 		
+		
+		// Libres
 		case "123":
-			if (! /^[0-9]*$/g.test(str) ) {
-				return "Sólo puede contener números."
-			};
+			regex = RegExp("^[0-9]*$", flags);
+			errorMessage = "Sólo puede contener números.";
 		break;
+		case "123!":
+			regex = RegExp(`^[0-9${specialCharacters}]*$`, flags);
+			errorMessage = `Sólo puede contener letras los siguientes caracteres especiales: ${specialCharacters} `;
+		break;
+		case "123!_":
+			regex = RegExp(`^[0-9${specialCharacters}\s]*$`, flags);
+			errorMessage = `Sólo puede contener letras, espacios y los siguientes caracteres especiales: ${specialCharacters} `;
+		break;
+		
 		
 		
 		case "abc":
-			if (! /^[a-z]*$/gi.test(str) ) {
-				return "Sólo puede contener letras."
-			};
+			regex = RegExp("^[a-z]*$", flags);
+			errorMessage = "Sólo puede contener letras.";
 		break;
 		case "abc_":
-			if (! /^[a-z\s]*$/gi.test(str) ) {
-				return "Sólo puede contener letras y espacios."
-			};
+			regex = RegExp("^[a-z][a-z\s]*$", flags);
+			errorMessage = "Sólo puede contener letras y espacios.";
 		break;
-		
-		
 		case "abc123":
-			if (! /^[a-z0-9]*$/gi.test(str) ) {
-				return "Sólo puede contener letras y números."
-			};
+			regex = RegExp("^[a-z0-9]*$", flags);
+			errorMessage = "Sólo puede contener letras y números.";
 		break;
 		case "abc123_":
-			if (! /^[a-z0-9\s]*$/gi.test(str) ) {
-				return "Sólo puede contener letras, números y espacios."
-			};
+			regex = RegExp("^[a-z0-9][a-z0-9\s]*$", flags);
+			errorMessage = "Sólo puede contener letras, números y espacios.";
 		break;
-		
-		
-		case "123!":
-			if (! /^[0-9#·$%&()?¿!¡@|+_ºª]*$/gi.test(str) ) {
-				return "Sólo puede contener letras los siguientes caracteres especiales: #·$%&()?¿!¡@|+_ºª "
-			};
-		break;
-		case "123!_":
-			if (! /^[0-9#·$%&()?¿!¡@|+_ºª\s]*$/gi.test(str) ) {
-				return "Sólo puede contener letras, espacios y los siguientes caracteres especiales: #·$%&()?¿!¡@|+_ºª "
-			};
-		break;
-		
-		
 		case "abc123!":
-			if (! /^[a-z0-9#·$%&()?¿!¡@|+_ºª]*$/gi.test(str) ) {
-				return "Sólo puede contener letras, números y los siguientes caracteres especiales: #·$%&()?¿!¡@|+_ºª "
-			};
+			regex = RegExp(`^[a-z${specialCharacters}]*$`, flags);
+			errorMessage = `Sólo puede contener letras, números y los siguientes caracteres especiales: ${specialCharacters} `;
 		break;
 		case "abc123!_":
-			if (! /^[a-z0-9#·$%&()?¿!¡@|+_ºª]*$/gi.test(str) ) {
-				return "Sólo puede contener letras, números, espacios y los siguientes caracteres especiales: #·$%&()?¿!¡@|+_ºª "
-			};
+			regex = RegExp(`^[a-z0-9${specialCharacters}\s]*$`, flags);
+			errorMessage = `Sólo puede contener letras, números, espacios y los siguientes caracteres especiales: ${specialCharacters} `;
 		break;
+		
 		
 		
 		default: break;
 		
-	}
+	};
 	
 	
+	
+	// Existe regex?
+	if (!regex) {
+		return "ERROR: regex is nil";
+	};
+	
+	
+	// Si la comprobación sale mal, devuelvo el mensaje de error
+	if (! regex.test(str) ) {
+		return errorMessage;
+	};
+	
+	
+	// Ha salido bien, devuelvo ""
 	return "";
 	
 	
 };
 
+/* eslint-enable no-useless-escape */
 
 
 
