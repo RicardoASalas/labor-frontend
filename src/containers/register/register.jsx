@@ -6,7 +6,8 @@ import "./register.scss";
 import TextField from "@material-ui/core/TextField";
 import { FormControl, Button, Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 import { validate } from "../../utils/uti";
-import DropdownLabor from "../../components/dropdown/dropdown";
+import DropdownCityList from "../../components/dropdownCities/dropdownCities";
+import DropdownProvinceList from "../../components/dropdownProvinces/dropdownProvinces";
 
 
 
@@ -25,7 +26,6 @@ export default class Register extends React.Component {
 		};
 		
 	};
-	
 	
 	
 	inputToStatus = (ev, stateKey) => {
@@ -156,8 +156,7 @@ export default class Register extends React.Component {
 		};
 		
 	};
-	
-	
+
 	
 	c_input = (label, type, stateKey) => {
 		
@@ -197,8 +196,8 @@ export default class Register extends React.Component {
 					{ this.c_input("Email", "email", "email") }
 					{ this.c_input("Contraseña", "password", "password") }
 					{ this.c_input("Repite contraseña", "password", "password2") }
-					<div className="flex-dir-r">
-					<DropdownLabor
+					<div className="flex-dir-c">
+					{/* <DropdownLabor
 							className={"br mt3 mr3"}
 							defaultValue={"Selecciona una provincia:"}
 							elements={[
@@ -206,14 +205,15 @@ export default class Register extends React.Component {
 								["2", "valencia"]
 							]}
 							onChange={ (ev) => {this.setState({province : ev.target.value });} }
+						/> */}
+						<DropdownProvinceList
+							onChange={ (ev) => {
+								console.log(ev.target)
+								this.setState({province : ev.target.value}) ;} 
+							}
 						/>
-						<DropdownLabor
-							className={"br mt3 mr3"}
-							defaultValue={"Selecciona un municipio:"}
-							elements={[
-								["1", "malaga"],
-								["2", "malaga"]
-							]}
+						
+						<DropdownCityList
 							onChange={ (ev) => {this.setState({city : ev.target.value}) ;} }
 						/>
 					</div>
@@ -333,7 +333,6 @@ export default class Register extends React.Component {
 	
 	
 	render() {
-		
 		return (
 			<div className="registerMain">
 				<form className="br bs mt3">
