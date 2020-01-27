@@ -1,44 +1,47 @@
 import React from "react";
-import DropdownLabor from "../dropdown/dropdown";
+// import DropdownLabor from "../dropdown/dropdown";
 import ProvinceList from "../../assets/provinces.json";
 
 
+
 export default class ProvinceListDropDown extends React.Component {
-
-    constructor () {
-        super();
-        
-        this.state = {
-              provinceListArray:[]
-        };
-    }
-
-    componentDidMount(){
-        let provinceArray = [];
-    
-        ProvinceList.map(element => {
-            element.id=element.nm;
-            provinceArray.push(Object.values(element));
-    
-        });
-    
-        
-        this.setState({
-            provinceListArray: provinceArray
-        });
-    
-    };
-    
+	
+	shouldComponentUpdate(nextProps, nextState) {
+		return false;
+	};
+	
 	render() {
+		
 		return (
 			
-			<div className={"br mt3 mr3"}>
+			<div className={ "dropdownLabor " + (this.props.className ? this.props.className : "") }>
 				
-				<DropdownLabor
-                defaultValue={"Selecciona una provincia:"}
-                elements={this.state.provinceListArray}
-                onChange={ this.props.onChange }
-            />
+				<p className="label">{this.props.label}</p>
+				
+				<select
+					value={this.props.value}
+					onChange={this.props.onChange}>
+					
+					{
+						this.props.defaultValue &&
+						<option value="">{this.props.defaultValue}</option>
+					}
+					
+					
+					{
+						ProvinceList.map( (_x) => {
+							return (
+								<option
+									value={_x.nm}
+									key={_x.nm}
+								>
+									{_x.nm}
+								</option>
+							)
+						})
+					}
+					
+				</select>
 			</div>
 		);
 	};
