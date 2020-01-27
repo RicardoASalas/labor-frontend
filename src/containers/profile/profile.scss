@@ -1,30 +1,128 @@
 .mainProfile {
+    display:flex;
+    height: 100vh;
+    width: 100%;
 
-    .cardHeader {
+    .cardUserInformation{
+        width: 55%;
+        height: 90%;
+        display:flex;
         flex-direction: column;
+        .cardInformationFields{
+            align-items: flex-start;
+            background-color:white;
+            height: 100%;
+        }
+    }
+
+    .cardUserData{
+        width: 100%;
+        height: 33%; 
+        background-color:white;
+        display:flex;
         align-items: center;
+        justify-content: center;
+
+    }
+    .cardUserEducation{
+        width: 100%;
+        height: 33%; 
+        background-color:white;
+    }
+    .cardUserDescription{
+        width: 100%;
+        height: 33%; 
+        background-color:white;
+    }
+    .cardUserOffer{
+        width: 35%;
+        height: 90%;
+        background-color: white;
+    }
+    .cardInfo {
+        flex-direction: row;
+      
+        width: 60%;
+   
+      
         
     }
 
-    .userBothBilling {
-        display: flex;
+    .cardOffers {
         flex-direction: column;
         align-items: center;
+        width: 30%;
+        
     }
 
-    .userDataField {
-        margin-top: 1em;
+
+    .userDataFieldContainer{
         color: var(--pri9);
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 70%;
+        height:100%;
+    }
+    .userAvatarContainer{
+
+        color: var(--pri9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30%;
+        height: 100%;
+
+    }
+    .avatar{
+        justify-content: center;
+        align-items: center;
+        height: 85%;
+        width: 85%;
+        border-radius: 15%;
+    }
+
+
+    .userDataField {
+        display:flex;
+        color: var(--pri9);
+        align-items: center;
+        justify-content: center;
+        
     
-        .userDataFieldTitle {
-            font-weight: bold;
     
-        }
     
         .userDataFieldContent {
+            display: flex;
+            flex-direction: row;
             margin-left: 0.5em;
+            margin-top: 2em;
+            margin-left: 2em;
+            justify-content: center;
+            align-items: center;
+            
+            .bigField{
+                display: flex;
+                margin-right:0.5rem;
+                font-weight: bold;
+                font-size: 2rem;
+                justify-content: center;
+                align-items: center;
+            }
+            .mediumField{
+                display: flex;
+                margin-right:0.5rem;
+                font-size: 1.5rem;
+                justify-content: center;
+                align-items: center;
+            }
+            .smallField{
+                display: flex;
+                margin-right:0.5rem;
+                justify-content: center;
+                align-items: center;
+            }
         }
     
     }
@@ -32,6 +130,7 @@
     .userTypeClass {
         color: var(--pri6);
         margin-top: 0.3em;
+        background-color: blue;
     }
 
 
