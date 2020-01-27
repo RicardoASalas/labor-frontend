@@ -1,6 +1,8 @@
-import React from "react";
-import DropdownLabor from "../../components/dropdown/dropdown";
+
+import React from 'react';
+import DropdownLabor from "../dropdown/dropdown";
 import CityList from "../../assets/cities.json";
+
 
 
 export default class CityListDropDown extends React.Component {
@@ -9,55 +11,39 @@ export default class CityListDropDown extends React.Component {
         super();
         
         this.state = {
-              cityListArray:[]
+              CityListArray:[]
         };
     }
 
-    async componentDidMount(){
-            let cityListCache = CityList;
-            let cityArray = [];
-            cityArray = await cityListCache.map(element => {
-                
-           
-                console.log(element)
-                // element.id=element.nm;
-                // cityArray.push(Object.values(element));
-                // Object.values(element)
-        
-            });
-            
-        this.setState({
-            cityListArray: cityArray
-        });
-    }
-
-    // // componentWillMount(){
-
-    // //     let cityArray = [];
-    // //         CityList.map(element => {
-    // //             console.log(element)
-    // //             // element.id=element.nm;
-    // //             // cityArray.push(Object.values(element));
-        
-    // //         });
-            
-    //     this.setState({
-    //         cityListArray: cityArray
-    //     });
-    // }
+    componentDidMount(){
+        let CityArray = [];
+        console.log(CityList)
+        CityList.map(element => {
+            element.id=element.nm;
+            CityArray.push(Object.values(element));
     
+        });
+    
+        
+        this.setState({
+            CityListArray: CityArray
+        });
+    
+    };
     
 	render() {
 		return (
-			
+        
 			<div className={"br mt3 mr3"}>
 				
 				<DropdownLabor
                 defaultValue={"Selecciona un municipio:"}
-                elements={this.state.cityListArray}
+                elements={this.state.CityListArray}
                 onChange={ this.props.onChange }
             />
+            
 			</div>
+       
 		);
 	};
 	

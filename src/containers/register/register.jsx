@@ -197,24 +197,17 @@ export default class Register extends React.Component {
 					{ this.c_input("Contraseña", "password", "password") }
 					{ this.c_input("Repite contraseña", "password", "password2") }
 					<div className="flex-dir-c">
-					{/* <DropdownLabor
-							className={"br mt3 mr3"}
-							defaultValue={"Selecciona una provincia:"}
-							elements={[
-								["1", "valencia"],
-								["2", "valencia"]
-							]}
-							onChange={ (ev) => {this.setState({province : ev.target.value });} }
-						/> */}
+					
 						<DropdownProvinceList
 							onChange={ (ev) => {
-								console.log(ev.target)
-								this.setState({province : ev.target.value}) ;} 
-							}
+								this.setState({province : ev.target.value});
+							}}
 						/>
 						
 						<DropdownCityList
-							onChange={ (ev) => {this.setState({city : ev.target.value}) ;} }
+							onChange={ (ev) => {
+								this.setState({city : ev.target.value});
+							}}
 						/>
 					</div>
 					<div className="flex-dir-r">
