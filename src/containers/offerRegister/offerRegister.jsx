@@ -1,7 +1,7 @@
 
 import React, { Fragment } from "react";
 
-import "./registerOffer.scss";
+import "./offerRegister.scss";
 
 import TextField from "@material-ui/core/TextField";
 import { Button } from '@material-ui/core';
@@ -9,7 +9,7 @@ import { validate } from "../../utils/uti"
 import DropdownLabor from "../../components/dropdown/dropdown";
 import TextInputLabor from "../../components/textInput/textInput";
 
-export default class RegisterOffer extends React.Component {
+export default class OfferRegister extends React.Component {
 	
 	constructor (props) {
 		super(props);
