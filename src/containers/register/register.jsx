@@ -6,9 +6,7 @@ import "./register.scss";
 import TextField from "@material-ui/core/TextField";
 import { FormControl, Button, Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 import { validate } from "../../utils/uti";
-import DropdownCityList from "../../components/dropdownCities/dropdownCities";
 import DropdownProvinceList from "../../components/dropdownProvinces/dropdownProvinces";
-
 
 
 export default class Register extends React.Component {
@@ -196,19 +194,18 @@ export default class Register extends React.Component {
 					{ this.c_input("Email", "email", "email") }
 					{ this.c_input("Contraseña", "password", "password") }
 					{ this.c_input("Repite contraseña", "password", "password2") }
-					<div className="flex-dir-c">
-					
+					<div className="flex-dir-r">
+						
 						<DropdownProvinceList
+							label="Provincia"
+							className="mt3 mr3"
 							onChange={ (ev) => {
 								this.setState({province : ev.target.value});
 							}}
 						/>
 						
-						<DropdownCityList
-							onChange={ (ev) => {
-								this.setState({city : ev.target.value});
-							}}
-						/>
+						{ this.c_input("Ciudad", "text", "city") }
+						
 					</div>
 					<div className="flex-dir-r">
 						<RadioGroup
