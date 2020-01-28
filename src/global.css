@@ -63,6 +63,9 @@ html {
 	display: none;
 }
 
+
+
+/* Flex */
 .flex-dir-r {
 	display: flex;
 	flex-direction: row;
@@ -71,9 +74,11 @@ html {
 	display: flex;
 	flex-direction: column;
 }
+
 .jcc {justify-content: center}
 .jcfs {justify-content: flex-start}
 .jcfe {justify-content: flex-end}
+
 .aic {align-items: center}
 .aifs {align-items: flex-start}
 .aife {align-items: flex-end}
@@ -107,6 +112,13 @@ html {
 .pl4 { padding-left: 1.5em !important; }
 .pl5 { padding-left: 2em !important; }
 
+.p1 { padding: 0.3em !important; };
+.p2 { padding: 0.5em !important; };
+.p3 { padding: 1em !important; };
+.p4 { padding: 1.5em !important; };
+.p5 { padding: 2em !important; };
+
+
 
 /* Margin */
 .mt1 { margin-top: 0.3em !important; }
@@ -132,6 +144,13 @@ html {
 .ml3 { margin-left: 1em !important; }
 .ml4 { margin-left: 1.5em !important; }
 .ml5 { margin-left: 2em !important; }
+
+.m1 { margin: 0.3em !important; };
+.m2 { margin: 0.5em !important; };
+.m3 { margin: 1em !important; };
+.m4 { margin: 1.5em !important; };
+.m5 { margin: 2em !important; };
+
 
 
 .error {
