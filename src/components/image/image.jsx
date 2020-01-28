@@ -5,7 +5,7 @@ import React, {  } from "react";
 /*
 	<ImageLabor
 		className="br"
-		src="https://about.canva.com/wp-content/uploads/sites/3/2016/08/logos-1.png"
+		src="https://cdn.vox-cdn.com/thumbor/0n6dqQfk9MuOBSiM39Pog2Bw39Y=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19341372/microsoftedgenewlogo.jpg"
 		w={100}
 		alt="imagen de la empresa"
 		measure="px"
