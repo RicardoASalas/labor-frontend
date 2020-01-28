@@ -7,7 +7,9 @@ import TextField from "@material-ui/core/TextField";
 import { Button } from '@material-ui/core';
 import { validate } from "../../utils/uti"
 import DropdownLabor from "../../components/dropdown/dropdown";
+import DropdownProvinceList from "../../components/dropdownProvinces/dropdownProvinces";
 import TextInputLabor from "../../components/textInput/textInput";
+
 
 export default class OfferRegister extends React.Component {
 	
@@ -101,7 +103,16 @@ export default class OfferRegister extends React.Component {
 				if (validation !== "") { correct = false };
 				this.setState({ err_vacancy: validation });
 				
-							
+				
+				if (! this.state.province) {
+					this.setState({ err_province: "No puede estar vacío."});
+				} else {
+					this.setState({ err_province: "" });
+				};
+				
+				validation = validate(this.state.city, "city", 1);
+				if (validation !== "") { correct = false };
+				this.setState({ err_city: validation });
 				
 				
 			break;
@@ -205,7 +216,7 @@ export default class OfferRegister extends React.Component {
 					
 					
 					<DropdownLabor
-						className={"br mt3"}
+						className={"br mt3 mb2"}
 						label={"Tipo de jornada"}
 						elements={[
 							["", "Selecciona una jornada"],
@@ -223,7 +234,7 @@ export default class OfferRegister extends React.Component {
 					
 					
 					
-					<div className="flex-dir-c mt3">
+					<div className="flex-dir-c mt5">
 						
 						<p className="label mb2">Salario anual (€ brutos / año)</p>
 						
@@ -262,6 +273,32 @@ export default class OfferRegister extends React.Component {
 						helperText={this.state.err_vacancy}
 						isError={!! this.state?.err_vacancy}
 					/>
+					
+					
+					
+					<div className="flex-dir-c mt5">
+						
+						<DropdownProvinceList
+							label="Provincia"
+							className="mr3 mb2"
+							onChange={ (ev) => {
+								this.setState({province : ev.target.value});
+							}}
+						/>
+						<p className="error">{this.state.err_province}</p>
+						
+						<TextInputLabor
+							className="mt3"
+							label="Ciudad"
+							type="text"
+							onChange={ (ev) => this.setState({ city: ev.target.value }) }
+							value={this.state.city}
+							helperText={this.state.err_city}
+							isError={!! this.state?.err_city}
+						/>						
+						
+					</div>
+					
 					
 					
 					<div className="boxButtons">
