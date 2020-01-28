@@ -277,7 +277,10 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0, flags = "
 			regex = RegExp("^[\d()+-\s]*$", flags);
 			errorMessage = "El teléfono no es válido.";
 		break;
-		
+		case "city":
+			regex = RegExp("^[a-záéíóú'`´\s]*$", flags);
+			errorMessage = "Sólo puede contener letras y caracteres '`´.";
+		break;		
 		
 		
 		// Libres
@@ -300,6 +303,7 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0, flags = "
 			regex = RegExp("^[a-z]*$", flags);
 			errorMessage = "Sólo puede contener letras.";
 		break;
+
 		case "abc_":
 			regex = RegExp("^[a-z][a-z\s]*$", flags);
 			errorMessage = "Sólo puede contener letras y espacios.";
