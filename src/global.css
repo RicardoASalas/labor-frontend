@@ -35,13 +35,12 @@
 }
 
 
+
 /* Generales */
 * {
     margin: 0;
     padding: 0;
     
-	/* color: var(--colNeg); */
-	/* background: var(--colBla); */
 	font-family: 'Hind', sans-serif;
 }
 
@@ -49,7 +48,6 @@ html {
 	font-size: 15px;
 	
 }
-
 
 
 
