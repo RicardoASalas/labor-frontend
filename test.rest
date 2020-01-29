@@ -1,0 +1,60 @@
+
+@url = http://localhost:3000/api
+
+###
+
+GET {{url}}/test
+
+###
+
+// -----------------
+// U S E R
+// -----------------
+
+// Register
+POST {{url}}/user/register
+Content-Type:application/json
+
+{
+	"username": "Icaruk",
+	"email": "adri-rk@hotmail.com",
+	"password": "1234",
+	"province": "Valencia",
+	"city": "Valencia",
+	"is_company": false,
+	"name": "Adrian",
+	"surname": "Tortajada",
+	"nif": "25774146S",
+	"phone": "647009123",
+	"website": "www.asd.es",
+	"description": "test"
+}
+###
+
+
+
+// Login
+# @name resLogin
+
+POST {{url}}/user/login
+Content-Type:application/json
+
+{
+	"username":  "Icaruk",
+	"password":  "1234"
+}
+###
+
+
+@userId = {{resLogin.response.body.userId}}
+@token = {{resLogin.response.body.token}}
+
+
+// Logout
+GET {{url}}/user/logout?token={{token}}
+###
+
+
+// Ver datos del usuario
+GET {{url}}/user/{{userId}}?token={{token}}
+###

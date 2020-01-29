@@ -157,34 +157,6 @@ export const minMax = (n, min, max) => {
 
 
 /*
-	Lista de las categorías. 
-	
-	Import:
-		import { listaCategorias } from "./utils/uti"
-	.
-*/
-
-export const listaCategorias = {
-	"aut": "Automóvil",
-	"ali": "Alimentación",
-	"bri": "Bricolaje",
-	"cul": "Cultura",
-	"dep": "Deporte",
-	"electrod": "Electrodomésticos",
-	"electron": "Electrónica",
-	"hog": "Hogar",
-	"jug": "Juguetes",
-	"vid": "Videojuegos",
-	"mod": "Moda",
-	"ofi": "Oficina",
-	"par": "Parafarmacia",
-	"cos": "Cosmética",
-	"otr": "Otros"
-}
-
-
-
-/*
 	Valida un string y devuelve el mensaje de error.
 	Devuelve "" en caso de que la validación sea correcta.
 	
@@ -317,7 +289,7 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0, flags = "
 			errorMessage = "Sólo puede contener letras, números y espacios.";
 		break;
 		case "abc123!":
-			regex = RegExp(`^[a-z${specialCharacters}]*$`, flags);
+			regex = RegExp(`^[a-z0-9${specialCharacters}]*$`, flags);
 			errorMessage = `Sólo puede contener letras, números y los siguientes caracteres especiales: ${specialCharacters} `;
 		break;
 		case "abc123!_":
