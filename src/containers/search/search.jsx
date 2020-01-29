@@ -7,6 +7,8 @@ import { FormControl, Radio, TextField, FormControlLabel } from '@material-ui/co
 import TextInput from "../../components/textInput/textInput";
 // import ImageLabor from "../../components/image/image";
 import SearchResultLabor from "../../components/searchResult/searchResult";
+import InputChips from "../../components/inputChips/inputChips";
+
 
 
 export default class Search extends React.Component {
@@ -75,7 +77,36 @@ export default class Search extends React.Component {
 			<div className="searchMain">
 				
 				<div className="header br">
-					head
+					
+					<InputChips
+						defaultValue={[]}
+						optionsLabelKey="name"
+						
+						label="Habilidades"
+						placeholder="Escribe una habilidad"
+						
+						onChange={ (ev, value) => this.setState({ selectedSkills: value }) }
+						
+						options={[
+							{ name: "Javascript (junior)", code: "js1" },
+							{ name: "Javascript (middle)", code: "js2" },
+							{ name: "Javascript (senior)", code: "js3" },
+							
+							{ name: "PHP (junior)", code: "php1" },
+							{ name: "PHP (middle)", code: "php2" },
+							{ name: "PHP (senior)", code: "php3" },
+							
+							{ name: "Phyton (junior)", code: "py1" },
+							{ name: "Phyton (middle)", code: "py2" },
+							{ name: "Phyton (senior)", code: "py3" },
+							
+							{ name: "Java (junior)", code: "jv1" },
+							{ name: "Java (middle)", code: "jv2" },
+							{ name: "Java (senior)", code: "jv3" },
+						]}
+						
+					/>
+					
 				</div>
 				
 				<div className="body">
