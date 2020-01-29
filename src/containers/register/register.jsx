@@ -7,6 +7,8 @@ import TextField from "@material-ui/core/TextField";
 import { FormControl, Button, Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 import { validate } from "../../utils/uti";
 import DropdownProvinceList from "../../components/dropdownProvinces/dropdownProvinces";
+import axios from "axios";
+import { getUrl, session } from "../../utils/uti";
 
 
 export default class Register extends React.Component {
@@ -84,11 +86,13 @@ export default class Register extends React.Component {
 					correct = false;
 				};
 				
-				// validation = validate(this.state.province, "abc", 1);
-				if (validation !== "") { correct = false };
-				this.setState({ err_province: validation });
+				if (! this.state.province) {
+					this.setState({ err_province: "No puede estar vacío."});
+				} else {
+					this.setState({ err_province: "" });
+				};
 				
-				// validation = validate(this.state.city, "abc", 1);
+				validation = validate(this.state.city, "city", 1);
 				if (validation !== "") { correct = false };
 				this.setState({ err_city: validation });
 
@@ -99,34 +103,27 @@ export default class Register extends React.Component {
 			
 			
 			case 2:
+				
+				validation = validate(this.state.name, "name", 1);
+				if (validation !== "") { correct = false };
+				this.setState({ err_name: validation });
 
-				if(this.state.isEnterprise === false){
-
-					validation = validate(this.state.name, "name", 1);
-					if (validation !== "") { correct = false };
-					this.setState({ err_name: validation });
+				validation = validate(this.state.phone, "phone", 1);
+				if (validation !== "") { correct = false };
+				this.setState({ err_phone: validation });
+				
+				
+				if (! this.state.isEnterprise) {
 
 					validation = validate(this.state.surname, "surname", 1);
 					if (validation !== "") { correct = false };
 					this.setState({ err_surname: validation });
 
-					validation = validate(this.state.phone, "phone", 1);
-					if (validation !== "") { correct = false };
-					this.setState({ err_phone: validation });
-
 					validation = validate(this.state.nif, "nif", 1);
 					if (validation !== "") { correct = false };
 					this.setState({ err_nif: validation });
 
-				}else{
-
-					validation = validate(this.state.name, "name", 1);
-					if (validation !== "") { correct = false };
-					this.setState({ err_name: validation });
-
-					validation = validate(this.state.phone, "phone", 1);
-					if (validation !== "") { correct = false };
-					this.setState({ err_phone: validation });
+				} else {
 
 					validation = validate(this.state.cif, "cif", 1);
 					if (validation !== "") { correct = false };
@@ -147,11 +144,93 @@ export default class Register extends React.Component {
 	
 	
 	
-	send = () => {
+	send = async () => {
 		
-		if (this.validateStep()) {
-			console.log( "AXIOOOS" );
+		// Axios
+		try {
+			
+			// Llamada
+			let registerData = {
+				username: this.state.username,
+				email: this.state.email,
+				password: this.state.password,
+				
+				province: this.state.province,
+				city: this.state.city,
+				is_company: this.state.isEnterprise,
+				
+				name: this.state.name,
+				phone: this.state.phone
+			};
+			
+			
+			if (this.state.isEnterprise) {
+				registerData.sector = this.state.sector;
+				registerData.cif = this.state.cif;
+			} else {
+				registerData.surname = this.state.surname;
+				registerData.nif = this.state.nif;
+			};
+			
+			
+			
+			// let res = await axios.post( getUrl("/user/register"), registerData);
+			let res = await axios.post( getUrl("/user/register"), registerData);
+			let data = res.data;
+			
+			console.log( data );
+			
+			
+			// Digo que estoy logeado
+			// login(true);
+			
+			
+			// Redirección
+			this.props.history.push("/");
+			
+			
+		} catch (err) {
+			
+			console.log( err );
+			
+			
+			/*
+			let res = err.response.data;
+			
+			
+			if (res.errorCode === "user_login_2") {
+				
+				// Guardo datos de sesión
+				session.set({
+					username: res.username,
+					userId: res.userId,
+					token: res.token,
+					userType: res.userType
+				});
+				
+				
+				// Muestro mensaje
+				// this.muestraError("Ya estabas logeado.", 2);
+				
+				
+				// Digo que estoy logeado
+				// login(true);
+				
+				
+				// Redirijo
+				setTimeout( () => {
+					this.props.history.push("/");
+				}, 2000);
+				
+				
+				return;
+				
+			};
+			*/
+			
 		};
+		
+		
 		
 	};
 
