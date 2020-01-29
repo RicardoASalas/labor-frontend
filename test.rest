@@ -1,21 +1,22 @@
 
 @url = http://localhost:3000/api
-
 ###
 
 GET {{url}}/test
-
 ###
+
+
 
 // -----------------
 // U S E R
 // -----------------
 
-// Register
+// Register empleado
+
 POST {{url}}/user/register
 Content-Type:application/json
 
-{
+/*{
 	"username": "Icaruk",
 	"email": "adri-rk@hotmail.com",
 	"password": "1234",
@@ -28,7 +29,26 @@ Content-Type:application/json
 	"phone": "647009123",
 	"website": "www.asd.es",
 	"description": "test"
+}*/
+{
+	"username": "Icarukempresa",
+	"email": "icarukempresa@labor.es",
+	"password": "1234",
+	"sector": "IT",
+	"is_company": true,
+	"name": "Empresa 01",
+	"cif": "25774146S",
+	"phone": "647009123",
+	"website": "www.asd.es",
+	"description": "test"
 }
+###
+
+
+
+// Perfil de usuario
+
+GET {{url}}/user/e5e316474eb4ed
 ###
 
 
@@ -46,15 +66,12 @@ Content-Type:application/json
 ###
 
 
+
 @userId = {{resLogin.response.body.userId}}
 @token = {{resLogin.response.body.token}}
 
 
+
 // Logout
 GET {{url}}/user/logout?token={{token}}
-###
-
-
-// Ver datos del usuario
-GET {{url}}/user/{{userId}}?token={{token}}
 ###
