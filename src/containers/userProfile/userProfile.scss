@@ -28,6 +28,14 @@
         width: 100%;
         height: 33%; 
         background-color:white;
+        .skillContainer{
+            height: 4rem;
+            width: 4rem;
+            background-color: gray;
+            border-radius: 15%;
+            
+    
+        }
     }
     .cardUserDescription{
         width: 100%;
@@ -37,8 +45,41 @@
     .cardUserOffer{
         width: 35%;
         height: 90%;
-        background-color: white;
+        background-color:var(--pri1);
+        .offerImage {
+            width: 25%;
+            height: 40%;
+            display:flex;
+           justify-content: center;
+		}
     }
+    
+    .infoOfferContainer{
+        width: 75%;
+        height: 100%;
+    }
+    .offerContainer{
+        .cardOffers {
+            flex-direction: column;
+            align-items: center;
+            display:flex;
+            width: 30%;
+            
+        }
+        
+
+    }
+    .crossContainer{
+        
+        display:flex;
+        justify-content: flex-end;
+        .closingCross{
+            width: 1rem;
+            height: 1rem;
+        }
+
+    }
+    
     .cardInfo {
         flex-direction: row;
       
@@ -51,6 +92,7 @@
     .cardOffers {
         flex-direction: column;
         align-items: center;
+        display:flex;
         width: 30%;
         
     }
@@ -78,8 +120,10 @@
     .avatar{
         justify-content: center;
         align-items: center;
-        height: 85%;
-        width: 85%;
+        // height: 85%;
+        // width: 85%;
+        height: 60%;
+        width:60%;
         border-radius: 15%;
     }
 
@@ -96,9 +140,9 @@
         .userDataFieldContent {
             display: flex;
             flex-direction: row;
-            margin-left: 0.5em;
+            
             margin-top: 2em;
-            margin-left: 2em;
+            margin-right: 1.5rem;
             justify-content: center;
             align-items: center;
             

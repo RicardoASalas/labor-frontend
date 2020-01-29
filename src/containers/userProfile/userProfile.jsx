@@ -1,36 +1,42 @@
 import React from "react";
-
 import axios from "axios";
 import { getUrl, session } from "../../utils/uti";
 import DataProfile from "./profile.json"
 import DataSkills from "./skills.json"
 import DataOffers from "./offers.json"
+import SkillChip from "../../components/skillChip/skillChip"
 
-import "./profile.scss";
+import "./userProfile.scss";
+
 
 class Profile extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
 
         this.state = {
-            userData: {},
-            userSkills:[],
-            userOffers:[],
+            userData: DataProfile,
+            userSkills:DataSkills,
+            userOffers:DataOffers,
             userType: 1
         };
     }
+
+    cancelOffer = () =>{
+
+
+    }
 	
-    async componentDidMount() {
+    componentDidMount() {
 
+        
 
-
-        this.setState({
-            userData: DataProfile,
-            userSkills: DataSkills,
-            userOffers: DataOffers
-        });
-
-        console.log(DataProfile)
+        // this.setState({
+        //     userData: DataProfile,
+        //     userSkills: DataSkills,
+        //     userOffers: DataOffers
+        // });
+        
+        
         // try {
         //     let token = session.get().token;
         //     let id = session.get().userId;
@@ -48,12 +54,50 @@ class Profile extends React.Component {
 	
 	
     render() {
+        
         // let userType = this.state.userData.userType === 1 ? "Empleado" : "Empresa";
 
         // if (this.state.userData.userType === 3){
         //     userType = "Administrador";
         // };
-        console.log(Object.values(this.state.userData))
+        
+        let offers = this.state.userOffers.map(offer =>
+            <div className="resultCard pt2 mb2  flex-dir-r pb2 pr2 br">
+				
+				{/* <div className="offerContainer col1 flex-dir-c"> */}
+					
+					<div className="offerImage">
+						<img className="avatar" src={ offer.avatarUrl ? offer.avatarUrl : "/img/companyLogoPlaceholder.png" }alt="Imagen de la empresa"/>
+					</div>
+				{/* </div> */}
+				
+				<div className="infoOfferContainer col2 flex-dir-c">
+                    <div className="crossContainer">
+                        <img className="closingCross" src="https://simbologiadelmundo.com/wp-content/uploads/2016/06/08.png" alt="Cancelar oferta"/>
+                    </div>
+                    
+
+					<h2 className="title">{ offer.title }</h2>
+				    <h2 className="companyName pb1">{ offer.companyName }</h2>
+					
+					<div className="row1 flex-dir-r pb2">
+						<div className="offerInfo pt2 pb2">
+							{ offer.city }  |  { offer.updateddAt }
+						</div>
+					</div>
+					
+					<div className="row2 pt3 flex-dir-r">
+						<div className="offerInfo pt2 pb2">
+							{ offer.contractType } |  {offer.salary}
+						</div>
+					</div>
+					
+					
+				</div>
+				
+			</div>
+        )
+        
         return (
             <div className="main mainProfile">
                 <div className="cardUserInformation mr2 br ">
@@ -84,57 +128,16 @@ class Profile extends React.Component {
                         </div> 
                     {/* </div> */}
                 </div>
-                <div className="cardUserEducation mt2 br flex-dir-r" >
-                    
-                   
+                <div className="cardUserEducation mt2 pt3 pr3 pb3 pl3 br flex-dir-r" >
+                <SkillChip skills = {this.state.userSkills}  /> 
                 </div>
-                <div className="cardUserDescription mt2 br flex-dir-r" >
+                <div className="cardUserDescription mt2 pt3 pb3 pl5 pr5 aic jcc br flex-dir-r" >
                     
-                    
+                <p>{this.state.userData.description}</p>
                 </div>
                 </div>
                 <div className="cardUserOffer mr3 br">
-                <div className="resultCard pt3 pb3 pr3 flex-dir-r mb2">
-				
-				<div className="col1 flex-dir-c">
-					
-					<div className="image">
-						<ImageLabor
-							className="br"
-							src={ this.props.img ? this.props.img : "/img/companyLogoPlaceholder.png" }
-							w={100}
-							alt="imagen de la empresa"
-							measure="px"
-							br={15}
-						/>
-					</div>
-				</div>
-				
-				<div className="col2 flex-dir-c">
-					
-					<h2 className="title">{ this.props.title }</h2>
-					<h2 className="companyName pb1">{ this.props.companyName }</h2>
-					
-					<div className="row1 flex-dir-r pb2">
-						<div className="offerInfo pt2 pb2">
-							{ this.props.city }  |  { this.props.date }
-						</div>
-					</div>
-					
-					<p className="description">{ this.props.description }</p>
-					
-					<div className="row2 pt3 flex-dir-r">
-						<div className="offerInfo pt2 pb2">
-							{ this.props.contractType } | {hoursWeek} | {salary}
-						</div>
-					</div>
-					
-					
-				</div>
-				
-			</div>
-			
-		);
+                    {offers}
                 
                 </div>
             </div>

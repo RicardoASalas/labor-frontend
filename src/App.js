@@ -10,7 +10,7 @@ import "./App.css";
 import Home from "./containers/home/home";
 import Header from "./components/header/header";
 import Login from "./containers/login/login";
-import Profile from "./containers/profile/profile";
+import Profile from "./containers/userProfile/userProfile";
 import Register from "./containers/register/register";
 import Search from "./containers/search/search";
 import OfferRegister from "./containers/offerRegister/offerRegister";
