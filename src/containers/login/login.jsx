@@ -37,11 +37,11 @@ export default class Login extends React.Component {
 		
 		
 		// Validación
-		validation = validate(this.state.username, "abc123", 4, false, 12);
+		validation = validate(this.state.username, "abc123", 4, 12);
 		if (!! validation) { correct = false };
 		this.setState({ err_username: validation });
 		
-		validation = validate(this.state.password, "abc123!", 4);
+		validation = validate(this.state.password, "abc123!", 4, null);
 		if (!! validation) { correct = false };
 		this.setState({ err_password: validation });
 		

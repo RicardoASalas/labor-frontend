@@ -73,7 +73,10 @@ export const getUrl = (route = "", includeToken = false) => {
 		};
 	};
 	
-	return `http://localhost:3000${route}${token}`
+	
+	// return `http://localhost:3000${route}${token}`
+	return `http://localhost:3000/api${route}`
+	
 };
 
 
