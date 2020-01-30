@@ -8,7 +8,7 @@ import { FormControl, Button, Radio, RadioGroup, FormControlLabel } from '@mater
 import { validate } from "../../utils/uti";
 import DropdownProvinceList from "../../components/dropdownProvinces/dropdownProvinces";
 import axios from "axios";
-import { getUrl, session } from "../../utils/uti";
+import { getUrl, /*session*/ } from "../../utils/uti";
 
 
 export default class Register extends React.Component {
@@ -28,6 +28,38 @@ export default class Register extends React.Component {
 	};
 	
 	
+	
+	componentDidMount() {
+		
+		// axios.get("http://localhost:3000/api/test")
+		// .then((res) => {console.log( res )})
+		
+		
+		// axios.post("http://localhost:3000/api/test", {"key": "asdf"})
+		// .then((res) => {console.log( res )})
+		
+		
+		/*
+		axios.post("https://localhost:3000/api/user/register", {
+			"username": "Ricardooo",
+			"email": "ricardo@labor.com",
+			"password": "1234",
+			"province": "Valencia",
+			"city": "Valencia",
+			"is_company": false,
+			"name": "Ricardo",
+			"surname": "Salas",
+			"nif": "25774146S",
+			"phone": "647009123",
+			"website": "www.asd.es",
+			"description": "test"
+		}).then((res) => {console.log( res )})
+		.catch( (err) => {console.log( err )} )
+		*/
+		
+	}
+	
+	
 	inputToStatus = (ev, stateKey) => {
 		this.setState({ [stateKey]: ev.target.value });
 	};
@@ -36,7 +68,6 @@ export default class Register extends React.Component {
 		this.setState({ isEnterprise: ev.target.value === "true" });
 		this.setState({ userTypeSelectionPending: false });
 	};
-	
 	
 	
 	
@@ -149,7 +180,7 @@ export default class Register extends React.Component {
 		// Axios
 		try {
 			
-			// Llamada
+			// Genero body
 			let registerData = {
 				username: this.state.username,
 				email: this.state.email,
@@ -160,7 +191,8 @@ export default class Register extends React.Component {
 				is_company: this.state.isEnterprise,
 				
 				name: this.state.name,
-				phone: this.state.phone
+				phone: this.state.phone,
+				
 			};
 			
 			
@@ -173,12 +205,15 @@ export default class Register extends React.Component {
 			};
 			
 			
+			console.log("Ruta: ", getUrl("/user/register") );
+			console.log("Body: ", registerData );
 			
-			// let res = await axios.post( getUrl("/user/register"), registerData);
+			
+			// Hago la llamada
 			let res = await axios.post( getUrl("/user/register"), registerData);
 			let data = res.data;
 			
-			console.log( data );
+			console.log( "data:", res );
 			
 			
 			// Digo que estoy logeado
