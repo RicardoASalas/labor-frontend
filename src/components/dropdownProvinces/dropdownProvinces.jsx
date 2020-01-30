@@ -51,13 +51,14 @@ export default class ProvinceListDropDown extends React.Component {
 				<p className="label">{this.props.label}</p>
 				
 				<select
+					
 					value={this.props.value}
 					onChange={this.props.onChange}>
-					
-					{
+					<option selected={true} disabled={true}>Selecciona una provincia</option>
+					{/* {
 						this.props.defaultValue &&
 						<option value="">{this.props.defaultValue}</option>
-					}
+					} */}
 					
 					
 					{
