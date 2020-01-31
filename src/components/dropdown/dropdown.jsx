@@ -43,7 +43,13 @@ export default class DropdownLabor extends React.Component {
 					
 					{
 						this.props.defaultValue &&
-						<option value="">{this.props.defaultValue}</option>
+						<option
+							value=""
+							selected={true}
+							disabled={true}
+						>
+							{this.props.defaultValue}
+						</option>
 					}
 					
 					
