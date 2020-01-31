@@ -1,9 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
-import Paper from '@material-ui/core/Paper';
-import TagFacesIcon from '@material-ui/icons/TagFaces';
-import { isElementOfType } from 'react-dom/test-utils';
+// import Paper from '@material-ui/core/Paper';
+// import TagFacesIcon from '@material-ui/icons/TagFaces';
+// import { isElementOfType } from 'react-dom/test-utils';
 
 //<SkillChip skills = {this.state.userSkills}  /> 
 //Copiar el componente y pasarle las props como un array de objetos skill con id y name

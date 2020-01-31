@@ -8,7 +8,7 @@ import { FormControl, Button } from '@material-ui/core';
 import { validate, session, getUrl } from "../../utils/uti"
 import axios from "axios";
 import ImageLabor from "../../components/image/image";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 
 export default class Login extends React.Component {
@@ -189,12 +189,12 @@ export default class Login extends React.Component {
 					</Button>
 					
 					
-					<a
+					<p
 						className="mt5 notienescuenta"
 						onClick={ () => this.props.history.push("/register") }
 					>
 						¿No tienes cuenta? ¡Regístrate!
-					</a>					
+					</p>					
 					
 				</form>
 			</div>

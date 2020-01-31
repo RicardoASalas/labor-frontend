@@ -207,9 +207,9 @@ export default class Register extends React.Component {
 			
 			
 			// Hago la llamada
-			let res = await axios.post( getUrl("/user/register"), registerData);
+			await axios.post( getUrl("/user/register"), registerData);
+			// let res = await axios.post( getUrl("/user/register"), registerData);
 			// let data = res.data;
-			
 			
 			// Muestro mensaje de éxito
 			this.setState({ success: "Cuenta creada con éxito. Redirigiendo..." });
