@@ -4,6 +4,9 @@ import { getUrl, session } from "../../utils/uti";
 import DataSkills from "./skills.json"
 import DataOffers from "./offers.json"
 import SkillChip from "../../components/skillChip/skillChip"
+import EditIcon from "../../components/image/image"
+import TextField from "@material-ui/core/TextField";
+import { FormControl, Button, Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
 
 
 import "./userProfile.scss";
@@ -17,13 +20,43 @@ class Profile extends React.Component {
             userData: {},
             userSkills:DataSkills,
             userOffers:DataOffers,
-            isCompany: true
+            isCompany: false,
+            editProfileMode: false
             
         };
     }
 
+    c_input = (label, type, stateKey) => {
+		
+		// let errTxt = this.state?.[`err_${stateKey}`];
+		// let err = !! errTxt;
+		
+		
+		return (
+			
+			<FormControl className="mt1 mr1">
+				<TextField 
+					// error={ err }
+					// helperText={ errTxt }
+					// id="outlined-basic"
+					type={type}
+					label={label}
+					variant="outlined"
+					// onChange={ (ev) => this.inputToStatus(ev, stateKey) }
+					// value={this.state[stateKey] ? this.state[stateKey] : ""}
+				/>
+			</FormControl>
+			
+		);
+		
+	};
     
-        
+    editProfileMode(){
+        this.setState({
+            editProfileMode:!this.state.editProfileMode
+        })
+    }  
+
     async componentDidMount() {        
         
         try {
@@ -51,6 +84,25 @@ class Profile extends React.Component {
         // if (this.state.userData.userType === 3){
         //     userType = "Administrador";
         // };
+        
+        
+        if(!this.state.editProfileMode){
+
+            var editName = this.state.userData.name;
+            var editSurname = this.state.userData.surname;
+            var editEmail = this.state.userData.email;
+            var editProvince = this.state.userData.province;
+            var editCity = this.state.userData.city;
+
+        }else{
+
+            var editName = this.c_input(this.state.userData.name, "text", "name");
+            var editSurname = this.c_input(this.state.userData.surname, "text", "surname");
+            var editEmail = this.c_input(this.state.userData.email, "email", "email");
+            var editProvince = this.c_input(this.state.userData.province, "text", "province");
+            var editCity = this.c_input(this.state.userData.city, "text", "city");
+        }
+
         let employeesSection="";
 
         if(this.state.isCompany){
@@ -112,26 +164,34 @@ class Profile extends React.Component {
                         <div className="userTypeClass">{userType}</div> 
                     </div> */}
                     {/* <div className="cardInformationFields .aifs "> */}
+                    
                         <div className="userAvatarContainer">
                                 <img className="avatar" src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" alt="Imagen de usuario"/>
                         </div>
-                            <div className="userDataFieldContainer">
+                        <div className="userDataFieldContainer">
                             <div className="userDataField">
-                                
-                                <div className="userDataFieldContent"><p className="bigField">{this.state.userData.name}</p><p className="bigField">{this.state.userData.surname}</p></div>
-                            </div>
-                            <div className="userDataField">
-                                
-                                <div className="userDataFieldContent"><p className="mediumField">{this.state.userData.email}</p></div>
-                            </div>
-                            <div className="userDataField">
-                                
-                                    <div className="userDataFieldContent">{this.state.userData.province}</div>
-                                    <div className="userDataFieldContent">{this.state.userData.city}</div>
-                                
-                            </div>
-                        </div> 
-                    {/* </div> */}
+                
+                                <div className="userDataFieldContent"><p className="bigField">{ editName }</p><p className="bigField">
+							        { editSurname }</p></div>
+                                </div>
+                                <div className="userDataField pb4">
+
+                                    <div className="userDataFieldContent"><p className="mediumField ">{ editEmail }</p></div>
+                                    <div className="userDataFieldContent"><p className="mediumField">{ editProvince }</p></div>
+                                    <div className="userDataFieldContent"><p className="mediumField">{ editCity }</p></div>
+                                </div>
+           
+                        </div>
+                        <div className="editIconContainer">
+                        <img
+                        className="editIcon"
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/OOjs_UI_icon_edit-ltr-progressive.svg/1024px-OOjs_UI_icon_edit-ltr-progressive.svg.png" 
+                        alt="icono editar perfil"
+                        // onClick={()=>this.editProfileMode()}
+                        onClick={()=>this.editProfileMode()}
+                    />
+                    </div> 
+                    
                 </div>
                 <div className="cardUserEducation mt2 pt3 pr3 pb3 pl3 br flex-dir-r" >
                     <div className="addSkillContainer">
