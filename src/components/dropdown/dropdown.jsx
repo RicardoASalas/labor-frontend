@@ -67,6 +67,10 @@ export default class DropdownLabor extends React.Component {
 					}
 					
 				</select>
+				
+				
+				<p className="error mt2"> {this.props.helperText} </p>
+				
 			</div>
 		);
 	};

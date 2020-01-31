@@ -6,6 +6,13 @@ import React from "react";
 export default class ProvinceListDropDown extends React.Component {
 	
 	shouldComponentUpdate(nextProps, nextState) {
+		
+		// Si ha cambiado el helper text
+		if (this.props.helperText !== nextProps.helperText) {
+			return true;
+		};
+		
+		
 		return false;
 	};
 	
@@ -75,6 +82,10 @@ export default class ProvinceListDropDown extends React.Component {
 					}
 					
 				</select>
+				
+				
+				<p className="error mt2"> {this.props.helperText} </p>
+				
 			</div>
 		);
 	};

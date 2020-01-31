@@ -117,7 +117,7 @@ export default class Register extends React.Component {
 					correct = false;
 				};
 				
-				if (! this.state.province) {
+				if (this.state.province === "") {
 					this.setState({ err_province: "No puede estar vacío."});
 				} else {
 					this.setState({ err_province: "" });
@@ -126,10 +126,10 @@ export default class Register extends React.Component {
 				validation = validate(this.state.city, "city", 1);
 				if (validation !== "") { correct = false };
 				this.setState({ err_city: validation });
-
+				
 				if (this.state.userTypeSelectionPending) { correct = false };
 				this.setState({ err_isEnterprise: "Debes elegir si eres trabajador o empresa." });
-
+				
 			break;
 			
 			
@@ -138,29 +138,29 @@ export default class Register extends React.Component {
 				validation = validate(this.state.name, "name", 1);
 				if (validation !== "") { correct = false };
 				this.setState({ err_name: validation });
-
-				validation = validate(this.state.phone, "phone", 1);
+				
+				validation = validate(this.state.phone, "phone", 9);
 				if (validation !== "") { correct = false };
 				this.setState({ err_phone: validation });
 				
 				
 				if (! this.state.isEnterprise) {
-
+					
 					validation = validate(this.state.surname, "surname", 1);
 					if (validation !== "") { correct = false };
 					this.setState({ err_surname: validation });
-
-					validation = validate(this.state.nif, "nif", 1);
+					
+					validation = validate(this.state.nif, "nif", 9);
 					if (validation !== "") { correct = false };
 					this.setState({ err_nif: validation });
-
+					
 				} else {
-
-					validation = validate(this.state.cif, "cif", 1);
+					
+					validation = validate(this.state.cif, "cif", 9);
 					if (validation !== "") { correct = false };
 					this.setState({ err_cif: validation });
 				}
-											
+				
 			break;
 			
 			
@@ -205,12 +205,10 @@ export default class Register extends React.Component {
 			};
 			
 			
-			console.log( "Llamando a axios..." );
-			
 			
 			// Hago la llamada
 			let res = await axios.post( getUrl("/user/register"), registerData);
-			let data = res.data;
+			// let data = res.data;
 			
 			
 			// Muestro mensaje de éxito
@@ -318,6 +316,7 @@ export default class Register extends React.Component {
 							onChange={ (ev) => {
 								this.setState({province : ev.target.value});
 							}}
+							helperText={this.state.err_province}
 						/>
 						
 						{ this.c_input("Ciudad", "text", "city") }
@@ -346,9 +345,7 @@ export default class Register extends React.Component {
 						</RadioGroup>
 						</div>
 						
-						<p
-							className="error"
-						>
+						<p className="error">
 							{this.state?.err_isEnterprise}
 						</p>
 						
