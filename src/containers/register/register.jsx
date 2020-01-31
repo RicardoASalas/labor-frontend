@@ -205,43 +205,45 @@ export default class Register extends React.Component {
 			};
 			
 			
-			console.log("Ruta: ", getUrl("/user/register") );
-			console.log("Body: ", registerData );
+			console.log( "Llamando a axios..." );
 			
 			
 			// Hago la llamada
 			let res = await axios.post( getUrl("/user/register"), registerData);
 			let data = res.data;
 			
-			console.log( "data:", res );
 			
-			
-			// Digo que estoy logeado
-			// login(true);
+			// Muestro mensaje de éxito
+			this.setState({ success: "Cuenta creada con éxito. Redirigiendo..." });
 			
 			
 			// Redirección
-			this.props.history.push("/");
+			setTimeout( () => {
+				this.props.history.push("/login");
+			}, 1500);
 			
 			
 		} catch (err) {
 			
-			console.log( err );
-			
-			
-			/*
 			let res = err.response.data;
+			
+			
+			
+			if (res.errorCode === "user_register_1") {
+				this.setState({ error: "El nombre de usuario o el email ya está en uso." });
+			};			
+			
 			
 			
 			if (res.errorCode === "user_login_2") {
 				
 				// Guardo datos de sesión
-				session.set({
-					username: res.username,
-					userId: res.userId,
-					token: res.token,
-					userType: res.userType
-				});
+				// session.set({
+				// 	username: res.username,
+				// 	userId: res.userId,
+				// 	token: res.token,
+				// 	userType: res.userType
+				// });
 				
 				
 				// Muestro mensaje
@@ -261,7 +263,7 @@ export default class Register extends React.Component {
 				return;
 				
 			};
-			*/
+			
 			
 		};
 		
@@ -393,6 +395,8 @@ export default class Register extends React.Component {
 							</div>
 							
 							
+							<p className={ (this.state.error === "") ? "hidden" : "error mt5" }>{this.state.error}</p>
+							<p className={ (this.state.success === "") ? "hidden" : "success mt5" }>{this.state.success}</p>
 							
 						</Fragment>
 					);
@@ -423,6 +427,7 @@ export default class Register extends React.Component {
 							</div>
 							
 							
+							<p className={ (this.state.message === "") ? "hidden" : "error mt5" }>{this.state.error}</p>
 							
 						</Fragment>
 					);
