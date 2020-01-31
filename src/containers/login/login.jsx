@@ -8,6 +8,7 @@ import { FormControl, Button } from '@material-ui/core';
 import { validate, session, getUrl } from "../../utils/uti"
 import axios from "axios";
 import ImageLabor from "../../components/image/image";
+import { Link } from "react-router-dom";
 
 
 export default class Login extends React.Component {
@@ -162,16 +163,17 @@ export default class Login extends React.Component {
 					<div className="boxImg">
 						<ImageLabor
 							className="img"
-							src="https://trello-attachments.s3.amazonaws.com/5e1f2e19295ba37cfa41ebe6/1000x1000/8f347b573dc849fc8e5d6771afad8307/labor.png"
-							w={8}
+							src="https://trello-attachments.s3.amazonaws.com/5e1f2e19295ba37cfa41ebe6/1000x1000/93d5c1c8cceb6c32b1d9b50a01380268/labor_logo5.png"
+							w={10}
 							alt="logo"
 							measure="em"
 						/>
+
 					</div>
 					
 					<div className="titulo mb2">
 						
-						<h2> Acceso </h2>
+						{/* <h2> Acceso </h2> */}
 						
 					</div>
 					
@@ -185,6 +187,14 @@ export default class Login extends React.Component {
 					>
 						Acceder
 					</Button>
+					
+					
+					<a
+						className="mt5 notienescuenta"
+						onClick={ () => this.props.history.push("/register") }
+					>
+						¿No tienes cuenta? ¡Regístrate!
+					</a>					
 					
 				</form>
 			</div>
