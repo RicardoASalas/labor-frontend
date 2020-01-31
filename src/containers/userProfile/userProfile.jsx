@@ -21,7 +21,7 @@ class Profile extends React.Component {
             userSkills:DataSkills,
             userOffers:DataOffers,
             isCompany: false,
-            editProfileMode: false
+            editProfileMode: false,
             
         };
     }
@@ -42,8 +42,8 @@ class Profile extends React.Component {
 					type={type}
 					label={label}
 					variant="outlined"
-					// onChange={ (ev) => this.inputToStatus(ev, stateKey) }
-					// value={this.state[stateKey] ? this.state[stateKey] : ""}
+					onChange={ (ev) => this.setChanges(ev, stateKey) }
+					value={this.state[stateKey] ? this.state[stateKey] : ""}
 				/>
 			</FormControl>
 			
@@ -51,18 +51,65 @@ class Profile extends React.Component {
 		
 	};
     
-    editProfileMode(){
+    editProfileMode = () => {
         this.setState({
             editProfileMode:!this.state.editProfileMode
         })
     } 
-    
-    saveChanges(){
+
+    setChanges = (ev, stateKey) => {
+        
+
+            this.setState({ [stateKey]: ev.target.value });
+
         
     }
+    
+     async saveChanges(){
+         let editUserData = {}
 
-    async componentDidMount() {        
-        
+         if(this.state.name){
+             editUserData.name = this.state.name;
+         }
+         if(this.state.surname){
+             editUserData.surname = this.state.surname;
+         }
+
+         if(this.state.email){
+            editUserData.email = this.state.email;
+        }
+        if(this.state.province){
+            editUserData.province = this.state.province;
+        }
+
+        if(this.state.city){
+            editUserData.city = this.state.city;
+        }
+
+        try {
+            // let token = session.get().token;
+            // let id = session.get().userId;
+			let id="e5e32fa3e44383"
+            // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
+            const res = await axios.post(getUrl(`/user/editProfile/${id}`), editUserData);
+            console.log("la respuesta de la peticion es "+res.data)
+            this.setState({ userData: res.data }, () => {
+                // this.state.userType = this.state.userData.userType === 0 ? "Cliente" : "Vendedor";
+            });
+
+            this.setState({
+                editProfileMode:false
+            })
+
+            this.showData();
+           
+        } catch (err) {
+            console.error(err);
+        } 
+    }
+
+    async showData(){
+
         try {
             // let token = session.get().token;
             // let id = session.get().userId;
@@ -77,6 +124,13 @@ class Profile extends React.Component {
         } catch (err) {
             console.error(err);
         }
+    }
+
+    componentDidMount() {        
+        
+        
+        this.showData()
+        
     }
 	
 	
