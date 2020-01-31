@@ -196,8 +196,8 @@ export default class OfferRegister extends React.Component {
 					<DropdownLabor
 						className={"br mt4 mb2"}
 						label={"Experiencia mínima requerida"}
+						defaultValue={["", "Selecciona una experiencia"]}
 						elements={[
-							["", "Selecciona una experiencia"],
 							["0", "Sin experiencia"],
 							["1", "1 año"],
 							["2", "2 años"],
@@ -218,8 +218,8 @@ export default class OfferRegister extends React.Component {
 					<DropdownLabor
 						className={"br mt3 mb2"}
 						label={"Tipo de jornada"}
+						defaultValue={["", "Selecciona una jornada"]}
 						elements={[
-							["", "Selecciona una jornada"],
 							["mj", "Media jornada"],
 							["jc", "Jornada completa"],
 							["jim", "Jornada intensiva mañana"],
