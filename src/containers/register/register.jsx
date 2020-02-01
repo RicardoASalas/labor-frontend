@@ -223,7 +223,14 @@ export default class Register extends React.Component {
 			
 		} catch (err) {
 			
-			let res = err.response.data;
+			
+			
+			let res = err?.response?.data;
+			
+			
+			if (!res) {
+				return console.error( err );
+			};
 			
 			
 			
