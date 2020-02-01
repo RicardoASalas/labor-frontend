@@ -213,7 +213,7 @@ export default class Register extends React.Component {
 			let res = await axios.post( getUrl("/user/register"), registerData);
 			let data = res.data;
 			
-			console.log( "data:", res );
+			console.log( "data:", data );
 			
 			
 			// Digo que estoy logeado
