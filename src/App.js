@@ -3,8 +3,8 @@ import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 // CSS
-import "./global.css";
 import "./App.css";
+import "./global.css";
 
 // Componentes
 import Home from "./containers/home/home";
@@ -31,8 +31,8 @@ export default function App() {
 					<Route path="/search" exact component={Search} />
 					<Route path="/profile" exact component={Profile} />
 					
-					<Route path="/offer-register" exact component={OfferRegister} />
-					<Route path="/offer-detail" exact component={OfferDetail} />
+					<Route path="/offer/new" exact component={OfferRegister} />
+					<Route path="/offer/detail" exact component={OfferDetail} />
 					
 				</Switch>
 				

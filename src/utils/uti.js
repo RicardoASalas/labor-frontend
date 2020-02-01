@@ -74,8 +74,7 @@ export const getUrl = (route = "", includeToken = false) => {
 	};
 	
 	
-	// return `http://localhost:3000${route}${token}`
-	return `http://localhost:3000/api${route}`
+	return `http://localhost:3000${route}${token}`
 	
 };
 
@@ -234,7 +233,7 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0, flags = "
 		
 		// Específicos
 		case "nif":
-			regex = RegExp("^(\d{8})([a-z])$/ || /^[xyz]\d{7,8}[a-z]$", flags);
+			regex = RegExp("^(\d{8})([a-z]{1})$", flags);
 			errorMessage = "El NIF/NIE no es válido.";
 		break;
 		
@@ -253,7 +252,7 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0, flags = "
 			errorMessage = "El teléfono no es válido.";
 		break;
 		case "city":
-			regex = RegExp("^[a-záéíóú'`´\s]*$", flags);
+			regex = RegExp("^[a-záéíóúñ'`´\s]*$", flags);
 			errorMessage = "Sólo puede contener letras y caracteres '`´.";
 		break;		
 		
@@ -275,28 +274,28 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0, flags = "
 		
 		
 		case "abc":
-			regex = RegExp("^[a-z]*$", flags);
+			regex = RegExp("^[a-záéíóúñ]*$", flags);
 			errorMessage = "Sólo puede contener letras.";
 		break;
 
 		case "abc_":
-			regex = RegExp("^[a-z][a-z\s]*$", flags);
+			regex = RegExp("^[a-záéíóúñ][a-z\s]*$", flags);
 			errorMessage = "Sólo puede contener letras y espacios.";
 		break;
 		case "abc123":
-			regex = RegExp("^[a-z0-9]*$", flags);
+			regex = RegExp("^[a-záéíóúñ0-9]*$", flags);
 			errorMessage = "Sólo puede contener letras y números.";
 		break;
 		case "abc123_":
-			regex = RegExp("^[a-z0-9][a-z0-9\s]*$", flags);
+			regex = RegExp("^[a-záéíóúñ0-9][a-z0-9\s]*$", flags);
 			errorMessage = "Sólo puede contener letras, números y espacios.";
 		break;
 		case "abc123!":
-			regex = RegExp(`^[a-z0-9${specialCharacters}]*$`, flags);
+			regex = RegExp(`^[a-záéíóúñ0-9${specialCharacters}]*$`, flags);
 			errorMessage = `Sólo puede contener letras, números y los siguientes caracteres especiales: ${specialCharacters} `;
 		break;
 		case "abc123!_":
-			regex = RegExp(`^[a-z0-9${specialCharacters}\s]*$`, flags);
+			regex = RegExp(`^[a-záéíóúñ0-9${specialCharacters}\s]*$`, flags);
 			errorMessage = `Sólo puede contener letras, números, espacios y los siguientes caracteres especiales: ${specialCharacters} `;
 		break;
 		

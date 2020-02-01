@@ -117,7 +117,7 @@ export default class Register extends React.Component {
 					correct = false;
 				};
 				
-				if (! this.state.province) {
+				if (this.state.province === "") {
 					this.setState({ err_province: "No puede estar vacío."});
 				} else {
 					this.setState({ err_province: "" });
@@ -126,10 +126,10 @@ export default class Register extends React.Component {
 				validation = validate(this.state.city, "city", 1);
 				if (validation !== "") { correct = false };
 				this.setState({ err_city: validation });
-
+				
 				if (this.state.userTypeSelectionPending) { correct = false };
 				this.setState({ err_isEnterprise: "Debes elegir si eres trabajador o empresa." });
-
+				
 			break;
 			
 			
@@ -138,29 +138,29 @@ export default class Register extends React.Component {
 				validation = validate(this.state.name, "name", 1);
 				if (validation !== "") { correct = false };
 				this.setState({ err_name: validation });
-
-				validation = validate(this.state.phone, "phone", 1);
+				
+				validation = validate(this.state.phone, "phone", 9);
 				if (validation !== "") { correct = false };
 				this.setState({ err_phone: validation });
 				
 				
 				if (! this.state.isEnterprise) {
-
+					
 					validation = validate(this.state.surname, "surname", 1);
 					if (validation !== "") { correct = false };
 					this.setState({ err_surname: validation });
-
-					validation = validate(this.state.nif, "nif", 1);
+					
+					validation = validate(this.state.nif, "nif", 9);
 					if (validation !== "") { correct = false };
 					this.setState({ err_nif: validation });
-
+					
 				} else {
-
-					validation = validate(this.state.cif, "cif", 1);
+					
+					validation = validate(this.state.cif, "cif", 9);
 					if (validation !== "") { correct = false };
 					this.setState({ err_cif: validation });
 				}
-											
+				
 			break;
 			
 			
@@ -205,43 +205,43 @@ export default class Register extends React.Component {
 			};
 			
 			
-			console.log("Ruta: ", getUrl("/user/register") );
-			console.log("Body: ", registerData );
-			
 			
 			// Hago la llamada
-			let res = await axios.post( getUrl("/user/register"), registerData);
-			let data = res.data;
+			await axios.post( getUrl("/user/register"), registerData);
+			// let res = await axios.post( getUrl("/user/register"), registerData);
+			// let data = res.data;
 			
-			console.log( "data:", data );
-			
-			
-			// Digo que estoy logeado
-			// login(true);
+			// Muestro mensaje de éxito
+			this.setState({ success: "Cuenta creada con éxito. Redirigiendo..." });
 			
 			
 			// Redirección
-			this.props.history.push("/");
+			setTimeout( () => {
+				this.props.history.push("/login");
+			}, 1500);
 			
 			
 		} catch (err) {
 			
-			console.log( err );
-			
-			
-			/*
 			let res = err.response.data;
+			
+			
+			
+			if (res.errorCode === "user_register_1") {
+				this.setState({ error: "El nombre de usuario o el email ya está en uso." });
+			};			
+			
 			
 			
 			if (res.errorCode === "user_login_2") {
 				
 				// Guardo datos de sesión
-				session.set({
-					username: res.username,
-					userId: res.userId,
-					token: res.token,
-					userType: res.userType
-				});
+				// session.set({
+				// 	username: res.username,
+				// 	userId: res.userId,
+				// 	token: res.token,
+				// 	userType: res.userType
+				// });
 				
 				
 				// Muestro mensaje
@@ -261,7 +261,7 @@ export default class Register extends React.Component {
 				return;
 				
 			};
-			*/
+			
 			
 		};
 		
@@ -316,6 +316,7 @@ export default class Register extends React.Component {
 							onChange={ (ev) => {
 								this.setState({province : ev.target.value});
 							}}
+							helperText={this.state.err_province}
 						/>
 						
 						{ this.c_input("Ciudad", "text", "city") }
@@ -344,9 +345,7 @@ export default class Register extends React.Component {
 						</RadioGroup>
 						</div>
 						
-						<p
-							className="error"
-						>
+						<p className="error">
 							{this.state?.err_isEnterprise}
 						</p>
 						
@@ -393,6 +392,8 @@ export default class Register extends React.Component {
 							</div>
 							
 							
+							<p className={ (this.state.error === "") ? "hidden" : "error mt5" }>{this.state.error}</p>
+							<p className={ (this.state.success === "") ? "hidden" : "success mt5" }>{this.state.success}</p>
 							
 						</Fragment>
 					);
@@ -423,6 +424,7 @@ export default class Register extends React.Component {
 							</div>
 							
 							
+							<p className={ (this.state.message === "") ? "hidden" : "error mt5" }>{this.state.error}</p>
 							
 						</Fragment>
 					);

@@ -143,24 +143,26 @@ html {
 .ml4 { margin-left: 1.5em !important; }
 .ml5 { margin-left: 2em !important; }
 
-.m1 { margin: 0.3em !important; };
-.m2 { margin: 0.5em !important; };
-.m3 { margin: 1em !important; };
-.m4 { margin: 1.5em !important; };
-.m5 { margin: 2em !important; };
+.m1 { margin: 0.3em !important; }
+.m2 { margin: 0.5em !important; }
+.m3 { margin: 1em !important; }
+.m4 { margin: 1.5em !important; }
+.m5 { margin: 2em !important; }
 
 
 
 .error {
-	color: #f44336 !important;
-	font-size: 0.75rem;
+	color: #f44336;
+	font-size: 1rem;
+	text-align: center;
 }
 .success {
-	color: var(--colVer) !important;
-	font-size: 0.75rem;
+	color: var(--colVer);
+	font-size: 1rem;
+	text-align: center;
 }
 .label {
-	color: var(--colGri) !important;
+	color: var(--colGri);
 	margin: 0;
 	font-size: 0.9em;
 }
