@@ -9,6 +9,8 @@ import { validate } from "../../utils/uti"
 import DropdownLabor from "../../components/dropdown/dropdown";
 import DropdownProvinceList from "../../components/dropdownProvinces/dropdownProvinces";
 import TextInputLabor from "../../components/textInput/textInput";
+import axios from "axios";
+import { getUrl, /*session*/ } from "../../utils/uti";
 
 
 export default class OfferRegister extends React.Component {
@@ -18,7 +20,7 @@ export default class OfferRegister extends React.Component {
 		
 		this.state = {
 			
-			step: 2,
+			step: 1,
 			
 			
 			userTypeSelectionPending: true,
@@ -129,12 +131,52 @@ export default class OfferRegister extends React.Component {
 	
 	
 	
-	send = () => {
+	 send = async() => {
+
 		
-		if (this.validateStep()) {
-			console.log( "AXIOOOS" );
+
+		let registerData = {
+			title: this.state.title,
+			sector: this.state.sector,
+			description: this.state.description,
+			
+			province: this.state.province,
+			city: this.state.city,
+			experience: this.state.experience,
+
+			workday: this.state.workDay,
+			min_salary: this.state.minSalary,
+			max_salary: this.state.maxSalary,
+			vacants: this.state.vacancy,
+			
+			
 		};
 		
+		if (this.validateStep()) {
+
+			let uid = "c5e35b3e2bd866"; // ELIMINAR ESTA VARIABLE CUANDO SE IMPLEMENTE LA UID EN URL
+
+			try{
+				let res = await axios.post( getUrl(`/offer/register/${uid}`), registerData);
+				let data = res.data;
+			
+			console.log( "data:", data );
+			
+			
+			// Digo que estoy logeado
+			// login(true);
+			
+			
+			// Redirección
+			this.props.history.push("/profile");
+			
+			
+			} catch (err) {
+				
+				console.log( err );
+			};
+		}
+			
 	};
 	
 	
