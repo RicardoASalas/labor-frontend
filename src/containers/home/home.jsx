@@ -1,5 +1,9 @@
+
 import React, { Component } from 'react';
 import './home.scss';
+
+import { connect } from "react-redux";
+
 
 
 class Home extends Component {
@@ -31,4 +35,14 @@ class Home extends Component {
 
 }
 
-export default Home;
+
+
+const mapStateToProps = (state) => { // ese state es de redux
+	return ({
+		session: state.session
+	})
+}
+export default connect(mapStateToProps) (Home);
+
+
+// export default Home;
