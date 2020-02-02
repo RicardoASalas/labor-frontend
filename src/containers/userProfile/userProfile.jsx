@@ -89,9 +89,9 @@ class Profile extends React.Component {
         try {
             // let token = session.get().token;
             // let id = session.get().userId;
-			let id="e5e32fa3e44383"
+			let uid="e5e35c54ca37ab"
             // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
-            const res = await axios.post(getUrl(`/user/editProfile/${id}`), editUserData);
+            const res = await axios.post(getUrl(`/user/editProfile/${uid}`), editUserData);
             console.log("la respuesta de la peticion es "+res.data)
             this.setState({ userData: res.data }, () => {
                 // this.state.userType = this.state.userData.userType === 0 ? "Cliente" : "Vendedor";
@@ -114,11 +114,11 @@ class Profile extends React.Component {
             // let token = session.get().token;
             // let id = session.get().userId;
 
-			let uid="c5e359f46d90ee" // ELIMINAR ESTA VARIABLE CUANDO SE IMPLEMENTE LA UID EN URL
+			let uid="c5e35b3e2bd866" // ELIMINAR ESTA VARIABLE CUANDO SE IMPLEMENTE LA UID EN URL
 
             // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
             const res = await axios.get(getUrl(`/user/${uid}`));
-
+            console.log(res)
             console.log("la respuesta de la peticion es "+res.data)
             this.setState({ userData: res.data }, () => {
                 // this.state.userType = this.state.userData.userType === 0 ? "Cliente" : "Vendedor";
