@@ -1,10 +1,10 @@
 import store from "../store"
 
 
-export const login = (isLoggedIn) => {
+export const login = (loginData) => {
     store.dispatch({
 		type: 'LOGIN',
-		payload: isLoggedIn
+		payload: loginData
 	})
 };
 

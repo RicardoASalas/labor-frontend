@@ -8,7 +8,9 @@ import { FormControl, Button } from '@material-ui/core';
 import { validate, session, getUrl } from "../../utils/uti"
 import axios from "axios";
 import ImageLabor from "../../components/image/image";
+import { login } from "../../redux/actions/users";
 // import { Link } from "react-router-dom";
+
 
 
 export default class Login extends React.Component {
@@ -77,8 +79,13 @@ export default class Login extends React.Component {
 			// this.muestraError("Accediendo...", 2, false);
 			
 			
-			// Digo que estoy logeado
-			// login(true);
+			// Mando info a redux
+			login({
+				token: "1a2b3c4d",
+				username: "Icaruk",
+				isCompany: false
+			});
+			
 			
 			
 			// Redirección
