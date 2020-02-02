@@ -1,8 +1,6 @@
 import React from "react";
 import axios from "axios";
 import { getUrl, /*session*/ } from "../../utils/uti";
-import DataSkills from "./skills.json"
-import DataOffers from "./offers.json"
 import SkillChip from "../../components/skillChip/skillChip"
 // import EditIcon from "../../components/image/image"
 import TextField from "@material-ui/core/TextField";
@@ -18,8 +16,8 @@ class Profile extends React.Component {
 
         this.state = {
             userData: {},
-            userSkills:DataSkills,
-            userOffers:DataOffers,
+            userSkills:[],
+            userOffers:[],
             isCompany: false,
             editProfileMode: false,
             
@@ -89,7 +87,7 @@ class Profile extends React.Component {
         try {
             // let token = session.get().token;
             // let id = session.get().userId;
-			let uid="e5e35c54ca37ab"
+			let uid="e5e361cea4952c"
             // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
             const res = await axios.post(getUrl(`/user/editProfile/${uid}`), editUserData);
             console.log("la respuesta de la peticion es "+res.data)
@@ -108,13 +106,38 @@ class Profile extends React.Component {
         } 
     }
 
+    async getAplyedOffers(){
+        
+            try {
+                // let token = session.get().token;
+                // let id = session.get().userId;
+    
+                let uid="e5e361cea4952c" // ELIMINAR ESTA VARIABLE CUANDO SE IMPLEMENTE LA UID EN URL
+                let res;
+                if(!this.state.isCompany){
+
+                    // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
+                    res = await axios.get(getUrl(`/offer/aplyed/${uid}`));
+                }
+                console.log(res)
+                console.log("la respuesta de la peticion es "+res.data)
+                this.setState({ userOffers: res.data }, () => {
+                    // this.state.userType = this.state.userData.userType === 0 ? "Cliente" : "Vendedor";
+                });
+               
+            } catch (err) {
+                console.error(err);
+            }
+       
+    }
+
     async showData(){
 
         try {
             // let token = session.get().token;
             // let id = session.get().userId;
 
-			let uid="c5e35b3e2bd866" // ELIMINAR ESTA VARIABLE CUANDO SE IMPLEMENTE LA UID EN URL
+			let uid="e5e361cea4952c" // ELIMINAR ESTA VARIABLE CUANDO SE IMPLEMENTE LA UID EN URL
 
             // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
             const res = await axios.get(getUrl(`/user/${uid}`));
@@ -127,6 +150,8 @@ class Profile extends React.Component {
         } catch (err) {
             console.error(err);
         }
+
+        this.getAplyedOffers();
     }
 
     componentDidMount() {        
@@ -189,6 +214,8 @@ class Profile extends React.Component {
         }
 
         let offers = this.state.userOffers.map(offer =>
+            
+
             <div className="resultCard pt2 mb2  flex-dir-r pb2 pr2 br">
 				
 				{/* <div className="offerContainer col1 flex-dir-c"> */}
@@ -212,19 +239,19 @@ class Profile extends React.Component {
                     />
                     </div> */}
                     
-
+                   
 					<h2 className="title">{ offer.title }</h2>
 				    <h2 className="companyName pb1">{ offer.companyName }</h2>
 					
 					<div className="row1 flex-dir-r pb2">
 						<div className="offerInfo pt2 pb2">
-							{ offer.city }  |  { offer.updateddAt }
+							{ offer.city }  |  { offer.updated_At }
 						</div>
 					</div>
 					
 					<div className="row2 pt3 flex-dir-r">
 						<div className="offerInfo pt2 pb2">
-							{ offer.contractType } |  {offer.salary}
+							{ offer.pivot.status } |  {offer.min_salary}
 						</div>
 					</div>
 				</div>
