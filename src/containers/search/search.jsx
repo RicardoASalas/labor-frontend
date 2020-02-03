@@ -22,6 +22,7 @@ export default class Search extends React.Component {
 		
 		this.state = {
 			
+			offerList: [],
 			filter: "new", // new, old, pop, npop
 			
 			
@@ -154,7 +155,26 @@ export default class Search extends React.Component {
 					
 					<div className="results br">
 						
-						<SearchResultLabor
+						{this.state.offerList.map( (_x) => {
+							
+							return <SearchResultLabor
+								img={"https://about.canva.com/wp-content/uploads/sites/3/2016/08/logos-1.png"}
+								title={_x.title}
+								companyName="Nombre de empresa 02"
+								description={_x.description}
+								city={_x.city}
+								date="21 ene"
+								contractType="Fulltime"
+								minHoursWeek={20}
+								maxHoursWeek={25}
+								minSalary={15000}
+								maxSalary={16000}
+							/>							
+							
+						})}
+						
+						
+						{/* <SearchResultLabor
 							img={"https://about.canva.com/wp-content/uploads/sites/3/2016/08/logos-1.png"}
 							title="Full stack developer (MERN stack)"
 							companyName="Nombre de empresa 02"
@@ -166,33 +186,7 @@ export default class Search extends React.Component {
 							maxHoursWeek={25}
 							minSalary={15000}
 							maxSalary={16000}
-						/>
-						<SearchResultLabor
-							img={"https://about.canva.com/wp-content/uploads/sites/3/2016/08/logos-1.png"}
-							title="Full stack developer (MERN stack)"
-							companyName="Nombre de empresa 02"
-							description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint repellat aut dolore voluptatibus magni impedit animi? Assumenda sit nesciunt et, modi, delectus facilis unde dicta quidem incidunt nam accusantium odio?"
-							city="Valencia"
-							date="21 ene"
-							contractType="Fulltime"
-							minHoursWeek={20}
-							maxHoursWeek={25}
-							minSalary={15000}
-							maxSalary={16000}
-						/>
-						<SearchResultLabor
-							img={"https://about.canva.com/wp-content/uploads/sites/3/2016/08/logos-1.png"}
-							title="Full stack developer (MERN stack)"
-							companyName="Nombre de empresa 02"
-							description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sint repellat aut dolore voluptatibus magni impedit animi? Assumenda sit nesciunt et, modi, delectus facilis unde dicta quidem incidunt nam accusantium odio?"
-							city="Valencia"
-							date="21 ene"
-							contractType="Fulltime"
-							minHoursWeek={20}
-							maxHoursWeek={25}
-							minSalary={15000}
-							maxSalary={16000}
-						/>
+						/> */}
 						
 					</div>
 					
