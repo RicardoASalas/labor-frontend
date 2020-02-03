@@ -72,6 +72,10 @@ html {
 	display: flex;
 	flex-direction: column;
 }
+.flex-grow {
+	display: flex;
+	flex-grow: 1;
+}
 
 .jcc {justify-content: center}
 .jcfs {justify-content: flex-start}
@@ -110,11 +114,11 @@ html {
 .pl4 { padding-left: 1.5em !important; }
 .pl5 { padding-left: 2em !important; }
 
-.p1 { padding: 0.3em !important; };
-.p2 { padding: 0.5em !important; };
-.p3 { padding: 1em !important; };
-.p4 { padding: 1.5em !important; };
-.p5 { padding: 2em !important; };
+.p1 { padding: 0.3em !important; }
+.p2 { padding: 0.5em !important; }
+.p3 { padding: 1em !important; }
+.p4 { padding: 1.5em !important; }
+.p5 { padding: 2em !important; }
 
 
 
