@@ -5,17 +5,18 @@ import SkillChip from "../../components/skillChip/skillChip"
 // import EditIcon from "../../components/image/image"
 import TextField from "@material-ui/core/TextField";
 import { FormControl, /*Button, Radio, RadioGroup, FormControlLabel*/ } from '@material-ui/core';
+import { connect } from "react-redux";
 
 
 import "./userProfile.scss";
 
 
 class Profile extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
-            userData: {},
+            userData: this.props.session,
             userSkills:[],
             userOffers:[],
             isCompany: false,
@@ -287,11 +288,11 @@ class Profile extends React.Component {
            
                         </div>
                         <div className="editIconContainer">
+
                         <img
                         className="editIcon"
                         src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/OOjs_UI_icon_edit-ltr-progressive.svg/1024px-OOjs_UI_icon_edit-ltr-progressive.svg.png" 
                         alt="icono editar perfil"
-                        // onClick={()=>this.editProfileMode()}
                         onClick={()=>this.editProfileMode()}
                     />
                     {saveChanges}
@@ -321,4 +322,12 @@ class Profile extends React.Component {
         );
     }
 }
-export default Profile;
+
+
+
+const mapStateToProps = (state) => { // ese state es de redux
+	return ({
+	    session: state.session
+	})
+}
+export default connect(mapStateToProps) (Profile);

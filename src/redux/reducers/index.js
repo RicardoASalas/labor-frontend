@@ -10,6 +10,9 @@ const reducer = (state = {
 	switch (action.type) {
 		
 		case "LOGIN":
+
+			state.session = action.payload;
+		
 			return {
 				...state,
 				session: action.payload
