@@ -64,15 +64,16 @@ export default class Login extends React.Component {
 			
 			let res = await axios.post( getUrl("/user/login"), loginData);
 			let data = res.data;
+			console.log( data );
 			
 			
 			// Guardo datos de sesión
-			session.set({
-				username: data.username,
-				userId: data.userId,
-				token: data.token,
-				userType: data.userType
-			});
+			// session.set({
+			// 	username: data.username,
+			// 	userId: data.userId,
+			// 	token: data.token,
+			// 	userType: data.userType
+			// });
 			
 			
 			// Muestro

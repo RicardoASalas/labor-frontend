@@ -17,7 +17,9 @@ class Home extends Component {
 		}
 		
 	}
-
+	componentDidMount(){
+		console.log( this.props.asd );
+	}
 
 	
 	render() {
