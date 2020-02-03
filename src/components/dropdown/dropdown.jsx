@@ -39,13 +39,14 @@ export default class DropdownLabor extends React.Component {
 				
 				<select
 					value={this.props.value}
-					onChange={this.props.onChange}>
+					onChange={this.props.onChange}
+					defaultValue=""
+				>
 					
 					{
 						this.props.defaultValue &&
 						<option
 							value=""
-							selected={true}
 							disabled={true}
 						>
 							{this.props.defaultValue}
