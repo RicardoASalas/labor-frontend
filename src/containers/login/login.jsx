@@ -64,7 +64,7 @@ export default class Login extends React.Component {
 			
 			let res = await axios.post( getUrl("/user/login"), loginData);
 			let data = res.data;
-			console.log( data );
+			
 			
 			
 			// Guardo datos de sesión
@@ -81,11 +81,7 @@ export default class Login extends React.Component {
 			
 			
 			// Mando info a redux
-			login({
-				token: "1a2b3c4d",
-				username: "Icaruk",
-				isCompany: false
-			});
+			login(data);
 			
 			
 			
