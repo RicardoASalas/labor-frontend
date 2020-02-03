@@ -20,7 +20,7 @@ import { session } from "../utils/uti";
 
 
 const createStoreWithMiddleware = applyMiddleware(
-	save({ states: ["cart"] })
+	save({ states: ["session"] })
 )(createStore);
 
 const store = createStoreWithMiddleware(
@@ -28,13 +28,10 @@ const store = createStoreWithMiddleware(
 	load({
 		preloadedState:{
 			
-			isLoggedIn: !!session.get(),
-			
-			cart:[],
-			totalPrice: 0,
+			session: {}
 			
 		},
-		states: ["cart"] }),
+		states: ["session"] }),
 	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
