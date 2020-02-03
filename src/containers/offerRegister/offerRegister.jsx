@@ -11,9 +11,11 @@ import DropdownProvinceList from "../../components/dropdownProvinces/dropdownPro
 import TextInputLabor from "../../components/textInput/textInput";
 import axios from "axios";
 import { getUrl, /*session*/ } from "../../utils/uti";
+import { connect } from "react-redux";
 
 
-export default class OfferRegister extends React.Component {
+
+class OfferRegister extends React.Component {
 	
 	constructor (props) {
 		super(props);
@@ -131,10 +133,8 @@ export default class OfferRegister extends React.Component {
 	
 	
 	
-	 send = async() => {
-
+	send = async() => {
 		
-
 		let registerData = {
 			title: this.state.title,
 			sector: this.state.sector,
@@ -143,40 +143,43 @@ export default class OfferRegister extends React.Component {
 			province: this.state.province,
 			city: this.state.city,
 			experience: this.state.experience,
-
+			
 			workday: this.state.workDay,
 			min_salary: this.state.minSalary,
 			max_salary: this.state.maxSalary,
 			vacants: this.state.vacancy,
 			
-			
 		};
 		
+		
+		
 		if (this.validateStep()) {
-
-			let uid = "c5e35b3e2bd866"; // ELIMINAR ESTA VARIABLE CUANDO SE IMPLEMENTE LA UID EN URL
-
-			try{
+			
+			// Si no soy empresa, no le dejo
+			if (! this.props.session.isCompany) {
+				this.props.history.push("/");
+			};
+			
+			
+			let uid = this.props.session.uid;
+			
+			
+			try {
+				
 				let res = await axios.post( getUrl(`/offer/register/${uid}`), registerData);
-				let data = res.data;
-			
-			console.log( "data:", data );
-			
-			
-			// Digo que estoy logeado
-			// login(true);
-			
-			
-			// Redirección
-			this.props.history.push("/profile");
-			
-			
+				// let data = res.data;
+				
+				
+				// Redirección
+				this.props.history.push("/profile");
+				
+				
 			} catch (err) {
 				
 				console.log( err );
 			};
 		}
-			
+		
 	};
 	
 	
@@ -392,4 +395,14 @@ export default class OfferRegister extends React.Component {
 		);
 	
 	};
+	
+};
+
+
+
+const mapStateToProps = (state) => { // ese state es de redux
+	return ({
+		session: state.session
+	})
 }
+export default connect(mapStateToProps) (OfferRegister);
