@@ -64,13 +64,13 @@ export const session = {
 
 export const getUrl = (route = "", includeToken = false) => {
 	
-	let sessionData = session.get();
+	// let sessionData = session.get();
 	let token = "";
 	
 	if (includeToken) {
-		if (sessionData) {
-			token = "token=" + sessionData.token;
-		};
+		// if (sessionData) {
+		// 	token = "token=" + sessionData.token;
+		// };
 	};
 	
 	
