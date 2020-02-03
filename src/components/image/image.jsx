@@ -26,7 +26,8 @@ export default class ImageLabor extends React.Component {
 		const style = {
 			width: w,
 			height: h,
-			borderRadius: br
+			borderRadius: br,
+			objectFit: "cover"
 		};
 		
 		

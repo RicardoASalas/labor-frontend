@@ -8,6 +8,10 @@ import TextInput from "../../components/textInput/textInput";
 // import ImageLabor from "../../components/image/image";
 import SearchResultLabor from "../../components/searchResult/searchResult";
 import InputChips from "../../components/inputChips/inputChips";
+import ProvinceListDropDown from "../../components/dropdownProvinces/dropdownProvinces";
+import axios from "axios";
+import { getUrl } from "../../utils/uti";
+
 
 
 
@@ -25,8 +29,9 @@ export default class Search extends React.Component {
 		
 		
 	};
-
-
+	
+	
+	
 	c_radio = (label, stateKey) => {
 		
 		// { this.c_radio("Más recientes", "new") }
@@ -71,49 +76,65 @@ export default class Search extends React.Component {
 	};
 	
 	
+	
+	async componentDidMount () {
+		
+		try {
+			
+			let res = await axios.post( getUrl(`/offer/find`, {
+				keywords: ""
+			}));
+			
+			this.setState({ offerList: res.data });
+			
+			
+		} catch (err) {
+			
+			console.log( err );
+			
+		};
+		
+	};
+	
+	
+	
 	render() {
+		
 		return(
 			
 			<div className="searchMain">
 				
 				<div className="header br">
-					
-					<InputChips
-						defaultValue={[]}
-						optionsLabelKey="name"
-						
-						label="Habilidades"
-						placeholder="Escribe una habilidad"
-						
-						onChange={ (ev, value) => this.setState({ selectedSkills: value }) }
-						
-						options={[
-							{ name: "Javascript (junior)", code: "js1" },
-							{ name: "Javascript (middle)", code: "js2" },
-							{ name: "Javascript (senior)", code: "js3" },
-							
-							{ name: "PHP (junior)", code: "php1" },
-							{ name: "PHP (middle)", code: "php2" },
-							{ name: "PHP (senior)", code: "php3" },
-							
-							{ name: "Phyton (junior)", code: "py1" },
-							{ name: "Phyton (middle)", code: "py2" },
-							{ name: "Phyton (senior)", code: "py3" },
-							
-							{ name: "Java (junior)", code: "jv1" },
-							{ name: "Java (middle)", code: "jv2" },
-							{ name: "Java (senior)", code: "jv3" },
-						]}
-						
-					/>
-					
+					X ofertas encontradas
 				</div>
+				
+				
 				
 				<div className="body">
 					
 					<div className="filters br flex-dir-c">
 						
-						<div className="order">
+						<div className="search mb5">
+							
+							<TextInput
+								className=""
+								label="Búsqueda"
+								type="text"
+								onChange={ (ev) => this.setState({ keywords: ev.target.value }) }
+								value={this.state.keywords}
+								// helperText="Esto es un error"
+								// isError={true}
+							/>
+							
+						</div>
+						
+						
+						
+						<ProvinceListDropDown className="mb5" />
+						
+						
+						
+						<div className="order mb5">
 							
 							Ordenar ofertas por:
 							
@@ -126,19 +147,6 @@ export default class Search extends React.Component {
 						
 						
 						
-						<div className="search">
-							
-							<TextInput
-								className="mt5"
-								label="Búsqueda"
-								type="text"
-								onChange={ (ev) => this.setState({ keywords: ev.target.value }) }
-								value={this.state.keywords}
-								// helperText="Esto es un error"
-								// isError={true}
-							/>
-							
-						</div>
 						
 					</div>
 					
