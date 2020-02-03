@@ -23,6 +23,7 @@ export default class Search extends React.Component {
 		this.state = {
 			
 			offerList: [],
+			keyword: "",
 			filter: "new", // new, old, pop, npop
 			
 			
@@ -67,8 +68,8 @@ export default class Search extends React.Component {
 					type={type}
 					label={label}
 					variant="outlined"
-					onChange={ this.setState({ keywords: this.target.value }) }
-					value={this.state.keywords ? this.state.keywords : ""}
+					onChange={ this.setState({ keyword: this.target.value }) }
+					value={this.state.keyword ? this.state.keyword : ""}
 				/>
 			</FormControl>
 			
@@ -78,13 +79,60 @@ export default class Search extends React.Component {
 	
 	
 	
+	
+	
+	
+	async search (keyword = "") {
+		
+		try {
+			
+			let res = await axios.post( getUrl(`/offer/find`), {
+				keyword: keyword
+			});
+			
+			this.setState({ offerList: res.data });
+			
+			
+		} catch (err) {
+			
+			console.log( err );
+			
+		};
+		
+	};
+	
+	
+	
+	debounce(keyword) {
+		
+		// Si ya estoy en un timeout, salgo y cancelo
+        if (this.state?.debounce_timeout) {
+            clearTimeout(this.state.debounce_timeout); // quito el loop
+            this.setState({ debounce_timeout: null }); // y su referencia
+		}
+		
+        // Empiezo un timeout
+        const loop = setTimeout(() => {
+			
+			this.search(keyword);
+			
+		}, 500);
+		
+		
+        // Guardo la referencia de timeout
+		this.setState({ debounce_timeout: loop });
+		
+    };
+	
+	
+	
 	async componentDidMount () {
 		
 		try {
 			
-			let res = await axios.post( getUrl(`/offer/find`, {
-				keywords: ""
-			}));
+			let res = await axios.post( getUrl(`/offer/find`), {
+				keyword: this.state.keyword
+			});
 			
 			this.setState({ offerList: res.data });
 			
@@ -106,7 +154,7 @@ export default class Search extends React.Component {
 			<div className="searchMain">
 				
 				<div className="header br">
-					X ofertas encontradas
+					{`${this.state?.offerList.length} ofertas encontradas`}
 				</div>
 				
 				
@@ -121,8 +169,9 @@ export default class Search extends React.Component {
 								className=""
 								label="Búsqueda"
 								type="text"
-								onChange={ (ev) => this.setState({ keywords: ev.target.value }) }
-								value={this.state.keywords}
+								// onChange={ (ev) => this.setState({ keyword: ev.target.value }) }
+								onChange={ (ev) => this.debounce(ev.target.value) }
+								value={this.state.keyword}
 								// helperText="Esto es un error"
 								// isError={true}
 							/>
@@ -155,7 +204,7 @@ export default class Search extends React.Component {
 					
 					<div className="results br">
 						
-						{this.state.offerList.map( (_x) => {
+						{this.state?.offerList.map( (_x) => {
 							
 							return <SearchResultLabor
 								img={"https://about.canva.com/wp-content/uploads/sites/3/2016/08/logos-1.png"}
