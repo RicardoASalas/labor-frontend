@@ -355,15 +355,23 @@ export const translateWorkday = (code) => {
 		
 	Import:
 		import { cache } from "./utils/uti"
-	
+
+
+	Params:
+		0: callId (STRING) - Identificador único de la llamada.
+		1: data (OBJ) - Objeto con los datos necesarios para la llamada de axios.
+		2: mode (STRING) - Modo. Default: "search".
+		
 	Ejemplos:
 		cache("appliedOffers", {uid: "asd"});		// Busca en caché y si no lo encuentra, hace llamada y almacena en caché.
 		cache("appliedOffers", {}, "fresh");		// Omite la búsqueda en caché, haciendo la llamada y almacenándola directamente.
 		cache("appliedOffers", {}, "save");			// Almacena en caché los datos.
-		
-	Lista de elementos que se pueden cachear:
-		appliedOffers
-		
+	
+	Modos:
+		search (default): Busca en caché, luego llama a la API.
+		fresh: Omite la búsqueda en caché para llamar a la API directamente.
+		save: Almacena en caché el objeto del parámetro "data".
+	
 	.
 	
 */
