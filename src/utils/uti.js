@@ -1,3 +1,4 @@
+import { Workday } from "./const";
 
 // Import de todo:
 // 	import * from "./utils/session"
@@ -75,65 +76,6 @@ export const getUrl = (route = "", includeToken = false) => {
 	
 	
 	return `http://localhost:3000/api${route}${token}`
-	
-};
-
-
-
-/*
-	Muestra un mensaje de error de forma temporal.
-	
-	Import:
-		import { muestraError } from "./utils/uti"
-	
-	Ejemplos:
-		muestraError("Usuario no encontrado");
-		muestraError("Todo bien", 2, false);
-	
-	Requisitos:
-		1. Tener los siguientes estados declarados:
-			message: "",
-			errorTime: 0,
-			messageClassName: "error"
-		2. Poner en el HTML esto:
-			<p className={this.state.messageClassName}> {this.state.message} </p>
-		.
-	.
-*/
-
-export const muestraError = (message, timeout = 3, isError = true) => {
-	
-	// Pongo la clase
-	let className = isError ? "error" : "success";
-	this.setState({messageClassName: className});
-	
-	
-	// Pongo el mensaje
-	this.setState({message: message});
-	
-	
-	// Ya estoy en loop
-	if (this.state.errorTime > 0) {
-		this.setState({errorTime: timeout});
-		return; // y salgo
-	};
-	
-	
-	this.setState({errorTime: timeout}); // Entro por primera vez, pongo tiempo
-	
-	
-	// Loop
-	let loop = setInterval( ()=> {
-		
-		if (this.state.errorTime <= 0) {
-			this.setState({message: ""});
-			clearInterval(loop); // salgo del loop
-		};
-		
-		
-		this.setState( preState => ( {errorTime: preState.errorTime - 1}) );
-		
-	}, 1000);
 	
 };
 
@@ -332,7 +274,7 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0, flags = "
 /*
 	Convierte un número de más de 3 dígitos en un string que separa las centenas con un punto.
 	
-	Import 
+	Import:
 		import { numToStr } from "./utils/uti"
 	
 	Ejemplo:
@@ -378,5 +320,29 @@ export const numToStr = (numero, separador = ".") => {
 	
 	
 	return arrNumeros.join("");
+	
+};
+
+
+
+/*
+	Traductor de código de jornada a jornada.
+	
+	Import:
+		import { translateWorkday } from "./utils/uti";
+	
+	Ejemplo:
+		translateWorkday("mj"); // "Media jornada"
+		translateWorkday("jc"); // "Jornada completa"
+	.
+	
+*/
+
+
+export const translateWorkday = (code) => {
+	
+	for (let _x of Workday) {
+		if (_x[0] === code) return _x[1];
+	};
 	
 };
