@@ -7,11 +7,11 @@ import { FormControl, Radio, TextField, FormControlLabel } from '@material-ui/co
 import TextInput from "../../components/textInput/textInput";
 // import ImageLabor from "../../components/image/image";
 import SearchResultLabor from "../../components/searchResult/searchResult";
-import InputChips from "../../components/inputChips/inputChips";
+// import InputChips from "../../components/inputChips/inputChips";
 import ProvinceListDropDown from "../../components/dropdownProvinces/dropdownProvinces";
 import axios from "axios";
 import { getUrl } from "../../utils/uti";
-
+import store from "../../redux/store";
 
 
 
@@ -79,9 +79,6 @@ export default class Search extends React.Component {
 	
 	
 	
-	
-	
-	
 	async search (keyword = "") {
 		
 		try {
@@ -123,6 +120,22 @@ export default class Search extends React.Component {
 		this.setState({ debounce_timeout: loop });
 		
     };
+	
+	
+	
+	pulsaOferta = (_x) => {
+		
+		// Guardo en redux la info de la oferta sobre la que he pulsado
+		store.dispatch({
+			type: 'OFFER_DETAIL',
+			payload: _x
+		});
+		
+		
+		// Redirijo a la vista detalle
+		this.props.history.push("/offer/detail")
+		
+	};
 	
 	
 	
@@ -207,18 +220,22 @@ export default class Search extends React.Component {
 						{this.state?.offerList.map( (_x) => {
 							
 							return <SearchResultLabor
+								key={_x.id}
+								
 								img={"https://about.canva.com/wp-content/uploads/sites/3/2016/08/logos-1.png"}
 								title={_x.title}
-								companyName="Nombre de empresa 02"
+								companyName={_x.company_id}
 								description={_x.description}
 								city={_x.city}
-								date="21 ene"
-								contractType="Fulltime"
+								date={_x.created_at}
+								contractType={_x.contractType}
 								minHoursWeek={20}
 								maxHoursWeek={25}
-								minSalary={15000}
-								maxSalary={16000}
-							/>							
+								minSalary={_x.min_salary}
+								maxSalary={_x.max_salary}
+								
+								onClick={ this.pulsaOferta.bind(this, _x) }
+							/>
 							
 						})}
 						

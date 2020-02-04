@@ -10,14 +10,25 @@ const reducer = (state = {
 	switch (action.type) {
 		
 		case "LOGIN":
-
+			
 			state.session = action.payload;
-		
+			
 			return {
 				...state,
 				session: action.payload
 			};
-
+		
+		
+		case "OFFER_DETAIL":
+			return {
+				...state,
+				offerData: action.payload
+			};
+			
+			
+			
+			
+			
 		case "PRODUCT_DETAIL":
 			return {
 				...state,

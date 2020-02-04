@@ -20,7 +20,7 @@ import { session } from "../utils/uti";
 
 
 const createStoreWithMiddleware = applyMiddleware(
-	save({ states: ["session"] })
+	save({ states: ["session", "offerData"] })
 )(createStore);
 
 const store = createStoreWithMiddleware(
@@ -31,8 +31,8 @@ const store = createStoreWithMiddleware(
 			session: {}
 			
 		},
-		states: ["session"] }),
-	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+		states: ["session", "offerData"]
+	}), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
 export default store;

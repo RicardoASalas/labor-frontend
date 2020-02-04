@@ -64,6 +64,8 @@ html {
 
 
 /* Flex */
+.flex {display: flex}
+
 .flex-dir-r {
 	display: flex;
 	flex-direction: row;

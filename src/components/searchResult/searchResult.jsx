@@ -54,6 +54,8 @@ export default class searchResultLabor extends React.Component {
 		
 	};
 	
+	
+	
 	render() {
 		
 		let hoursWeek;
@@ -75,9 +77,12 @@ export default class searchResultLabor extends React.Component {
 		
 		
 		
-		return(
+		return (
 			
-			<div className="resultCard br pt3 pb3 pr3 flex-dir-r mb2">
+			<div
+				className="resultCard br pt3 pb3 pr3 flex-dir-r mb2"
+				onClick={ this.props.onClick }
+			>
 				
 				<div className="col1 flex-dir-c">
 					
