@@ -12,6 +12,7 @@ import TextInputLabor from "../../components/textInput/textInput";
 import axios from "axios";
 import { getUrl, /*session*/ } from "../../utils/uti";
 import { connect } from "react-redux";
+import { Workday } from "../../utils/const";
 
 
 
@@ -264,14 +265,7 @@ class OfferRegister extends React.Component {
 						className={"br mt3 mb2"}
 						label={"Tipo de jornada"}
 						defaultValue={["", "Selecciona una jornada"]}
-						elements={[
-							["mj", "Media jornada"],
-							["jc", "Jornada completa"],
-							["jim", "Jornada intensiva mañana"],
-							["jit", "Jornada intensiva tarde"],
-							["jin", "Jornada intensiva noche"],
-							["tt", "Teletrabajo"]
-						]}
+						elements={Workday}
 						onChange={ (ev) => {this.setState({ workDay: ev.target.value })} }
 					/>
 					

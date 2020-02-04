@@ -6,7 +6,7 @@ import "./offerDetail.scss";
 import { Button } from '@material-ui/core';
 import ImageLabor from "../../components/image/image";
 import { connect } from "react-redux";
-import { getUrl } from "../../utils/uti";
+import { getUrl, translateWorkday, numToStr, cache } from "../../utils/uti";
 import axios from "axios";
 
 
@@ -34,8 +34,8 @@ class OfferDetail extends React.Component {
 		
 		try {
 			
-			let res = axios.post( getUrl(`/offer/apply/${this.props.offerData.id}/${this.props.session.uid}`) );
-			console.log( res );
+			this.setState({ applied: true });
+			axios.post( getUrl(`/offer/apply/${this.props.offerData.id}/${this.props.session.uid}`) );
 			
 		} catch (err) {
 			
@@ -43,6 +43,46 @@ class OfferDetail extends React.Component {
 			
 		};
 		
+		
+	};
+	
+	
+	
+	async componentDidMount() {
+		
+		cache("appliedOffers", {uid: this.props.session.uid}, "fresh");
+		
+		
+		
+		try {
+			
+			// Pido todas las ofertas en las que estoy inscrito
+			let res = await axios.get( getUrl(`/offer/applied/${this.props.session.uid}`) );
+			let offers = res.data;
+			
+			
+			
+			// Busco la oferta actual entre las que estoy inscrito
+			let applied = false;
+			
+			for (let _x of offers) {
+				if (this.props.offerData.id === _x.id) {
+					applied = true;
+					break;
+				};
+			};
+			
+			
+			
+			// Establezco el estado
+			this.setState({ alreadyApplied: applied });
+			
+			
+		} catch (err) {
+			
+			console.log( err );
+			
+		};	
 		
 	};
 	
@@ -66,7 +106,8 @@ class OfferDetail extends React.Component {
 					
 					<div className="flex-dir-r">
 						
-						<div className="image mr3">
+						<div className="image mr3 flex-dir-c">
+							
 							<ImageLabor
 								className="br"
 								src="https://cdn.vox-cdn.com/thumbor/0n6dqQfk9MuOBSiM39Pog2Bw39Y=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19341372/microsoftedgenewlogo.jpg"
@@ -75,6 +116,9 @@ class OfferDetail extends React.Component {
 								measure="px"
 								br={15}
 							/>
+							
+							<p className="vacantes">{this.props.offerData.vacants} { (this.props.offerData.vacants > 1) ? "vacantes": "vacante" }</p>
+							
 						</div>
 						
 						
@@ -85,14 +129,30 @@ class OfferDetail extends React.Component {
 							<h2>{this.props.offerData._companyName}</h2>
 							
 							<div className="botonInscribirse flex jcfe">
-								<Button
-									className="buttonApply"
-									variant="contained"
-									color="secondary"
-									onClick={ () => this.pulsaInscribirse() }
-								>
-									Inscribirse
-								</Button>
+								
+								{ this.state.alreadyApplied ? 
+									<Button
+										disabled
+										className="buttonApply"
+										variant="contained"
+										color="secondary"
+										onClick={ () => this.pulsaInscribirse() }
+									>
+										Ya inscrito
+									</Button>
+									
+									:
+									
+									<Button
+										className="buttonApply"
+										variant="contained"
+										color="secondary"
+										onClick={ () => this.pulsaInscribirse() }
+									>
+										Inscribirse
+									</Button>									
+								}
+								
 							</div>
 							
 						</div>
@@ -134,7 +194,7 @@ class OfferDetail extends React.Component {
 								<i className="material-icons">euro_symbol</i>
 							</div>
 							<div className="col2">
-								<p> {this.props.offerData.min_salary} - {this.props.offerData.max_salary} €</p>
+								<p> { numToStr(this.props.offerData.min_salary) } - { numToStr(this.props.offerData.max_salary) } €</p>
 							</div>
 						</div>
 						
@@ -144,6 +204,15 @@ class OfferDetail extends React.Component {
 							</div>
 							<div className="col2">
 								<p>{this.props.offerData.experience}</p>
+							</div>
+						</div>
+						
+						<div className="info flex-dir-r aic">
+							<div className="col1 mr1">
+								<i className="material-icons">hourglass_full</i>
+							</div>
+							<div className="col2">
+								<p>{ translateWorkday(this.props.offerData.workday) }</p>
 							</div>
 						</div>
 						
