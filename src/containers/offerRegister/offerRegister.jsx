@@ -167,9 +167,7 @@ class OfferRegister extends React.Component {
 			
 			try {
 				
-				let res = await axios.post( getUrl(`/offer/register/${uid}`), registerData);
-				// let data = res.data;
-				
+				await axios.post( getUrl(`/offer/register/${uid}`), registerData);
 				
 				// Redirección
 				this.props.history.push("/profile");
