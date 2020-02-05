@@ -26,8 +26,42 @@ class Home extends Component {
 			<div className="home">
 				<div className="mainHome flex-dir-c aic p3">
 					
-					<h2 className="titulo pt3 pb2">Trabaja cerca de casa</h2>
+					<h2 className="titulo pt3 pb2 tac">Impulsa tu carrera con empresas líderes</h2>
+					<div className="flex-dir-r">
+						<CardLabor
+							className="mr3"
+							title="Microsoft"
+							description="Empresa líder en su sector."
+							
+							src="https://i.gyazo.com/b157345a5d269641907260b7e7dd32ab.png"
+							w={500}
+							h={200}
+						/>
+						
+						<CardLabor
+							className="mr3"
+							title="Google"
+							description="Empresa líder en su sector."
+							
+							src="https://i.gyazo.com/342242e20c9a4c7b79992d3d8d934bed.png"
+							w={500}
+							h={200}
+						/>
+						
+						<CardLabor
+							className="mr3"
+							title="Apple"
+							description="Empresa líder en su sector."
+							
+							src="https://i.gyazo.com/53436607ee84ec60dbd16fd7a97e99de.jpg"
+							w={500}
+							h={200}
+						/>
+					</div>
 					
+					
+					
+					<h2 className="titulo pt5 pb2">Trabaja cerca de casa</h2>
 					<div className="flex-dir-r">
 						
 						<CardLabor
@@ -75,7 +109,6 @@ class Home extends Component {
 					
 					
 					<h2 className="titulo pt5 pb2">Sectores con más oportunidades</h2>
-					
 					<div className="flex-dir-r">
 						<CardLabor
 							className="mr3"

@@ -6,6 +6,10 @@
 	
 	max-width: 30em;
 	max-height: 30em;
+
+	box-shadow: 0;
+	transition: box-shadow 0.3s;
+	border: 1px solid #eee;	
 	
 	.papel {
 		background-color: white;
@@ -24,3 +28,6 @@
 	
 }
 
+.cardLaborMain:hover {
+	box-shadow: 0 0 10px #515151b9;
+}

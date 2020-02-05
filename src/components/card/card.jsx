@@ -16,6 +16,7 @@ import ImageLabor from "../image/image";
 		w={400}
 		h={200}
 	/>
+	
 */
 
 
