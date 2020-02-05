@@ -2,14 +2,11 @@
 .resultCard {
 				
 	background: white;
-	cursor: pointer;
+	cursor: pointer;	
 	
-	transition: box-shadow .3s ease;
-	transition-property: box-shadow;
-	transition-duration: 0.3s;
-	transition-timing-function: ease;
-	transition-delay: 0s;		
-	
+	box-shadow: 0;
+	transition: box-shadow 0.3s;
+	border: 1px solid #eee;		
 	
 	.col1 {
 		
@@ -60,5 +57,5 @@
 };
 
 .resultCard:hover {
-	box-shadow: 0 4px 4px 0 rgba(0,0,0,0.04), 0 1px 16px 0 rgba(0,0,0,0.16), 0 2px 4px 0 rgba(0,0,0,0.08)
+	box-shadow: 0 0 10px #515151b9;
 }
