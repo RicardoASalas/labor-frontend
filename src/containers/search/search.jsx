@@ -8,10 +8,11 @@ import TextInput from "../../components/textInput/textInput";
 // import ImageLabor from "../../components/image/image";
 import SearchResultLabor from "../../components/searchResult/searchResult";
 // import InputChips from "../../components/inputChips/inputChips";
-import ProvinceListDropDown from "../../components/dropdownProvinces/dropdownProvinces";
+import DropdownProvinceList from "../../components/dropdownProvinces/dropdownProvinces";
 import axios from "axios";
 import { getUrl } from "../../utils/uti";
 import store from "../../redux/store";
+import ImageLabor from "../../components/image/image";
 
 
 
@@ -22,13 +23,34 @@ export default class Search extends React.Component {
 		
 		this.state = {
 			
+			loading: false,
+			
 			offerList: [],
+			
 			keyword: "",
-			filter: "new", // new, old, pop, npop
+			sort: "new", // new, old, pop, npop
 			
 			
 		}
 		
+		
+	};
+	
+	
+	
+	shouldComponentUpdate(nextProps, nextState) {
+		
+		if (this.state.keyword !== nextState.keyword) {
+			this.debounce();
+		} else if (
+			this.state.province !== nextState.province ||
+			this.state.filter !== nextState.filter			
+		) {
+			this.search();
+		};
+		
+		
+		return true;
 		
 	};
 	
@@ -52,42 +74,61 @@ export default class Search extends React.Component {
 	
 	
 	
-	c_input = (label, type, stateKey) => {
+	handleKeyword (keyword) {
 		
-		// let errTxt = this.state?.[`err_${stateKey}`];
-		// let err = !! errTxt;
-		
-		
-		return (
-			
-			<FormControl className="mt3">
-				<TextField
-					// error={ err }
-					// helperText={ errTxt }
-					// id="outlined-basic"
-					type={type}
-					label={label}
-					variant="outlined"
-					onChange={ this.setState({ keyword: this.target.value }) }
-					value={this.state.keyword ? this.state.keyword : ""}
-				/>
-			</FormControl>
-			
-		);
+		this.setState({ keyword: keyword });
 		
 	};
 	
 	
 	
-	async search (keyword = "") {
+	debounce() {
+		
+		// Si ya estoy en un timeout, salgo y cancelo
+        if (this.state?.debounce_timeout) {
+            clearTimeout(this.state.debounce_timeout); // quito el loop
+            this.setState({ debounce_timeout: null }); // y su referencia
+		};
+		
+		
+        // Empiezo un timeout
+        const loop = setTimeout(() => {
+			this.search();
+		}, 500);
+		
+		
+        // Guardo la referencia de timeout
+		this.setState({ debounce_timeout: loop });
+		
+    };	
+	
+	
+	
+	async search () {
 		
 		try {
 			
-			let res = await axios.post( getUrl(`/offer/find`), {
-				keyword: keyword
-			});
+			let keyword = this.state.keyword;
+			let province = this.state.province;
+			let sort = this.state.sort;
 			
+			
+			// Construyo el body
+			let body = {};
+			
+			if (keyword) {body.keyword = keyword}
+			if (province) {body.province = province}
+			if (sort) {body.sort = sort}
+			
+			
+			// Envío
+			this.setState({ loading: true });
+			let res = await axios.post( getUrl(`/offer/find`), body);
+			
+			
+			// Recibo
 			this.setState({ offerList: res.data });
+			this.setState({ loading: false });
 			
 			
 		} catch (err) {
@@ -97,29 +138,6 @@ export default class Search extends React.Component {
 		};
 		
 	};
-	
-	
-	
-	debounce(keyword) {
-		
-		// Si ya estoy en un timeout, salgo y cancelo
-        if (this.state?.debounce_timeout) {
-            clearTimeout(this.state.debounce_timeout); // quito el loop
-            this.setState({ debounce_timeout: null }); // y su referencia
-		}
-		
-        // Empiezo un timeout
-        const loop = setTimeout(() => {
-			
-			this.search(keyword);
-			
-		}, 500);
-		
-		
-        // Guardo la referencia de timeout
-		this.setState({ debounce_timeout: loop });
-		
-    };
 	
 	
 	
@@ -143,10 +161,13 @@ export default class Search extends React.Component {
 		
 		try {
 			
+			// Llamo
 			let res = await axios.post( getUrl(`/offer/find`), {
-				keyword: this.state.keyword
+				keyword: ""
 			});
 			
+			
+			// Pongo el resultado como estado
 			this.setState({ offerList: res.data });
 			
 			
@@ -183,7 +204,7 @@ export default class Search extends React.Component {
 								label="Búsqueda"
 								type="text"
 								// onChange={ (ev) => this.setState({ keyword: ev.target.value }) }
-								onChange={ (ev) => this.debounce(ev.target.value) }
+								onChange={ (ev) => this.handleKeyword(ev.target.value) }
 								value={this.state.keyword}
 								// helperText="Esto es un error"
 								// isError={true}
@@ -193,7 +214,15 @@ export default class Search extends React.Component {
 						
 						
 						
-						<ProvinceListDropDown className="mb5" />
+						<DropdownProvinceList
+							className="mb5"
+							label="Provincia"
+							defaultOption="Todas"
+							enableDefaultOption={true}
+							onChange={ (ev) => {
+								this.setState({province : ev.target.value});
+							}}
+						/>
 						
 						
 						
@@ -217,27 +246,40 @@ export default class Search extends React.Component {
 					
 					<div className="results br">
 						
-						{this.state?.offerList.map( (_x) => {
+						{ this.state.loading ? 
 							
-							return <SearchResultLabor
-								key={_x.id}
-								
-								img={"https://about.canva.com/wp-content/uploads/sites/3/2016/08/logos-1.png"}
-								title={_x.title}
-								companyName={_x.company_id}
-								description={_x.description}
-								city={_x.city}
-								date={_x.created_at}
-								contractType={_x.contractType}
-								minHoursWeek={20}
-								maxHoursWeek={25}
-								minSalary={_x.min_salary}
-								maxSalary={_x.max_salary}
-								
-								onClick={ this.pulsaOferta.bind(this, _x) }
+							<ImageLabor
+								src="/img/searching.gif"
+								w={10}
+								measure="em"
 							/>
 							
-						})}
+							:
+							
+							this.state?.offerList.map( (_x) => {
+								
+								return <SearchResultLabor
+									key={_x.id}
+									
+									img={"https://about.canva.com/wp-content/uploads/sites/3/2016/08/logos-1.png"}
+									title={_x.title}
+									companyName={_x.company_id}
+									description={_x.description}
+									city={_x.city}
+									date={_x.created_at}
+									contractType={_x.contractType}
+									minHoursWeek={20}
+									maxHoursWeek={25}
+									minSalary={_x.min_salary}
+									maxSalary={_x.max_salary}
+									
+									onClick={ this.pulsaOferta.bind(this, _x) }
+								/>
+								
+							})
+							
+						}
+						
 						
 						
 						{/* <SearchResultLabor
