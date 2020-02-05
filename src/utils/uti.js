@@ -1,7 +1,8 @@
 import { Workday } from "./const";
+import axios from "axios";
 
 // Import de todo:
-// 	import * from "./utils/session"
+// 	import * from "./utils/uti"
 
 
 
@@ -15,7 +16,7 @@ import { Workday } from "./const";
 		}
 	
 	Import:
-		import { session } from "./utils/session"
+		import { session } from "./utils/uti"
 	
 	Ejemplos:
 		session.get(); 		// Devuelve el objeto con datos o NULL si NO estás logeado
@@ -344,5 +345,75 @@ export const translateWorkday = (code) => {
 	for (let _x of Workday) {
 		if (_x[0] === code) return _x[1];
 	};
+	
+};
+
+
+
+/*
+	Pide datos a la DB y los cachea para que la próxima vez que se necesiten vuelva a pedirlos a la DB.
+		
+	Import:
+		import { cache } from "./utils/uti"
+
+
+	Params:
+		0: callId (STRING) - Identificador único de la llamada.
+		1: data (OBJ) - Objeto con los datos necesarios para la llamada de axios.
+		2: mode (STRING) - Modo. Default: "search".
+		
+	Ejemplos:
+		cache("appliedOffers", {uid: "asd"});		// Busca en caché y si no lo encuentra, hace llamada y almacena en caché.
+		cache("appliedOffers", {}, "fresh");		// Omite la búsqueda en caché, haciendo la llamada y almacenándola directamente.
+		cache("appliedOffers", {}, "save");			// Almacena en caché los datos.
+	
+	Modos:
+		search (default): Busca en caché, luego llama a la API.
+		fresh: Omite la búsqueda en caché para llamar a la API directamente.
+		save: Almacena en caché el objeto del parámetro "data".
+	
+	.
+	
+*/
+
+export const cache = async (callId, data, mode = "search") => {
+	
+	let cacheId = `cache_${callId}`;
+	
+	
+	// Busco en caché primero
+	if (mode === "search") {
+		let cache = localStorage.getItem(cacheId);
+		if (cache) return JSON.parse(cache);
+	};
+	
+	
+	
+	// Llamo a la API
+	const objCall = {
+		
+		"appliedOffers": {
+			mode: "get",
+			url: getUrl(`/offer/applied/${data.uid}`)
+		},
+		
+	};
+	
+	
+	let callData = objCall[callId];
+	let res = await axios[callData.mode](callData.url);
+	
+	
+	// Guardo en caché
+	localStorage.setItem (cacheId, JSON.stringify(res.data) );
+	
+	
+	return res.data;
+	
+	
+	// JSON.parse( localStorage.getItem("asd") );
+	// localStorage.setItem ("asd", JSON.stringify(data) );
+	// localStorage.removeItem("asd");
+	
 	
 };
