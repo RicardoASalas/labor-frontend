@@ -156,10 +156,15 @@ export default class Register extends React.Component {
 					
 				} else {
 					
-					validation = validate(this.state.cif, "cif", 9);
+					validation = validate(this.state.cif, "cif", 9, 9);
 					if (validation !== "") { correct = false };
 					this.setState({ err_cif: validation });
-				}
+					
+					validation = validate(this.state.sector, "abc_", 2);
+					if (validation !== "") { correct = false };
+					this.setState({ err_sector: validation });
+					
+				};
 				
 			break;
 			
@@ -428,6 +433,7 @@ export default class Register extends React.Component {
 							{ this.c_input("Name", "text", "name") }
 							{ this.c_input("Teléfono", "text", "phone") }
 							{ this.c_input("CIF", "text", "cif") }
+							{ this.c_input("Sector", "text", "sector") }
 
 							<div className="boxButtons">
 								
