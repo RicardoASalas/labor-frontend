@@ -64,7 +64,7 @@ export default class Login extends React.Component {
 			};
 			
 			let res = await axios.post( getUrl("/user/login"), loginData);
-			// let data = res.data;
+			let data = res.data;
 			
 			
 			
@@ -79,15 +79,17 @@ export default class Login extends React.Component {
 			
 			
 			// Mando info a redux
-			// login(data);
+			login(data);
 			
 			
-			// Pido cosas para que vayan al caché
-			// cache("appliedOffers", {uid: data.uid}, "fresh")
+			// Si soy empleado, pido mis ofertas para que vayan al caché
+			if (! data.is_company) {
+				cache("appliedOffers", {uid: data.uid}, "fresh")
+			};
 			
 			
 			// Redirección
-			// this.props.history.push("/");
+			this.props.history.push("/");
 			
 			
 		} catch (err) {
