@@ -181,7 +181,7 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0, flags = "
 		break;
 		
 		case "cif":
-			regex = RegExp("^([abcdefghjklmnpqrsuvw])(\d{7})([0-9a-j])$", flags);
+			regex = RegExp("^([ABCDEFGHJKLMNPQRSUVW])([0-9]{7})([0-9A-J])$", flags);
 			errorMessage = "El CIF no es válido.";
 		break;
 		
