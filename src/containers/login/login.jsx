@@ -20,6 +20,7 @@ export default class Login extends React.Component {
 		
 		this.state = {
 			
+			message: "",
 			
 		};
 		
@@ -66,29 +67,28 @@ export default class Login extends React.Component {
 			let data = res.data;
 			
 			
-			// Guardo datos de sesión
-			// session.set({
-			// 	username: data.username,
-			// 	userId: data.userId,
-			// 	token: data.token,
-			// 	userType: data.userType
-			// });
+			console.log( res );
 			
-			
-			// Muestro
-			// this.muestraError("Accediendo...", 2, false);
+			// Mal
+			if (res.error) {
+				
+				if (res.errorCode === "user_login_1") {
+					this.setState({ message: "Usuario o contraseña incorrectos." });
+				};
+				
+			};
 			
 			
 			// Mando info a redux
-			login(data);
+			// login(data);
 			
 			
 			// Pido cosas para que vayan al caché
-			cache("appliedOffers", {uid: data.uid}, "fresh")
+			// cache("appliedOffers", {uid: data.uid}, "fresh")
 			
 			
 			// Redirección
-			this.props.history.push("/");
+			// this.props.history.push("/");
 			
 			
 		} catch (err) {
@@ -200,7 +200,12 @@ export default class Login extends React.Component {
 						onClick={ () => this.props.history.push("/register") }
 					>
 						¿No tienes cuenta? ¡Regístrate!
-					</p>					
+					</p>
+					
+					
+					
+					<p className="error">{this.state.message}</p>					
+					
 					
 				</form>
 			</div>
