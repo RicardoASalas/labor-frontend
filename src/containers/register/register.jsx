@@ -197,6 +197,8 @@ export default class Register extends React.Component {
 				name: this.state.name,
 				phone: this.state.phone,
 				
+				description: `Descripción de ${this.state.name}.`,
+				
 			};
 			
 			
@@ -211,19 +213,25 @@ export default class Register extends React.Component {
 			
 			
 			// Hago la llamada
-			await axios.post( getUrl("/user/register"), registerData);
-			// let res = await axios.post( getUrl("/user/register"), registerData);
-			// let data = res.data;
+			let res = await axios.post( getUrl("/user/register"), registerData);
+			let data = res.data;
 			
 			
-			// Muestro mensaje de éxito
-			this.setState({ success: "Cuenta creada con éxito. Redirigiendo..." });
+			if (data.success) {
+				
+				// Muestro mensaje de éxito
+				this.setState({ success: "Cuenta creada con éxito. Redirigiendo..." });
+				
+				
+				// Redirección
+				setTimeout( () => {
+					this.props.history.push("/login");
+				}, 1500);
+				
+			};
 			
 			
-			// Redirección
-			setTimeout( () => {
-				this.props.history.push("/login");
-			}, 1500);
+			
 			
 			
 		} catch (err) {
@@ -282,7 +290,7 @@ export default class Register extends React.Component {
 	};
 
 	
-	c_input = (label, type, stateKey) => {
+	c_input = (label, type, stateKey, className) => {
 		
 		let errTxt = this.state?.[`err_${stateKey}`];
 		let err = !! errTxt;
@@ -292,6 +300,7 @@ export default class Register extends React.Component {
 			
 			<FormControl className="mt3">
 				<TextField
+					className={className}
 					error={ err }
 					helperText={ errTxt }
 					// id="outlined-basic"
@@ -332,7 +341,7 @@ export default class Register extends React.Component {
 							helperText={this.state.err_province}
 						/>
 						
-						{ this.c_input("Ciudad", "text", "city") }
+						{ this.c_input("Ciudad", "text", "city", "wfc") }
 						
 					</div>
 					<div className="flex-dir-r">

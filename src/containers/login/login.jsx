@@ -64,10 +64,9 @@ export default class Login extends React.Component {
 			};
 			
 			let res = await axios.post( getUrl("/user/login"), loginData);
-			let data = res.data;
+			// let data = res.data;
 			
 			
-			console.log( res );
 			
 			// Mal
 			if (res.error) {
