@@ -3,7 +3,39 @@ import React from "react";
 
 
 
-export default class ProvinceListDropDown extends React.Component {
+/*
+	<DropdownProvinceList
+		className="mb5"
+		label="Provincia"
+		onChange={ (ev) => {
+			this.setState({province : ev.target.value});
+		}}
+	/>
+	
+	<DropdownProvinceList
+		className="mb5"
+		label="Provincia"
+		defaultOption="Selecciona una provincia"
+		onChange={ (ev) => {
+			this.setState({province : ev.target.value});
+		}}
+	/>
+	
+	<DropdownProvinceList
+		className="mb5"
+		label="Provincia"
+		defaultOption="Todas"
+		enableDefaultOption={true}
+		onChange={ (ev) => {
+			this.setState({province : ev.target.value});
+		}}
+	/>
+	
+*/
+
+
+
+export default class DropdownProvinceList extends React.Component {
 	
 	shouldComponentUpdate(nextProps, nextState) {
 		
@@ -64,11 +96,16 @@ export default class ProvinceListDropDown extends React.Component {
 					defaultValue=""
 				>
 					
-					<option value="" disabled={true}>Selecciona una provincia</option>
-					{/* {
-						this.props.defaultValue &&
-						<option value="">{this.props.defaultValue}</option>
-					} */}
+					{
+						this.props.defaultOption &&
+						
+						<option
+							value=""
+							disabled={! this.props.enableDefaultOption}
+						>
+							{this.props.defaultOption}
+						</option>
+					}
 					
 					
 					{

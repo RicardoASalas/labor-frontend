@@ -316,8 +316,9 @@ class OfferRegister extends React.Component {
 					<div className="flex-dir-c mt5">
 						
 						<DropdownProvinceList
-							label="Provincia"
 							className="mr3 mb2"
+							label="Provincia"
+							defaultOption="Selecciona una provincia"
 							onChange={ (ev) => {
 								this.setState({province : ev.target.value});
 							}}

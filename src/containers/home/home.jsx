@@ -16,11 +16,9 @@ class Home extends Component {
 			categoriaSugerida : ""
 		}
 		
-	}
-	componentDidMount(){
-		console.log( this.props.asd );
-	}
-
+	};
+	
+	
 	
 	render() {
 		return (
@@ -135,6 +133,3 @@ const mapStateToProps = (state) => { // ese state es de redux
 	})
 }
 export default connect(mapStateToProps) (Home);
-
-
-// export default Home;
