@@ -89,7 +89,6 @@ html {
 .aifs {align-items: flex-start}
 .aife {align-items: flex-end}
 
-.wft {width: fit-content}
 
 
 
@@ -156,6 +155,17 @@ html {
 .m3 { margin: 1em !important; }
 .m4 { margin: 1.5em !important; }
 .m5 { margin: 2em !important; }
+
+
+
+.wfc {width: fit-content}
+.w100 {width: 100%; }
+.w50 {width: 100%; }
+.w33 {width: 100%; }
+
+.h100 {height: 100%; }
+.h50 {height: 100%; }
+.h33 {height: 100%; }
 
 
 
