@@ -23,9 +23,10 @@ const useStyles = makeStyles(theme => ({
 
 export default function ChipsArray(props) {
     console.log(props.skills)
+    let skills=[{"name": "php", "id": 1}, {"name": "react", "id": 2}]
     const classes = useStyles();
     //Se almacena el array de objetos skill en la variable chipData
-     var [chipData, setChipData] = React.useState(props.skills);
+     var [chipData, setChipData] = React.useState(skills);
 
      const handleDelete = chipToDelete => () => {
         setChipData(chips => chips.filter(chip => chip.id !== chipToDelete.id));
