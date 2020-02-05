@@ -8,6 +8,9 @@ import Tab from '@material-ui/core/Tab';
 import HomeIcon from '@material-ui/icons/Home';
 import WorkIcon from '@material-ui/icons/Work';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import Face from '@material-ui/icons/Face';
+
+import { connect } from 'react-redux';
 
 
 const useStyles = makeStyles({
@@ -28,7 +31,7 @@ const CenteredTabs = (props) => {
 	const classes = useStyles();
 	const [value, setValue] = React.useState(0);
 	
-
+	
 	const handleChange = (event, newValue) => {
 		
 		setValue(newValue);
@@ -42,15 +45,18 @@ const CenteredTabs = (props) => {
 				props.history.push("/search");
 			break;
 			case 2: 
-				props.history.push("/login");
+				props.session.username ? props.history.push("/profile") : props.history.push("/login");
 			break;
 			
 			default: break;
 		}
 		
 	};
-
+	
+	
+	
 	return (
+		
 		<Paper className={classes.root}>
 			
 			<Tabs
@@ -71,10 +77,23 @@ const CenteredTabs = (props) => {
 					icon={<WorkIcon />}
 				/>
 				
-				<Tab
-					label="Login"
-					icon={<AccountCircle />}
-				/>
+				{ props.session.username ? 
+					
+					<Tab
+						label="Perfil"
+						icon={<Face />}
+					/>
+					
+					:
+					
+					<Tab
+						label="Acceder"
+						icon={<AccountCircle />}
+					/>
+					
+				}
+				
+				
 				
 			</Tabs>
 			
@@ -84,4 +103,12 @@ const CenteredTabs = (props) => {
 
 
 
-export default withRouter(CenteredTabs)
+const mapStateToProps = (state) => {
+	return ({
+		session: state.session,
+		
+	})
+};
+
+
+export default connect(mapStateToProps) (withRouter(CenteredTabs));
