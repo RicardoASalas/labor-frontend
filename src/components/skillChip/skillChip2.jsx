@@ -31,9 +31,6 @@ export default function ChipsArray(props) {
 
     console.log(chipData)
 
-  const handleDelete = chipToDelete => () => {
-    setChipData(chips => chips.filter(chip => chip.key !== chipToDelete.key));
-  };
 
   return (
     <Paper className={classes.root}>

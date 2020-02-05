@@ -127,41 +127,37 @@ class Profile extends React.Component {
         } 
     }
     
-    // async getSkills(){
+    async getSkills(){
 
-    //     //Hace una peticion a la api del back que obtiene como resultado un array de objetos skills a los 
-    //     //que esta subscrito el usuario loggeado y lo almacena en el estado userSkills.
-    //         let res
+        //Hace una peticion a la api del back que obtiene como resultado un array de objetos skills a los 
+        //que esta subscrito el usuario loggeado y lo almacena en el estado userSkills.
+            let res
             
-    //         try {
+            try {
                
-    //             let uid = this.props.session.uid 
+                let uid = this.props.session.uid 
                 
-    //             if(!this.state.isCompany){
+                if(!this.state.isCompany){
 
-    //                 // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
-    //                 res = await axios.get(getUrl(`/skill/applied/${uid}`));
-                    
-    //             }
+                    // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
+                    res = await axios.get(getUrl(`/skill/applied/${uid}`));
 
-    //             let skillsArray = [];
-
-    //             res.data(skill=>{
-    //                 skillsArray.push({ key: skill.id, label: skill.name})
-    //                 })
-                    
-                    
-
-    //                 this.setState({userSkills: skillsArray }, () => {
-    //                     // this.state.userType = this.state.userData.userType === 0 ? "Cliente" : "Vendedor";
-    //             });
-                    
+                }   
                
-    //         } catch (err) {
-    //             console.error(err);
-    //         }
+            } catch (err) {
+                console.error(err);
+            }
+
+            let skillsArray = [];
             
-    // }
+            //Cambia las claves del objeto para poder ser leido por el componente skillChip
+            res.data.map(skill=>{
+            skillsArray.push({ key: skill.id, label: skill.name})
+            })
+
+            this.setState({userSkills: skillsArray })
+                
+    }
 
     async getAppliedOffers(){
 
@@ -214,15 +210,18 @@ class Profile extends React.Component {
 
         this.getAppliedOffers();
 
+        this.getSkills()
+        
+
         
     }
+
     
-    componentDidMount() {        
+    
+   componentDidMount() {        
         
         console.log(this.props.session)
         this.showData()
-
-        
         
     }
 	
@@ -410,7 +409,7 @@ class Profile extends React.Component {
                 <div className="cardUserEducation mt2 pt3 pr3 pb3 pl3 br flex-dir-r" >
                     <div className="addSkillContainer">
                         </div>
-                {(this.state.userSkills.length = 0) ? ()=>this.getSkills() : <SkillChip skills = {this.state.userSkills}  />} 
+                        <SkillChip skills = {this.state.userSkills}  />
                            
                         </div>
                     <div className="cardUserDescription mt2 pt3 pb3 pl5 pr5 aic jcc br flex-dir-c" >
