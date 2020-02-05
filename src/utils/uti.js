@@ -176,7 +176,7 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0, flags = "
 		
 		// Específicos
 		case "nif":
-			regex = RegExp("^(\d{8})([a-z]{1})$", flags);
+			regex = RegExp("^([0-9]{8})([a-z]{1})$", flags);
 			errorMessage = "El NIF/NIE no es válido.";
 		break;
 		
@@ -191,7 +191,7 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0, flags = "
 		break;
 		
 		case "phone":
-			regex = RegExp("^[\d()+-\s]*$", flags);
+			regex = RegExp("^[0-9()+-\s]*$", flags);
 			errorMessage = "El teléfono no es válido.";
 		break;
 		case "city":
