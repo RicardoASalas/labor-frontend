@@ -135,7 +135,7 @@ export default class Register extends React.Component {
 			
 			case 2:
 				
-				validation = validate(this.state.name, "name", 1);
+				validation = validate(this.state.name, "abc", 1);
 				if (validation !== "") { correct = false };
 				this.setState({ err_name: validation });
 				
@@ -146,7 +146,7 @@ export default class Register extends React.Component {
 				
 				if (! this.state.isEnterprise) {
 					
-					validation = validate(this.state.surname, "surname", 1);
+					validation = validate(this.state.surname, "abc", 4);
 					if (validation !== "") { correct = false };
 					this.setState({ err_surname: validation });
 					
@@ -176,6 +176,10 @@ export default class Register extends React.Component {
 	
 	
 	send = async () => {
+		
+		// Si no es correcta la validación, no sigo
+		if (! this.validateStep()) return;
+		
 		
 		// Axios
 		try {
@@ -210,6 +214,7 @@ export default class Register extends React.Component {
 			await axios.post( getUrl("/user/register"), registerData);
 			// let res = await axios.post( getUrl("/user/register"), registerData);
 			// let data = res.data;
+			
 			
 			// Muestro mensaje de éxito
 			this.setState({ success: "Cuenta creada con éxito. Redirigiendo..." });
