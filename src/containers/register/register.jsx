@@ -318,8 +318,9 @@ export default class Register extends React.Component {
 					<div className="flex-dir-r">
 						
 						<DropdownProvinceList
-							label="Provincia"
 							className="mt3 mr3"
+							label="Provincia"
+							defaultOption="Selecciona una provincia"
 							onChange={ (ev) => {
 								this.setState({province : ev.target.value});
 							}}

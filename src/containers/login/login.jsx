@@ -5,7 +5,7 @@ import "./login.scss";
 
 import TextField from "@material-ui/core/TextField";
 import { FormControl, Button } from '@material-ui/core';
-import { validate, session, getUrl } from "../../utils/uti"
+import { validate, session, getUrl, cache } from "../../utils/uti"
 import axios from "axios";
 import ImageLabor from "../../components/image/image";
 import { login } from "../../redux/actions/users";
@@ -66,7 +66,6 @@ export default class Login extends React.Component {
 			let data = res.data;
 			
 			
-			
 			// Guardo datos de sesión
 			// session.set({
 			// 	username: data.username,
@@ -83,6 +82,9 @@ export default class Login extends React.Component {
 			// Mando info a redux
 			login(data);
 			
+			
+			// Pido cosas para que vayan al caché
+			cache("appliedOffers", {uid: data.uid}, "fresh")
 			
 			
 			// Redirección

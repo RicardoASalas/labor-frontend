@@ -18,6 +18,8 @@ class OfferDetail extends React.Component {
 		
 		this.state = {
 			
+			alreadyApplied: true,
+			
 		};
 		
 	};
@@ -50,16 +52,10 @@ class OfferDetail extends React.Component {
 	
 	async componentDidMount() {
 		
-		cache("appliedOffers", {uid: this.props.session.uid}, "fresh");
-		
-		
-		
 		try {
 			
 			// Pido todas las ofertas en las que estoy inscrito
-			let res = await axios.get( getUrl(`/offer/applied/${this.props.session.uid}`) );
-			let offers = res.data;
-			
+			let offers = await cache("appliedOffers", {uid: this.props.session.uid});
 			
 			
 			// Busco la oferta actual entre las que estoy inscrito

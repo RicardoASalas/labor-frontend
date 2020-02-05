@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { getUrl, /*session*/ } from "../../utils/uti";
 import SkillChip from "../../components/skillChip/skillChip2"
-import ProvinceListDropDown from "../../components/dropdownProvinces/dropdownProvinces"
+import DropdownProvinceList from "../../components/dropdownProvinces/dropdownProvinces"
 
 // import EditIcon from "../../components/image/image"
 import TextField from "@material-ui/core/TextField";
@@ -265,9 +265,10 @@ class Profile extends React.Component {
             editName = this.c_input("Nombre", "text", "name" );
             editSurname = this.c_input("Apellidos", "text", "surname");
             editEmail = this.c_input("Email", "email", "email");
-            editProvince = <ProvinceListDropDown
+            editProvince = <DropdownProvinceList
                             className= "provinceDropdown"
-                            label="Provincia"
+							label="Provincia"
+							defaultOption="Selecciona una provincia"
 							onChange={ (ev) => {
 								this.setState({province : ev.target.value});
 							}}
