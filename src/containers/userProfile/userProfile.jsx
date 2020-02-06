@@ -4,6 +4,7 @@ import { getUrl, /*session*/ } from "../../utils/uti";
 import SkillChip from "../../components/skillChip/skillChip";
 import InputChips from "../../components/inputChips/inputChips";
 import DropdownProvinceList from "../../components/dropdownProvinces/dropdownProvinces";
+import CompanyFolderMenu from "../../components/folderMenu/folderMenu";
 
 // import EditIcon from "../../components/image/image"
 import TextField from "@material-ui/core/TextField";
@@ -23,7 +24,7 @@ class Profile extends React.Component {
             userSkills:[],
             userOffers:[],
             skillList:[],
-            isCompany: false,
+            isCompany: true,
             editProfileMode: false,
         };
     }
@@ -59,14 +60,14 @@ class Profile extends React.Component {
 
         //Llama a la funcion getAppliedOffers
 
-        this.getAppliedOffers();
+        this.getOffers();
 
         this.getSkills()
          
     }
 
 
-    async getAppliedOffers(){
+    async getOffers(){
 
         //Hace una peticion a la api del back que obtiene como resultado un array de objetos offerta a los 
         //que esta subscrito el usuario loggeado y lo almacena en el estado userOffers.
@@ -74,18 +75,41 @@ class Profile extends React.Component {
             try {
                
                 let uid = this.props.session.uid 
-                let res
+                let res1
+                let res2
                 if(!this.state.isCompany){
 
                     // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
-                    res = await axios.get(getUrl(`/offer/applied/${uid}`));
+                    res1 = await axios.get(getUrl(`/offer/applied/${uid}`));
+
+                    console.log("la respuesta de la peticion de ofertas "+res1.data)
+
+                    this.setState({ userOffers: res1.data }, () => {
+                        // this.state.userType = this.state.userData.userType === 0 ? "Cliente" : "Vendedor";
+                    });
+
+
+                }
+                else{
+
+                    // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
+                    res1 = await axios.get(getUrl(`/offer/created/${uid}`));
+
+                    console.log("la respuesta de la peticion de ofertas "+res1.data)
+
+
+                    res2 = await axios.get(getUrl(`/offer/candidates/${uid}`));
+
+                    console.log("la respuesta de la peticion de candidatos "+res2.data)
+                    
+                    this.setState({ 
+                        userOffers: res1.data,
+                        candidates: res2.data
+                    });
+
+                    
                 }
                 
-                console.log("la respuesta de la peticion de ofertas "+res.data)
-
-                this.setState({ userOffers: res.data }, () => {
-                    // this.state.userType = this.state.userData.userType === 0 ? "Cliente" : "Vendedor";
-                });
                
             } catch (err) {
                 console.error(err);
@@ -108,13 +132,15 @@ class Profile extends React.Component {
                     // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
                     res = await axios.get(getUrl(`/skill/applied/${uid}`));
 
+                    this.setState({userSkills: res.data })
+
                 }   
                
             } catch (err) {
                 console.error(err);
             }            
             
-            this.setState({userSkills: res.data })
+            
                 
     }
 
@@ -137,12 +163,14 @@ class Profile extends React.Component {
             console.error(err);
         }      
         
-        console.log(res.data)
+        if(!this.state.isCompany){
+
+            console.log(res.data)
         
-        this.setState({skillList: res.data })
-            
+            this.setState({skillList: res.data })
 
-
+        }
+        
     }
 
 
@@ -289,7 +317,7 @@ class Profile extends React.Component {
 		let editProvince;
         let editCity;
         let editDescription;
-        let skills;
+        let section;
         let editAvatar;
 		
 		let saveChanges;
@@ -303,11 +331,16 @@ class Profile extends React.Component {
             editEmail = this.state.userData.email;
             editProvince = this.state.userData.province;
             editCity = this.state.userData.city;
-            skills = (this.state.userSkills.length === 0)
+            if(!this.state.isCompany){
+
+                section = (this.state.userSkills.length === 0)
                         ?
                         <p/>
                         :<SkillChip className = "chipsContainer" skills = {this.state.userSkills}  
                         />
+
+            }
+            
 
             editDescription = this.state.userData.description;
             editAvatar = <img 
@@ -331,9 +364,11 @@ class Profile extends React.Component {
 							helperText={this.state.err_province}
                             />
             editCity = this.c_input("Ciudad", "text", "city");
-            editAvatar = this.c_input("Avatar link", "text", "avatar");;
-            
-            skills = <InputChips
+            editAvatar = this.c_input("Avatar link", "text", "avatar");
+
+            if(!this.state.isCompany){
+
+                section = <InputChips
                     defaultValue={this.state.userSkills}
                     optionsLabelKey="name"
                     
@@ -342,6 +377,10 @@ class Profile extends React.Component {
                     onChange={ (ev, value) => this.setState({ selectedSkills: value }) }
                     options={this.state.skillList}
                     />
+
+            }
+            
+            
 
             editDescription =
             <TextField
@@ -368,11 +407,11 @@ class Profile extends React.Component {
 
         let employeesSection="";
 
-        if(this.state.isCompany){
+        if(this.state.isCompany && this.state.candidates){
+                console.log("los candidatos son"+this.state.candidates)
 
-            employeesSection=<div className="cardUserDescription mt2 pt3 pb3 pl5 pr5 aic jcc br flex-dir-r" >
-                                <p>{this.state.userData.description}</p>
-                            </div> 
+                section=<CompanyFolderMenu class="offersMenu"/>
+                               
         }
 
         let offers 
@@ -402,7 +441,7 @@ class Profile extends React.Component {
 					
 					<div className="row2 pt3 flex-dir-r">
 						<div className="offerInfo pt2 pb2">
-							{ offer.pivot.status } |  {offer.min_salary}
+							{ (this.state.isCompany == false) ? offer.pivot.status : offer.created_at } |  {offer.min_salary} 
 						</div>
 					</div>
 				</div>
@@ -412,13 +451,20 @@ class Profile extends React.Component {
         }
         else{
             
-            offers = <p className="blackField">Aún no te has suscrito a ninguna oferta</p>
+            if(!this.state.isCompany){
+                offers = <p className="blackField">Aún no te has suscrito a ninguna oferta</p>
+            }
+            else{
+                offers = <p className="blackField">Aún no has creado ninguna oferta</p>
+            }
+           
         }
 
         return (
             <div className="main mainProfile">
                 <div className="cardUserInformation mr2 br ">
                 <div className="cardUserData br" >
+                    
                     {/* <div className="cardInfo">
                         <h1 className="cardTitle"> {this.state.userData.username} </h1>
                         <div className="userTypeClass">{userType}</div> 
@@ -464,7 +510,7 @@ class Profile extends React.Component {
                     <div className="addSkillContainer">
                         </div>
                         
-                        {skills}
+                        {section}
 
                            
                         </div>

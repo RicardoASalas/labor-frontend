@@ -167,6 +167,7 @@
         justify-content: center;
         width: 30%;
         height: 100%;
+        
 
     }
     .avatar{
@@ -174,9 +175,12 @@
         align-items: center;
         // height: 85%;
         // width: 85%;
-        height: 60%;
-        width:60%;
-        border-radius: 15%;
+        height:85%;
+        width:80%;
+        border-radius: 50%;
+        border-style: solid;
+        border-color: var(--colAzu);
+        border-width: thin;
     }
 
     .MuiOutlinedInput-input{
@@ -195,6 +199,15 @@
         padding:0.5rem;
         
     }
+    // .makeStyles-root-78{
+    //     height:100%;
+    // }
+    // .offersMenu{
+    //     height:100%;
+    // }
+    // .makeStyles-tabs-69{
+    //     width: 20%;
+    // }
     .userDataField {
         display:flex;
         color: var(--pri9);
@@ -242,11 +255,11 @@
         display: flex;
         margin-top: 3rem;
         margin-right:0.5rem;
-        font-size: 1.5rem;
+        font-size: 1.2rem;
         font-weight: bold;
         justify-content: center;
         align-items: center;
-        color: black;
+        color: #646464;
     }
 
     .userTypeClass {
