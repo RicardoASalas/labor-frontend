@@ -60,19 +60,37 @@ export default class searchResultLabor extends React.Component {
 		
 		let hoursWeek;
 		
-		if (this.props.maxHoursWeek) { // si han definido horas máximas
-			hoursWeek = `${this.props.minHoursWeek} - ${this.props.maxHoursWeek} h/semana`;
-		} else { // sólo hay mínimo de horas
-			hoursWeek = `Mín. ${this.props.minHoursWeek} h/semana`;
+		
+		if ( !this.props.minHoursWeek && !this.props.maxHoursWeek ) {
+			
+			hoursWeek = "";
+			
+		} else {
+		
+			if (this.props.maxHoursWeek) { // si han definido horas máximas
+				hoursWeek = `${this.props.minHoursWeek} - ${this.props.maxHoursWeek} h/semana`;
+			} else { // sólo hay mínimo de horas
+				hoursWeek = `Mín. ${this.props.minHoursWeek} h/semana`;
+			};
+			
 		};
 		
 		
 		let salary;
 		
-		if (this.props.maxSalary) { // si han definido salario máximos
-			salary = `${ numToStr(this.props.minSalary) } - ${ numToStr(this.props.maxSalary) } bruto €/año`;
-		} else { // sólo hay mínimo
-			salary = `Mín. ${ numToStr(this.props.minSalary) } bruto €/año`;
+		
+		if ( !this.props.minSalary && !this.props.maxSalary ) {
+			
+			salary = "";
+			
+		} else {		
+			
+			if (this.props.maxSalary) { // si han definido salario máximos
+				salary = `${ numToStr(this.props.minSalary) } - ${ numToStr(this.props.maxSalary) } bruto €/año`;
+			} else { // sólo hay mínimo
+				salary = `Mín. ${ numToStr(this.props.minSalary) } bruto €/año`;
+			};
+			
 		};
 		
 		
@@ -105,7 +123,7 @@ export default class searchResultLabor extends React.Component {
 					
 					<div className="row1 flex-dir-r pb2">
 						<div className="offerInfo pt2 pb2">
-							{ this.props.city }  |  { this.props.date }
+							{ this.props?.city }  {this.props.date && " |" + this.props.date }
 						</div>
 					</div>
 					
@@ -113,7 +131,7 @@ export default class searchResultLabor extends React.Component {
 					
 					<div className="row2 pt3 flex-dir-r">
 						<div className="offerInfo pt2 pb2">
-							{ this.props.contractType } | {hoursWeek} | {salary}
+							{ this.props?.contractType } {hoursWeek && "| " + hoursWeek} {salary && "| " + salary}
 						</div>
 					</div>
 					
