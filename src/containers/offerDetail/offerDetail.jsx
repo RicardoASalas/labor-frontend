@@ -1,5 +1,5 @@
 
-import React, {  } from "react";
+import React, { Fragment } from "react";
 
 import "./offerDetail.scss";
 
@@ -8,6 +8,7 @@ import ImageLabor from "../../components/image/image";
 import { connect } from "react-redux";
 import { getUrl, translateWorkday, numToStr, cache } from "../../utils/uti";
 import axios from "axios";
+import SearchResultLabor from "../../components/searchResult/searchResult";
 
 
 
@@ -50,28 +51,84 @@ class OfferDetail extends React.Component {
 	
 	
 	
+	renderCandidates () {
+		
+		// Todavía no ha llegado el estado de candidatos
+		if (! this.state.candidateList) {
+			return "";
+		};
+		
+		
+		return (
+			
+			<Fragment>
+				
+				<h1 className="tac mb1">Candidatos inscritos</h1>
+				
+				{
+					this.state?.candidateList.map( (_x) => {
+						// _x.pivot.offer_id === this.props.offerData.id
+						
+						
+						return (
+							<SearchResultLabor
+								key={_x.uid}
+								img={_x.avatar_url}
+								title={`${_x.name} ${_x.surname}`}
+								companyName={_x.cv_url}
+								description={_x.description}
+								city={_x.city}
+							/>
+						);
+				
+					})
+				}
+				
+			</Fragment>
+			
+			
+		)
+		
+	};
+	
+	
+	
 	async componentDidMount() {
 		
 		try {
 			
-			// Pido todas las ofertas en las que estoy inscrito
-			let offers = await cache("appliedOffers", {uid: this.props.session.uid});
-			
-			
-			// Busco la oferta actual entre las que estoy inscrito
-			let applied = false;
-			
-			for (let _x of offers) {
-				if (this.props.offerData.id === _x.id) {
-					applied = true;
-					break;
+			if (! this.props.session.is_company) {
+				
+				// Pido todas las ofertas en las que estoy inscrito
+				let offers = await cache("appliedOffers", {uid: this.props.session.uid});
+				
+				
+				// Busco la oferta actual entre las que estoy inscrito
+				let applied = false;
+				
+				for (let _x of offers) {
+					if (this.props.offerData.id === _x.id) {
+						applied = true;
+						break;
+					};
 				};
+				
+				
+				// Establezco el estado
+				this.setState({ alreadyApplied: applied });
+				
+				
+			} else {
+				
+				// Pido todos los candidatos
+				let candidates = await axios.get(getUrl(`/offer/candidates/${this.props.session.uid}`));
+				
+				
+				// Establezco el estado
+				this.setState({ candidateList: candidates.data[0] });
+				
+				
 			};
-			
-			
-			
-			// Establezco el estado
-			this.setState({ alreadyApplied: applied });
 			
 			
 		} catch (err) {
@@ -86,10 +143,14 @@ class OfferDetail extends React.Component {
 	
 	render() {
 		
+		let offerOwner = this.props.session.uid === this.props.offerData._companyUid;
+		
+		
+		
 		if (! this.props.offerData) {
 			return (
 				"Recarga"
-			)
+			);
 		};
 		
 		
@@ -233,6 +294,18 @@ class OfferDetail extends React.Component {
 					
 					<div className="description">
 						{this.props.offerData.description}
+					</div>
+					
+				</div>
+				
+				
+				
+				<div className="body">
+					
+					<div className="candidates">
+						
+						{this.renderCandidates()}
+						
 					</div>
 					
 				</div>
