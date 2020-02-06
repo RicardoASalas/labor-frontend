@@ -1,16 +1,12 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Chip from '@material-ui/core/Chip';
-// import Paper from '@material-ui/core/Paper';
-// import TagFacesIcon from '@material-ui/icons/TagFaces';
-// import { isElementOfType } from 'react-dom/test-utils';
-
-//<SkillChip skills = {this.state.userSkills}  /> 
-//Copiar el componente y pasarle las props como un array de objetos skill con id y name
+import Paper from '@material-ui/core/Paper';
+import DoneIcon from '@material-ui/icons/Done';
 
 
 const useStyles = makeStyles(theme => ({
-  root: {
+root: {
     display: 'flex',
     justifyContent: 'center',
     flexWrap: 'wrap',
@@ -22,36 +18,38 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function ChipsArray(props) {
-    console.log(props.skills)
-    let skills=[{"name": "php", "id": 1}, {"name": "react", "id": 2}]
-    const classes = useStyles();
-    //Se almacena el array de objetos skill en la variable chipData
-     var [chipData, setChipData] = React.useState(skills);
+  const classes = useStyles();
 
-     const handleDelete = chipToDelete => () => {
-        setChipData(chips => chips.filter(chip => chip.id !== chipToDelete.id));
-      };
+  let skills = []
+  
+  
+    props.skills.map(skill=>{
 
+        skills.unshift({id: skill.id, name: skill.name})
+
+    })
+  
+
+
+
+    const [chipData] = React.useState(skills);
+
+  
 
   return (
-    
-    <div>
-
+    <Paper className={classes.root}>
       {chipData.map(data => {
-        let icon;
-
-        
 
         return (
           <Chip
             key={data.id}
-            icon={icon}
+            icon={<DoneIcon />}
             label={data.name}
-            onDelete={handleDelete(data)}
+            // onDelete={data.label === 'React' ? undefined : handleDelete(data)}
             className={classes.chip}
           />
         );
       })}
-      </div>
+    </Paper>
   );
 }

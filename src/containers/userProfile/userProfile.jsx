@@ -1,8 +1,9 @@
 import React from "react";
 import axios from "axios";
 import { getUrl, /*session*/ } from "../../utils/uti";
-import SkillChip from "../../components/skillChip/skillChip2"
-import DropdownProvinceList from "../../components/dropdownProvinces/dropdownProvinces"
+import SkillChip from "../../components/skillChip/skillChip";
+import InputChips from "../../components/inputChips/inputChips";
+import DropdownProvinceList from "../../components/dropdownProvinces/dropdownProvinces";
 
 // import EditIcon from "../../components/image/image"
 import TextField from "@material-ui/core/TextField";
@@ -21,36 +22,130 @@ class Profile extends React.Component {
             userData: {},
             userSkills:[],
             userOffers:[],
+            skillList:[],
             isCompany: false,
             editProfileMode: false,
         };
     }
 
-    c_input = (label, type, stateKey) => {
-		
-		// let errTxt = this.state?.[`err_${stateKey}`];
-		// let err = !! errTxt;
-		
-		
-		return (
-			
-			<FormControl >
-				<TextField 
-					// error={ err }
-					// helperText={ errTxt }
-					// id="outlined-basic"
-					type={type}
-					label={label}
-                    variant="outlined"
-                    disableUnderline={true}
-					onChange={ (ev) => this.setChanges(ev, stateKey) }
-					value={this.state[stateKey] ? this.state[stateKey] : ""}
-				/>
-			</FormControl>
-			
-		);
-		
-	};
+    componentDidMount() {        
+        
+        console.log(this.props.session)
+        this.showData()
+        this.getSkillsList()
+        
+    }
+    
+
+    async showData(){
+        //hace una peticion a la api por medio de axios con filtro de uid y almacena en el estado userData
+        // un objeto con los datos de usuario.
+        try {
+
+			let uid = this.props.session.uid
+
+            // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
+            const res = await axios.get(getUrl(`/user/${uid}`));
+
+            console.log("la respuesta de la peticion es "+res.data)
+
+            this.setState({ userData: res.data, editedData: res.data }, () => {
+                // this.state.userType = this.state.userData.userType === 0 ? "Cliente" : "Vendedor";
+            });
+           
+        } catch (err) {
+            console.error(err);
+        }
+
+        //Llama a la funcion getAppliedOffers
+
+        this.getAppliedOffers();
+
+        this.getSkills()
+         
+    }
+
+
+    async getAppliedOffers(){
+
+        //Hace una peticion a la api del back que obtiene como resultado un array de objetos offerta a los 
+        //que esta subscrito el usuario loggeado y lo almacena en el estado userOffers.
+
+            try {
+               
+                let uid = this.props.session.uid 
+                let res
+                if(!this.state.isCompany){
+
+                    // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
+                    res = await axios.get(getUrl(`/offer/applied/${uid}`));
+                }
+                
+                console.log("la respuesta de la peticion de ofertas "+res.data)
+
+                this.setState({ userOffers: res.data }, () => {
+                    // this.state.userType = this.state.userData.userType === 0 ? "Cliente" : "Vendedor";
+                });
+               
+            } catch (err) {
+                console.error(err);
+            }
+       
+    }
+
+    async getSkills(){
+
+        //Hace una peticion a la api del back que obtiene como resultado un array de objetos skills a los 
+        //que esta subscrito el usuario loggeado y lo almacena en el estado userSkills.
+            let res
+            
+            try {
+               
+                let uid = this.props.session.uid 
+                
+                if(!this.state.isCompany){
+
+                    // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
+                    res = await axios.get(getUrl(`/skill/applied/${uid}`));
+
+                }   
+               
+            } catch (err) {
+                console.error(err);
+            }            
+            
+            this.setState({userSkills: res.data })
+                
+    }
+
+    async getSkillsList(){
+
+        //Hace una peticion a la api del back que obtiene como resultado un array de skills disponibles
+        let res
+            
+        try {
+           
+            
+            if(!this.state.isCompany){
+
+               
+                res = await axios.get(getUrl('/skill'));
+
+            }   
+           
+        } catch (err) {
+            console.error(err);
+        }      
+        
+        console.log(res.data)
+        
+        this.setState({skillList: res.data })
+            
+
+
+    }
+
+
     
     editProfileMode = () => {
 
@@ -62,6 +157,8 @@ class Profile extends React.Component {
         })
     } 
 
+
+
     setChanges = (ev, stateKey) => {
         
             //Crea el estado con nombre de campo pasado por parametro y valor regogido en el input de edición.
@@ -70,6 +167,7 @@ class Profile extends React.Component {
 
         
     }
+
     
      async saveChanges(){
 
@@ -109,16 +207,38 @@ class Profile extends React.Component {
             // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
             const res = await axios.post(getUrl(`/user/editProfile/${uid}`), editUserData);
 
-            console.log("la respuesta de la peticion es "+res.data)
+            // si se ha creado el estado selecteSkills es que se han hecho cambios y por lo tanto se
+            //dispara la peticion
+            if(this.state.selectedSkills){
+
+                let skillsArray = [];
+                let selectedSkills = this.state.selectedSkills
+                let body={};
+                
+                // preparamos el array de skillsId
+                selectedSkills.forEach(element => {
+                    skillsArray.push(element.id)
+                });
+                    
+                body={skill: skillsArray}
+            
+                console.log(selectedSkills)
+                console.log(skillsArray)
+                //hacemos la peticion mandando por url el array de skills y el uid
+                const res = await axios.post(getUrl(`/skill/apply/${uid}`), body);
+                this.setState({userSkills: res.data})
+            }
+
 
             this.setState({ userData: res.data }, () => {
                 // this.state.userType = this.state.userData.userType === 0 ? "Cliente" : "Vendedor";
             });
             
-
+            console.log("llega aqui")
             this.setState({
                 editProfileMode:false
             })
+
 
             this.showData();
            
@@ -126,107 +246,36 @@ class Profile extends React.Component {
             console.error(err);
         } 
     }
-    
-    async getSkills(){
 
-        //Hace una peticion a la api del back que obtiene como resultado un array de objetos skills a los 
-        //que esta subscrito el usuario loggeado y lo almacena en el estado userSkills.
-            let res
-            
-            try {
-               
-                let uid = this.props.session.uid 
-                
-                if(!this.state.isCompany){
-
-                    // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
-                    res = await axios.get(getUrl(`/skill/applied/${uid}`));
-
-                }   
-               
-            } catch (err) {
-                console.error(err);
-            }
-
-            let skillsArray = [];
-            
-            //Cambia las claves del objeto para poder ser leido por el componente skillChip
-            res.data.map(skill=>{
-            skillsArray.push({ key: skill.id, label: skill.name})
-            })
-
-            this.setState({userSkills: skillsArray })
-                
-    }
-
-    async getAppliedOffers(){
-
-        //Hace una peticion a la api del back que obtiene como resultado un array de objetos offerta a los 
-        //que esta subscrito el usuario loggeado y lo almacena en el estado userOffers.
-
-            try {
-               
-                let uid = this.props.session.uid 
-                let res
-                if(!this.state.isCompany){
-
-                    // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
-                    res = await axios.get(getUrl(`/offer/applied/${uid}`));
-                }
-                
-                console.log("la respuesta de la peticion de ofertas "+res.data)
-
-                this.setState({ userOffers: res.data }, () => {
-                    // this.state.userType = this.state.userData.userType === 0 ? "Cliente" : "Vendedor";
-                });
-               
-            } catch (err) {
-                console.error(err);
-            }
-       
-    }
-
-    async showData(){
-        //hace una peticion a la api por medio de axios con filtro de uid y almacena en el estado userData
-        // un objeto con los datos de usuario.
-        try {
-
-			let uid = this.props.session.uid
-
-            // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
-            const res = await axios.get(getUrl(`/user/${uid}`));
-
-            console.log("la respuesta de la peticion es "+res.data)
-
-            this.setState({ userData: res.data, editedData: res.data }, () => {
-                // this.state.userType = this.state.userData.userType === 0 ? "Cliente" : "Vendedor";
-            });
-           
-        } catch (err) {
-            console.error(err);
-        }
-
-        //Llama a la funcion getAppliedOffers
-
-        this.getAppliedOffers();
-
-        this.getSkills()
-        
-
-        
-    }
 
     
+    c_input = (label, type, stateKey) => {
+		
+		// let errTxt = this.state?.[`err_${stateKey}`];
+		// let err = !! errTxt;
+		
+		
+		return (
+			
+			<FormControl >
+				<TextField 
+					// error={ err }
+					// helperText={ errTxt }
+					// id="outlined-basic"
+					type={type}
+					label={label}
+                    variant="outlined"
+                    disableUnderline={true}
+					onChange={ (ev) => this.setChanges(ev, stateKey) }
+					value={this.state[stateKey] ? this.state[stateKey] : ""}
+				/>
+			</FormControl>
+			
+		);
+		
+	}; 
     
-   componentDidMount() {        
-        
-        console.log(this.props.session)
-        this.showData()
-        
-    }
-	
-	
-	
+
     render() {
         
         // let userType = this.state.userData.userType === 1 ? "Empleado" : "Empresa";
@@ -240,6 +289,7 @@ class Profile extends React.Component {
 		let editProvince;
         let editCity;
         let editDescription;
+        let skills;
         let editAvatar;
 		
 		let saveChanges;
@@ -253,6 +303,12 @@ class Profile extends React.Component {
             editEmail = this.state.userData.email;
             editProvince = this.state.userData.province;
             editCity = this.state.userData.city;
+            skills = (this.state.userSkills.length === 0)
+                        ?
+                        <p/>
+                        :<SkillChip className = "chipsContainer" skills = {this.state.userSkills}  
+                        />
+
             editDescription = this.state.userData.description;
             editAvatar = <img 
             className="avatar" 
@@ -276,6 +332,17 @@ class Profile extends React.Component {
                             />
             editCity = this.c_input("Ciudad", "text", "city");
             editAvatar = this.c_input("Avatar link", "text", "avatar");;
+            
+            skills = <InputChips
+                    defaultValue={this.state.userSkills}
+                    optionsLabelKey="name"
+                    
+                    label="Habilidades"
+                    placeholder="Escribe una habilidad"
+                    onChange={ (ev, value) => this.setState({ selectedSkills: value }) }
+                    options={this.state.skillList}
+                    />
+
             editDescription =
             <TextField
 						className=" editDescriptionBox"
@@ -316,27 +383,12 @@ class Profile extends React.Component {
             
 
             <div className="resultCard pt2 mb2  flex-dir-r pb2 pr2 br">
-				
-				{/* <div className="offerContainer col1 flex-dir-c"> */}
 					
 					<div className="offerImage">
 						<img className="avatar" src={ offer.avatarUrl ? offer.avatarUrl : "/img/companyLogoPlaceholder.png" } alt="Imagen de la empresa"/>
 					</div>
-				{/* </div> */}
 				
 				<div className="infoOfferContainer col2 flex-dir-c">
-                    {/* <div className="crossContainer">
-                        
-                        <ImageLabor
-                        className="addSkill br ml3 mb3 "
-                        src="https://simbologiadelmundo.com/wp-content/uploads/2016/06/08.png"
-                        w={20}
-                        alt="cancelar oferta"
-                        measure="px"
-                        br={50}
-                        onClick={()=>this.cancelOffer()}
-                    />
-                    </div> */}
                     
                    
 					<h2 className="title">{ offer.title }</h2>
@@ -362,6 +414,7 @@ class Profile extends React.Component {
             
             offers = <p className="blackField">Aún no te has suscrito a ninguna oferta</p>
         }
+
         return (
             <div className="main mainProfile">
                 <div className="cardUserInformation mr2 br ">
@@ -410,7 +463,9 @@ class Profile extends React.Component {
                 <div className="cardUserEducation mt2 pt3 pr3 pb3 pl3 br flex-dir-r" >
                     <div className="addSkillContainer">
                         </div>
-                        <SkillChip skills = {this.state.userSkills}  />
+                        
+                        {skills}
+
                            
                         </div>
                     <div className="cardUserDescription mt2 pt3 pb3 pl5 pr5 aic jcc br flex-dir-c" >
