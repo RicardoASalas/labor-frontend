@@ -24,10 +24,8 @@ export default function ChipsArray(props) {
   
   
     props.skills.map(skill=>{
-
-        skills.unshift({id: skill.id, name: skill.name})
-
-    })
+        return skills.unshift({id: skill.id, name: skill.name});
+    });
   
 
 
