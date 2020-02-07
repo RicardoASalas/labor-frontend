@@ -81,13 +81,19 @@
 		
 		
 		.description {
-			padding: 1.5em;
-			font-size: 1.1em;
+			font-size: 0.9em;
 		}
 		
 	}
 	
 	
+	
+	.descriptionCandidate {
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
 	
 	
 }

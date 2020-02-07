@@ -1,5 +1,5 @@
 
-import React, {  } from "react";
+import React, { Fragment } from "react";
 
 import "./offerDetail.scss";
 
@@ -8,6 +8,10 @@ import ImageLabor from "../../components/image/image";
 import { connect } from "react-redux";
 import { getUrl, translateWorkday, numToStr, cache } from "../../utils/uti";
 import axios from "axios";
+// import SearchResultLabor from "../../components/searchResult/searchResult";
+import IconButton from '@material-ui/core/IconButton';
+import CancelIcon from '@material-ui/icons/Cancel';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 
 
@@ -50,28 +54,165 @@ class OfferDetail extends React.Component {
 	
 	
 	
+	pulsaCandidato(uid) {
+		this.props.history.push(`/profile/${uid}`);
+	};
+	
+	
+	
+	renderCandidates () {
+		
+		// Todavía no ha llegado el estado de candidatos
+		if (! this.state.candidateList) return "";
+		
+		
+		// Devuelvo
+		return (
+			
+			<Fragment>
+				
+				{ 
+					<h1 className="tac mb1">Candidatos inscritos</h1>
+				}
+				
+				{
+					this.state?.candidateList.map( (_x) => {
+						
+						if (_x.pivot.offer_id === this.props.offerData.id) {
+							
+							// return (
+							// 	<SearchResultLabor
+							// 		key={_x.uid}
+							// 		img={_x.avatar_url}
+							// 		title={`${_x.name} ${_x.surname}`}
+							// 		companyName={_x.cv_url}
+							// 		description={_x.description}
+							// 		city={_x.city}
+									
+							// 		onClick={ () => this.pulsaCandidato(_x.uid) }
+							// 	/>
+							// );
+							
+							return (
+								
+								<div
+									className="resultCard br pt3 pb3 pr3 flex-dir-c mb2"
+								>
+									
+									<div
+										className="hitbox flex-dir-r"
+										onClick={ () => this.pulsaCandidato(_x.uid) }
+									>
+										
+										<div className="col1 flex-dir-c">
+											
+											<div className="image">
+												<ImageLabor
+													className="br"
+													src={ _x.avatar_url ? _x.avatar_url : "/img/companyLogoPlaceholder.png" }
+													w={100}
+													alt="imagen del candidato"
+													measure="px"
+													br={15}
+												/>
+											</div>
+										</div>
+										
+										<div className="col2 flex-dir-c">
+											
+											<h2 className="title">{`${_x.name} ${_x.surname}`}</h2>
+											
+											<div className="row2 flex-dir-r">
+												<div className="offerInfo">
+													{ _x.city } | {_x.province}
+												</div>
+											</div>
+											
+											<p className="descriptionCandidate pt2">{ _x.description }</p>
+											
+										</div>
+										
+										
+										
+									</div>
+									
+									
+									
+									<div className="botones flex-dir-r pl4">
+										
+										<IconButton
+											aria-label="aceptar candidato"
+											color="primary"
+											onClick={ () => console.log("Aceptar") }
+										>
+											<CheckCircleIcon />
+										</IconButton>
+										
+										<IconButton
+											aria-label="rechazar candidato"
+											color="secondary"
+											onClick={ () => console.log("Rechazar") }
+										>
+											<CancelIcon />
+										</IconButton>
+										
+									</div>
+									
+									
+								</div>
+								
+							)
+							
+						};
+				
+					})
+				}
+				
+			</Fragment>
+			
+			
+		)
+		
+	};
+	
+	
+	
 	async componentDidMount() {
 		
 		try {
 			
-			// Pido todas las ofertas en las que estoy inscrito
-			let offers = await cache("appliedOffers", {uid: this.props.session.uid});
-			
-			
-			// Busco la oferta actual entre las que estoy inscrito
-			let applied = false;
-			
-			for (let _x of offers) {
-				if (this.props.offerData.id === _x.id) {
-					applied = true;
-					break;
+			if (! this.props.session.is_company) {
+				
+				// Pido todas las ofertas en las que estoy inscrito
+				let offers = await cache("appliedOffers", {uid: this.props.session.uid});
+				
+				
+				// Busco la oferta actual entre las que estoy inscrito
+				let applied = false;
+				
+				for (let _x of offers) {
+					if (this.props.offerData.id === _x.id) {
+						applied = true;
+						break;
+					};
 				};
+				
+				
+				// Establezco el estado
+				this.setState({ alreadyApplied: applied });
+				
+				
+			} else {
+				
+				// Pido todos los candidatos
+				let candidates = await axios.get(getUrl(`/offer/candidates/${this.props.session.uid}`));
+				
+				
+				// Establezco el estado
+				this.setState({ candidateList: candidates.data[0] });
+				
+				
 			};
-			
-			
-			
-			// Establezco el estado
-			this.setState({ alreadyApplied: applied });
 			
 			
 		} catch (err) {
@@ -89,7 +230,7 @@ class OfferDetail extends React.Component {
 		if (! this.props.offerData) {
 			return (
 				"Recarga"
-			)
+			);
 		};
 		
 		
@@ -236,6 +377,20 @@ class OfferDetail extends React.Component {
 					</div>
 					
 				</div>
+				
+				
+				{ this.props.session.uid === this.props.offerData._companyUid && 
+					
+					<div className="body">
+						
+						<div className="candidates">
+							
+							{this.renderCandidates()}
+							
+						</div>
+						
+					</div>
+				}
 				
 				
 				

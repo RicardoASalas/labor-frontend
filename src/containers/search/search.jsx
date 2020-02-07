@@ -3,7 +3,7 @@ import React from "react";
 
 import "./search.scss";
 
-import { FormControl, Radio, TextField, FormControlLabel } from '@material-ui/core';
+import { /*FormControl,*/ Radio, /*TextField,*/ FormControlLabel } from '@material-ui/core';
 import TextInput from "../../components/textInput/textInput";
 // import ImageLabor from "../../components/image/image";
 import SearchResultLabor from "../../components/searchResult/searchResult";
