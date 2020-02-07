@@ -4,7 +4,7 @@ import { getUrl, /*session*/ } from "../../utils/uti";
 import SkillChip from "../../components/skillChip/skillChip";
 import InputChips from "../../components/inputChips/inputChips";
 import DropdownProvinceList from "../../components/dropdownProvinces/dropdownProvinces";
-import CompanyFolderMenu from "../../components/folderMenu/folderMenu";
+import CompanyFolderMenu from "../../components/folderMenu/folderMenu2";
 
 // import EditIcon from "../../components/image/image"
 import TextField from "@material-ui/core/TextField";
@@ -231,6 +231,9 @@ class Profile extends React.Component {
         try {
             
             let uid = this.props.session.uid
+
+            console.log(editUserData)
+            console.log(uid)
             
             // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
             const res = await axios.post(getUrl(`/user/editProfile/${uid}`), editUserData);
@@ -275,13 +278,13 @@ class Profile extends React.Component {
         } 
     }
 
-
+    
     
     c_input = (label, type, stateKey) => {
 		
 		// let errTxt = this.state?.[`err_${stateKey}`];
 		// let err = !! errTxt;
-		
+    	
 		
 		return (
 			
@@ -319,7 +322,6 @@ class Profile extends React.Component {
         let editDescription;
         let section;
         let editAvatar;
-		
 		let saveChanges;
 		
 		
@@ -352,8 +354,9 @@ class Profile extends React.Component {
         }else{
 
             editName = this.c_input("Nombre", "text", "name" );
-            editSurname = this.c_input("Apellidos", "text", "surname");
             editEmail = this.c_input("Email", "email", "email");
+            editAvatar = this.c_input("Avatar link", "text", "avatar");
+            if(!this.state.isCompany){
             editProvince = <DropdownProvinceList
                             className= "provinceDropdown"
 							label="Provincia"
@@ -364,9 +367,10 @@ class Profile extends React.Component {
 							helperText={this.state.err_province}
                             />
             editCity = this.c_input("Ciudad", "text", "city");
-            editAvatar = this.c_input("Avatar link", "text", "avatar");
+            editSurname = this.c_input("Apellidos", "text", "surname");
+            
 
-            if(!this.state.isCompany){
+            
 
                 section = <InputChips
                     defaultValue={this.state.userSkills}
@@ -410,7 +414,7 @@ class Profile extends React.Component {
         if(this.state.isCompany && this.state.candidates){
                 console.log("los candidatos son"+this.state.candidates)
 
-                section=<CompanyFolderMenu class="offersMenu"/>
+                section=<CompanyFolderMenu candidates={this.state.candidates ? this.state.candidates:""}/>
                                
         }
 
@@ -424,7 +428,7 @@ class Profile extends React.Component {
             <div className="resultCard pt2 mb2  flex-dir-r pb2 pr2 br">
 					
 					<div className="offerImage">
-						<img className="avatar" src={ offer.avatarUrl ? offer.avatarUrl : "/img/companyLogoPlaceholder.png" } alt="Imagen de la empresa"/>
+						<img className="avatar" src={ offer._companyAvatar ? offer._companyAvatar : "/img/companyLogoPlaceholder.png" } alt="Imagen de la empresa"/>
 					</div>
 				
 				<div className="infoOfferContainer col2 flex-dir-c">
@@ -441,7 +445,7 @@ class Profile extends React.Component {
 					
 					<div className="row2 pt3 flex-dir-r">
 						<div className="offerInfo pt2 pb2">
-							{ (this.state.isCompany == false) ? offer.pivot.status : offer.created_at } |  {offer.min_salary} 
+							{ (this.state.isCompany == false) ? offer.pivot.status : offer.created_at } |  {offer.min_salary} - {offer.max_salary} €
 						</div>
 					</div>
 				</div>
@@ -515,7 +519,7 @@ class Profile extends React.Component {
                            
                         </div>
                     <div className="cardUserDescription mt2 pt3 pb3 pl5 pr5 aic jcc br flex-dir-c" >
-                        <p className="descriptionBox">{editDescription}</p>
+                        <p className="descriptionBox mt2 ml2">{editDescription}</p>
                     </div>
                     {employeesSection}
                     
