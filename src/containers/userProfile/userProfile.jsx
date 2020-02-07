@@ -6,13 +6,16 @@ import InputChips from "../../components/inputChips/inputChips";
 import DropdownProvinceList from "../../components/dropdownProvinces/dropdownProvinces";
 import CompanyFolderMenu from "../../components/folderMenu/folderMenu2";
 
+import "./userProfile.scss";
+
 // import EditIcon from "../../components/image/image"
 import TextField from "@material-ui/core/TextField";
 import { FormControl, /*Button, Radio, RadioGroup, FormControlLabel*/ } from '@material-ui/core';
 import { connect } from "react-redux";
-
-
-import "./userProfile.scss";
+import IconButton from '@material-ui/core/IconButton';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AddIcon from '@material-ui/icons/Add';
+import store from "../../redux/store";
 
 
 class Profile extends React.Component {
@@ -24,7 +27,7 @@ class Profile extends React.Component {
             userSkills:[],
             userOffers:[],
             skillList:[],
-            isCompany: true,
+            // isCompany: true,
             editProfileMode: false,
         };
     }
@@ -195,9 +198,10 @@ class Profile extends React.Component {
 
         
     }
-
+	
+	
     
-     async saveChanges(){
+    async saveChanges(){
 
         //Comprueba si existe this.state.*, si existe es que se ha editado el campo a traves del input
         //y entra en el condicional almacenando en el objeto que se mandara al back el nuevo valor
@@ -285,7 +289,33 @@ class Profile extends React.Component {
     }
 
     
+	
+	
+	
+	pulsaLogout() {
+		
+		// Llamo a redux
+		store.dispatch({
+			type: 'LOGOUT',
+			payload: {}
+		});
+		
+		
+		// Redirijo al login
+		this.props.history.push("/login")
+		
+	};
+	
+	
+	
+	pulsaCrearOferta() {
+		
+		this.props.history.push("/offer/new")
+		
+	};
     
+	
+	
     c_input = (label, type, stateKey) => {
 		
 		// let errTxt = this.state?.[`err_${stateKey}`];
@@ -474,72 +504,101 @@ class Profile extends React.Component {
             }
            
         }
-
+		
         return (
-            <div className="main mainProfile">
-                <div className="cardUserInformation mr2 br ">
-                <div className="cardUserData br" >
-                    
-                    {/* <div className="cardInfo">
-                        <h1 className="cardTitle"> {this.state.userData.username} </h1>
-                        <div className="userTypeClass">{userType}</div> 
-                    </div> */}
-                    {/* <div className="cardInformationFields .aifs "> */}
-                    
-                        <div className="userAvatarContainer">
-                                { editAvatar }
-                        </div>
-                        <div className="userDataFieldContainer">
-                            <div className="userDataField pt3">
-                
-                                <div className="userDataFieldContent"><p className="bigField">{ editName }</p><p className="bigField">
-							        { editSurname }</p></div>
-                                </div>
-                                <div className="userDataField ">
+            <div className="main mainProfile flex-dir-c">
+				
+				<div className="seccionHeader p1">
+					
+					<IconButton
+						aria-label="salir"
+						color="primary"
+						onClick={ () => this.pulsaCrearOferta() }
+					>
+						<AddIcon /> Crear oferta
+					</IconButton>
+					
+					<IconButton
+						aria-label="salir"
+						color="primary"
+						onClick={ () => this.pulsaLogout() }
+					>
+						<ExitToAppIcon /> Salir
+					</IconButton>
+					
+				</div>
+				
+				
+				
+				<div className="seccionBody flex-dir-r">
+					
+					<div className="cardUserInformation mr2 br ">
+					<div className="cardUserData br" >
+						
+						{/* <div className="cardInfo">
+							<h1 className="cardTitle"> {this.state.userData.username} </h1>
+							<div className="userTypeClass">{userType}</div> 
+						</div> */}
+						{/* <div className="cardInformationFields .aifs "> */}
+						
+							<div className="userAvatarContainer">
+									{ editAvatar }
+							</div>
+							<div className="userDataFieldContainer">
+								<div className="userDataField pt3">
+					
+									<div className="userDataFieldContent"><p className="bigField">{ editName }</p><p className="bigField">
+										{ editSurname }</p></div>
+									</div>
+									<div className="userDataField ">
 
-                                    
-                                    <div className="userDataFieldContent"><p className="mediumField">{ editProvince }</p></div>
-                                    <div className="userDataFieldContent"><p className="mediumField">{ editCity }</p></div>
-                    
-                                </div>
-                                <div className="userDataField pb4">
-                                    <div className="userDataFieldContent"><p className="mediumField ">{ editEmail }</p></div>
-                                </div>
-           
-                        </div>
-                        <div className="editIconContainer">
+										
+										<div className="userDataFieldContent"><p className="mediumField">{ editProvince }</p></div>
+										<div className="userDataFieldContent"><p className="mediumField">{ editCity }</p></div>
+						
+									</div>
+									<div className="userDataField pb4">
+										<div className="userDataFieldContent"><p className="mediumField ">{ editEmail }</p></div>
+									</div>
+			
+							</div>
+							<div className="editIconContainer">
 
-                        <i className="material-icons editIcon"
-                        alt="icono editar perfil"
-                        onClick={()=>this.editProfileMode()}
-                        >
-                            edit
-                        </i>
-                        
-                    {saveChanges}
+							<i className="material-icons editIcon"
+							alt="icono editar perfil"
+							onClick={()=>this.editProfileMode()}
+							>
+								edit
+							</i>
+							
+						{saveChanges}
 
-                    </div> 
-                    
-                </div>
-                <div className="cardUserEducation mt2 pt3 pr3 pb3 pl3 br flex-dir-r" >
-                    <div className="addSkillContainer">
-                        </div>
-                        
-                        {section}
+						</div> 
+						
+					</div>
+					<div className="cardUserEducation mt2 pt3 pr3 pb3 pl3 br flex-dir-r" >
+						<div className="addSkillContainer">
+							</div>
+							
+							{section}
 
-                           
-                        </div>
-                    <div className="cardUserDescription mt2 pt3 pb3 pl5 pr5 aic jcc br flex-dir-c" >
-                        <p className="descriptionBox mt2 ml2">{editDescription}</p>
-                    </div>
-                    {employeesSection}
-                    
-                </div>
-                <div className={(this.state.userOffers.length > 0)?"cardUserOffer mr3 br":"cardUserOfferEmpty mr3 br"}>
-                    
-                    { offers }
-                
-                </div>
+							
+							</div>
+						<div className="cardUserDescription mt2 pt3 pb3 pl5 pr5 aic jcc br flex-dir-c" >
+							<p className="descriptionBox mt2 ml2">{editDescription}</p>
+						</div>
+						{employeesSection}
+						
+					</div>
+					<div className={(this.state.userOffers.length > 0)?"cardUserOffer mr3 br":"cardUserOfferEmpty mr3 br"}>
+						
+						{ offers }
+					
+					</div>
+					
+					
+				</div>
+				
                 
                     
                 

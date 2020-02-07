@@ -161,6 +161,8 @@ export default class Search extends React.Component {
 		
 		try {
 			
+			this.setState({ loading: true });
+			
 			// Llamo
 			let res = await axios.post( getUrl(`/offer/find`), {
 				keyword: ""
@@ -169,6 +171,7 @@ export default class Search extends React.Component {
 			
 			// Pongo el resultado como estado
 			this.setState({ offerList: res.data });
+			this.setState({ loading: false });
 			
 			
 		} catch (err) {
@@ -261,9 +264,9 @@ export default class Search extends React.Component {
 								return <SearchResultLabor
 									key={_x.id}
 									
-									img={"https://about.canva.com/wp-content/uploads/sites/3/2016/08/logos-1.png"}
+									img={_x._companyAvatar ? _x._companyAvatar : "/img/companyLogoPlaceholder.png"}
 									title={_x.title}
-									companyName={_x.company_id}
+									companyName={_x._companyName}
 									description={_x.description}
 									city={_x.city}
 									date={_x.created_at}

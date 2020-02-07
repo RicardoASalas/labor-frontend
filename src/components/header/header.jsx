@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { withRouter } from "react-router-dom";
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -11,17 +11,26 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import Face from '@material-ui/icons/Face';
 
 import { connect } from 'react-redux';
+import ImageLabor from "../image/image";
+import "./header.scss";
 
 
 const useStyles = makeStyles({
+	
 	root: {
 		flexGrow: 1,
 	},
+	
 	link: {
 		textDecoration: "none",
 		color: "black",
 		cursor: "pointer"
+	},
+	
+	logoCorporativo: {
+		position: "absolute"
 	}
+	
 });
 
 
@@ -45,7 +54,7 @@ const CenteredTabs = (props) => {
 				props.history.push("/search");
 			break;
 			case 2: 
-				props.session.username ? props.history.push("/profile") : props.history.push("/login");
+				props.session?.username ? props.history.push("/profile") : props.history.push("/login");
 			break;
 			
 			default: break;
@@ -57,47 +66,64 @@ const CenteredTabs = (props) => {
 	
 	return (
 		
-		<Paper className={classes.root}>
+		<Fragment className="mainHeader">
 			
-			<Tabs
-				value={value}
-				onChange={handleChange}
-				indicatorColor="primary"
-				textColor="primary"
-				centered
-			>
+			<Paper className={classes.root}>
 				
-				<Tab
-					label="Home"
-					icon={<HomeIcon />}
-				/>
+				<div className={classes.logoCorporativo}>
+					<ImageLabor
+						className=""
+						src="https://trello-attachments.s3.amazonaws.com/5e1f2e19295ba37cfa41ebe6/1000x1000/93d5c1c8cceb6c32b1d9b50a01380268/labor_logo5.png"
+						w={70}
+						alt="imagen de la empresa"
+						measure="px"
+						br={15}
+					/>
+				</div>
 				
-				<Tab
-					label="Ofertas"
-					icon={<WorkIcon />}
-				/>
 				
-				{ props.session.username ? 
+				<Tabs
+					value={value}
+					onChange={handleChange}
+					indicatorColor="primary"
+					textColor="primary"
+					centered
+				>
 					
 					<Tab
-						label="Perfil"
-						icon={<Face />}
+						label="Home"
+						icon={<HomeIcon />}
 					/>
-					
-					:
 					
 					<Tab
-						label="Acceder"
-						icon={<AccountCircle />}
+						label="Ofertas"
+						icon={<WorkIcon />}
 					/>
 					
-				}
+					{ props.session?.username ? 
+						
+						<Tab
+							label="Perfil"
+							icon={<Face />}
+						/>
+						
+						:
+						
+						<Tab
+							label="Acceder"
+							icon={<AccountCircle />}
+						/>
+						
+					}
+					
+					
+					
+				</Tabs>
 				
-				
-				
-			</Tabs>
+			</Paper>
 			
-		</Paper>
+		</Fragment>
+		
 	);
 }
 

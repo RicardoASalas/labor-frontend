@@ -18,6 +18,12 @@ const reducer = (state = {
 				session: action.payload
 			};
 		
+		case "LOGOUT":
+			
+			// state.session = {action.payload};
+			
+			return {};
+		
 		
 		case "OFFER_DETAIL":
 			return {

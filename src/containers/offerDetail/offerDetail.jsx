@@ -12,6 +12,7 @@ import axios from "axios";
 import IconButton from '@material-ui/core/IconButton';
 import CancelIcon from '@material-ui/icons/Cancel';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import VisibilityIcon from '@material-ui/icons/Visibility';
 
 
 
@@ -149,6 +150,14 @@ class OfferDetail extends React.Component {
 										</IconButton>
 										
 										<IconButton
+											aria-label="aceptar candidato"
+											color="primary"
+											onClick={ () => console.log("Aceptar") }
+										>
+											<VisibilityIcon />
+										</IconButton>
+										
+										<IconButton
 											aria-label="rechazar candidato"
 											color="secondary"
 											onClick={ () => console.log("Rechazar") }
@@ -247,7 +256,7 @@ class OfferDetail extends React.Component {
 							
 							<ImageLabor
 								className="br"
-								src="https://cdn.vox-cdn.com/thumbor/0n6dqQfk9MuOBSiM39Pog2Bw39Y=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/19341372/microsoftedgenewlogo.jpg"
+								src={this.props.offerData._companyAvatar? this.props.offerData._companyAvatar : "/img/companyLogoPlaceholder.png"}
 								w={100}
 								alt="imagen de la empresa"
 								measure="px"
