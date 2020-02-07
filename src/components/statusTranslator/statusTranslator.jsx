@@ -10,10 +10,8 @@ class StatusTranslator extends React.Component {
           status:""
       }
     }
-  
-    render () { 
-
-       
+    componentDidMount(){
+        console.log("el status es"+this.props.status)
         switch(this.props.status){
           case 0: 
             this.setState({status:"Pendiente"}) 
@@ -33,9 +31,17 @@ class StatusTranslator extends React.Component {
           
           default: 
             break
+
         }
+    }
+  
+    render () { 
+
+       
 
         let status=this.state.status
+
+        console.log("el status es"+status)
         return(
             
             <p className="field">

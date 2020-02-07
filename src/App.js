@@ -32,7 +32,8 @@ export default function App() {
 					<Route path="/profile" exact component={Profile} />
 					
 					<Route path="/offer/new" exact component={OfferRegister} />
-					<Route path="/offer/detail" exact component={OfferDetail} />
+					<Route path="/offer/detail/:uid" exact component={OfferDetail} />
+					{/* <Route path="/offer/detail" exact component={OfferDetail} /> */}
 					
 				</Switch>
 				

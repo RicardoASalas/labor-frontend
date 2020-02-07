@@ -3,53 +3,58 @@ import StatusTranslator from "../statusTranslator/statusTranslator"
 import './folderMenu.scss'
 
 class FolderMenu extends React.Component {
+  
+    constructor (props) {
+      super(props);
 
-    
-    
+        this.state = {
+            candidates:props.candidadtes,
+            filteredCandidates:[]
+        }
+
+    }
+
     getCandidateInfo = (section) => {
        
-        let candidatesArray=this.state.candidates
+        let candidatesArray = this.props.candidates
         let filteredCandidates
        
+        // console.log ( candidatesArray[0][0].pivot.status ); 
         if(candidatesArray[0]){
 
+            filteredCandidates = candidatesArray[0].map(candidate => console.log(candidate._status))
             filteredCandidates = candidatesArray[0].filter(candidate => candidate._status === section)
+
+            this.setState({
+
+                filteredCandidates: filteredCandidates
+    
+            })
 
        
         }
 
-    
         
-
-        this.setState({
-
-            filteredCandidates: filteredCandidates
-
-        })
         
     }
 
     componentDidMount(){
         
         this.setState({
-            candidates: this.props.candidates
-        })
 
-    }
-    
-  
-    constructor (props) {
-      super(props);
-      this.state = {
-        candidates:[],
-        filteredCandidates:[]
-      }
+            candidates: this.props.candidates
+
+        })
+        
+        this.getCandidateInfo(0);
+
     }
   
     render () { 
         
-
+        
         let candidatesArray = this.state.filteredCandidates.map(candidate=>
+                            
                             <span className="results">
 
                                 <p className="fields">{candidate.name?candidate.name:""}</p>

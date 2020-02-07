@@ -20,7 +20,7 @@ class Profile extends React.Component {
         super(props);
 
         this.state = {
-            userData: {},
+            
             userSkills:[],
             userOffers:[],
             skillList:[],
@@ -261,6 +261,7 @@ class Profile extends React.Component {
             }
 
 
+
             this.setState({ userData: res.data }, () => {
                 // this.state.userType = this.state.userData.userType === 0 ? "Cliente" : "Vendedor";
             });
@@ -276,6 +277,11 @@ class Profile extends React.Component {
         } catch (err) {
             console.error(err);
         } 
+    }
+    sendToOffer = (uid) =>{
+
+        console.log("hola")
+
     }
 
     
@@ -309,6 +315,11 @@ class Profile extends React.Component {
 
     render() {
         
+        if (! this.state.userData) {
+			return (
+				"Recarga"
+			);
+		};
         // let userType = this.state.userData.userType === 1 ? "Empleado" : "Empresa";
 
         // if (this.state.userData.userType === 3){
@@ -425,7 +436,7 @@ class Profile extends React.Component {
         offers = this.state.userOffers.map(offer =>
             
 
-            <div className="resultCard pt2 mb2  flex-dir-r pb2 pr2 br">
+            <div className="resultCard pt2 mb2  flex-dir-r pb2 pr2 br" onCLick = {() => this.sendToOffer(offer.uid)}>
 					
 					<div className="offerImage">
 						<img className="avatar" src={ offer._companyAvatar ? offer._companyAvatar : "/img/companyLogoPlaceholder.png" } alt="Imagen de la empresa"/>
