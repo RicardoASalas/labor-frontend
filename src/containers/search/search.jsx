@@ -151,7 +151,7 @@ export default class Search extends React.Component {
 		
 		
 		// Redirijo a la vista detalle
-		this.props.history.push("/offer/detail")
+		this.props.history.push(`/offer/detail/${_x.uid}`)
 		
 	};
 	
