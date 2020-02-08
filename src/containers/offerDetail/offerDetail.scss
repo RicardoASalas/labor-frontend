@@ -21,6 +21,9 @@
 			
 		display: flex;
 		justify-content: center;
+		box-shadow: 0;
+		transition: box-shadow 0.3s;
+		border: 1px solid #eee;	
 		
 		
 		.image {
@@ -66,6 +69,20 @@
 		}
 		
 	}
+
+	.headerClick{
+		box-shadow: 0;
+		transition: box-shadow 0.3s;
+		border: 1px solid #eee;	
+		
+
+	}
+
+	.headerClick:hover {
+		box-shadow: 0 0 10px #515151b9;
+		cursor: pointer
+	}
+	
 	
 	
 	

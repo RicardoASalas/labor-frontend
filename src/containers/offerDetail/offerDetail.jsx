@@ -43,7 +43,7 @@ class OfferDetail extends React.Component {
 		try {
 			
 			this.setState({ applied: true });
-			axios.post( getUrl(`/offer/apply/${this.props.offerData.id}/${this.props.session.uid}`) );
+			axios.post( getUrl(`/offer/apply/${this.props.offerData.uid}/${this.props.session.uid}`) );
 			
 		} catch (err) {
 			
@@ -56,7 +56,8 @@ class OfferDetail extends React.Component {
 	
 	
 	
-	pulsaCandidato(uid) {
+	pulsaPerfil(uid) {
+		console.log(uid)
 		this.props.history.push(`/profile/${uid}`);
 	};
 	
@@ -91,7 +92,7 @@ class OfferDetail extends React.Component {
 							// 		description={_x.description}
 							// 		city={_x.city}
 									
-							// 		onClick={ () => this.pulsaCandidato(_x.uid) }
+							// 		onClick={ () => this.pulsaPerfil(_x.uid) }
 							// 	/>
 							// );
 							
@@ -103,7 +104,7 @@ class OfferDetail extends React.Component {
 									
 									<div
 										className="hitbox flex-dir-r"
-										onClick={ () => this.pulsaCandidato(_x.uid) }
+										onClick={ () => this.pulsaPerfil(_x.uid) }
 									>
 										
 										<div className="col1 flex-dir-c">
@@ -271,7 +272,8 @@ class OfferDetail extends React.Component {
 			
 			<div className="offerDetailMain">
 				
-				<div className="header br flex-dir-c">
+				<div className="header br flex-dir-c headerClick "
+				onClick={ () => this.pulsaPerfil(this.props.offerData._companyUid) }>
 					
 					<div className="flex-dir-r">
 						
@@ -336,7 +338,7 @@ class OfferDetail extends React.Component {
 				
 				
 				
-				<div className="header br flex-dir-r">
+				<div className="header br flex-dir-r" >
 					
 					<div className="offerInfo flex-dir-r">
 

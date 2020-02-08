@@ -144,6 +144,7 @@ class OfferRegister extends React.Component {
 			province: this.state.province,
 			city: this.state.city,
 			experience: this.state.experience,
+			contract_type: this.state.contractType,
 			
 			workday: this.state.workDay,
 			min_salary: this.state.minSalary,
@@ -155,28 +156,26 @@ class OfferRegister extends React.Component {
 		
 		
 		if (this.validateStep()) {
-			
 			// Si no soy empresa, no le dejo
-			if (! this.props.session.isCompany) {
+			
+			if (!this.props.session.is_company) {
 				this.props.history.push("/");
 			};
 			
 			
 			let uid = this.props.session.uid;
 			
-			
+			console.log("la uid es uid")
 			try {
 				
 				await axios.post( getUrl(`/offer/register/${uid}`), registerData);
-				
-				// Redirección
-				this.props.history.push("/profile");
-				
-				
+					
 			} catch (err) {
 				
 				console.log( err );
 			};
+			// Redirección
+			this.props.history.push("/profile");
 		}
 		
 	};
@@ -268,8 +267,21 @@ class OfferRegister extends React.Component {
 					/>
 					
 					<p className="error">{this.state.err_workDay}</p>
+
+					<DropdownLabor
+						className={"br mt3 mb2"}
+						label={"Tipo de contrato"}
+						defaultValue={["", "Selecciona un tipo de contrato"]}
+						elements={[
+							["0","Indefinido"],
+							["1","Temporal"],
+							["2","Formación"],
+							["3","Fin de obra"],
+							]}
+						onChange={ (ev) => {this.setState({ contractType: ev.target.value })} }
+					/>
 					
-					
+					<p className="error">{this.state.err_workDay}</p>
 					
 					<div className="flex-dir-c mt5">
 						
