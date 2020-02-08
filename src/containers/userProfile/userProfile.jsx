@@ -1,13 +1,12 @@
 import React from "react";
 import axios from "axios";
-import { getUrl, /*session*/ } from "../../utils/uti";
 import SkillChip from "../../components/skillChip/skillChip";
 import InputChips from "../../components/inputChips/inputChips";
 import DropdownProvinceList from "../../components/dropdownProvinces/dropdownProvinces";
 import CompanyFolderMenu from "../../components/folderMenu/folderMenu2";
-
+import ImageLabor from "../../components/image/image";
 import "./userProfile.scss";
-
+import store from "../../redux/store";
 // import EditIcon from "../../components/image/image"
 import TextField from "@material-ui/core/TextField";
 import { FormControl, /*Button, Radio, RadioGroup, FormControlLabel*/ } from '@material-ui/core';
@@ -15,7 +14,7 @@ import { connect } from "react-redux";
 import IconButton from '@material-ui/core/IconButton';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddIcon from '@material-ui/icons/Add';
-import store from "../../redux/store";
+import { getUrl } from "../../utils/uti";
 
 
 class Profile extends React.Component {
@@ -23,17 +22,17 @@ class Profile extends React.Component {
         super(props);
 
         this.state = {
-           
+
             userSkills:[],
-            userOffers:[],
             skillList:[],
             editProfileMode: false,
+            isMyProfile: false,
         };
     }
 
-    componentDidMount() {        
-        
-        console.log(this.props.session)
+    componentDidMount() {  
+
+       
         this.showData()
         this.getSkillsList()
         
@@ -45,14 +44,33 @@ class Profile extends React.Component {
         // un objeto con los datos de usuario.
         try {
 
-			let uid = this.props.session.uid
+            let urlUid = this.props.location.pathname.split("/")[3]
+            let sessionUid = this.props?.session.uid
+            let res
 
-            // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
-            const res = await axios.get(getUrl(`/user/${uid}`));
+            if(urlUid && urlUid !== sessionUid){
 
-            console.log("la respuesta de la peticion es "+res.data)
+                res = await axios.get(getUrl(`/user/${urlUid}`));
+                this.setState({ 
+                    userData: res.data, 
+                    isMyProfile:false, 
+                    isCompany: res.data.is_company })
 
-            this.setState({ userData: res.data, editedData: res.data, isCompany: res.data.is_company })
+            }else{
+
+                res = await axios.get(getUrl(`/user/${sessionUid}`));
+                this.setState({ 
+
+                    userData: res.data, 
+                    isMyProfile:true, 
+                    editedData: res.data, 
+                    isCompany: res.data.is_company })
+
+            }
+
+            
+
+            
 
         
            
@@ -84,8 +102,6 @@ class Profile extends React.Component {
                     // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
                     res1 = await axios.get(getUrl(`/offer/applied/${uid}`));
 
-                    console.log("la respuesta de la peticion de ofertas "+res1.data)
-
                     this.setState({ userOffers: res1.data }, () => {
                         // this.state.userType = this.state.userData.userType === 0 ? "Cliente" : "Vendedor";
                     });
@@ -97,12 +113,7 @@ class Profile extends React.Component {
                     // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
                     res1 = await axios.get(getUrl(`/offer/created/${uid}`));
 
-                    console.log("la respuesta de la peticion de ofertas "+res1.data)
-
-
                     res2 = await axios.get(getUrl(`/offer/candidates/${uid}`));
-
-                    console.log("la respuesta de la peticion de candidatos "+res2.data)
                     
                     this.setState({ 
                         userOffers: res1.data,
@@ -167,7 +178,6 @@ class Profile extends React.Component {
         
         if(!this.state.isCompany){
 
-            console.log(res.data)
         
             this.setState({skillList: res.data })
 
@@ -235,8 +245,6 @@ class Profile extends React.Component {
             
             let uid = this.props.session.uid
 
-            console.log(editUserData)
-            console.log(uid)
             
             // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
             const res = await axios.post(getUrl(`/user/editProfile/${uid}`), editUserData);
@@ -256,8 +264,6 @@ class Profile extends React.Component {
                     
                 body={skill: skillsArray}
             
-                console.log(selectedSkills)
-                console.log(skillsArray)
                 //hacemos la peticion mandando por url el array de skills y el uid
                 const res = await axios.post(getUrl(`/skill/apply/${uid}`), body);
                 this.setState({userSkills: res.data})
@@ -269,7 +275,6 @@ class Profile extends React.Component {
                 // this.state.userType = this.state.userData.userType === 0 ? "Cliente" : "Vendedor";
             });
             
-            console.log("llega aqui")
             this.setState({
                 editProfileMode:false
             })
@@ -283,7 +288,7 @@ class Profile extends React.Component {
     }
     sendToOffer = (uid) =>{
 
-        console.log("hola")
+        console.log(uid)
 
     }
 
@@ -307,9 +312,18 @@ class Profile extends React.Component {
 	
 	
 	
-	pulsaCrearOferta() {
+	pulsaOferta = (offer) => {
+
+		console.log("hola")
+		// Guardo en redux la info de la oferta sobre la que he pulsado
+		store.dispatch({
+			type: 'OFFER_DETAIL',
+			payload: offer
+		});
 		
-		this.props.history.push("/offer/new")
+		
+		// Redirijo a la vista detalle
+		this.props.history.push(`/offer/detail/${offer.uid}`)
 		
 	};
     
@@ -353,258 +367,407 @@ class Profile extends React.Component {
 				
 			);
 		}else{
+
       
-		let editName;
-		let editSurname;
-		let editEmail;
-		let editProvince;
-        let editCity;
-        let editDescription;
-        let section;
-        let editAvatar;
-		let saveChanges;
-		
-		
-		
-        if(!this.state.editProfileMode){
-
-            editName = this.state.userData.name;
-            editSurname = this.state.userData.surname;
-            editEmail = this.state.userData.email;
-            editProvince = this.state.userData.province;
-            editCity = this.state.userData.city;
-            if(!this.state.isCompany){
-
-                section = (this.state.userSkills.length === 0)
-                        ?
-                        <p/>
-                        :<SkillChip className = "chipsContainer" skills = {this.state.userSkills}  
-                        />
-
-            }
-            
-
-            editDescription = this.state.userData.description;
-            editAvatar = <img 
-            className="avatar" 
-                        src={this.state.userData.avatar_url != ""? this.state.userData.avatar_url:"https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"} 
-                        alt="Imagen de usuario"
-                    /> ;
-
-        }else{
-
-            editName = this.c_input("Nombre", "text", "name" );
-            editEmail = this.c_input("Email", "email", "email");
-            editAvatar = this.c_input("Avatar link", "text", "avatar");
-            if(!this.state.isCompany){
-            editProvince = <DropdownProvinceList
-                            className= "provinceDropdown"
-							label="Provincia"
-							defaultOption="Selecciona una provincia"
-							onChange={ (ev) => {
-								this.setState({province : ev.target.value});
-							}}
-							helperText={this.state.err_province}
-                            />
-            editCity = this.c_input("Ciudad", "text", "city");
-            editSurname = this.c_input("Apellidos", "text", "surname");
-            
-
-            
-
-                section = <InputChips
-                    defaultValue={this.state.userSkills}
-                    optionsLabelKey="name"
+            if(this.state.isMyProfile == true){
+                    let editName;
+                    let editSurname;
+                    let editEmail;
+                    let editProvince;
+                    let editCity;
+                    let editDescription;
+                    let section;
+                    let editAvatar;
+                    let saveChanges;
                     
-                    label="Habilidades"
-                    placeholder="Escribe una habilidad"
-                    onChange={ (ev, value) => this.setState({ selectedSkills: value }) }
-                    options={this.state.skillList}
-                    />
+                    
+                    
+                    if(!this.state.editProfileMode){
 
-            }
-            
-            
+                        editName = this.state.userData.name;
+                        editSurname = this.state.userData.surname;
+                        editEmail = this.state.userData.email;
+                        editProvince = this.state.userData.province;
+                        editCity = this.state.userData.city;
+                        if(!this.state.isCompany){
 
-            editDescription =
-            <TextField
-						className=" editDescriptionBox"
-                        variant="outlined"
-						multiline
-						// label="Descripción"
-                        rows="8"
-                        placeholder={this.state.userData.description}
-						// defaultValue=""
-                        onChange={ (ev) => this.setState({userData:{...this.state.userData, description: ev.target.value}  }) }
-						value={this.state.userData.description}
-						// helperText={this.state.err_description}
-						// error={!! this.state?.err_description}
-					/>					
+                            section = (this.state.userSkills.length === 0)
+                                    ?
+                                    <p/>
+                                    :<SkillChip className = "chipsContainer" skills = {this.state.userSkills}  
+                                    />
 
-            saveChanges = <i class="material-icons editIcon"
-                            alt="icono editar perfil"
-                            onClick={()=>this.saveChanges()}
-                            >
-                                save
-                            </i>
-        }
+                        }
+                        
 
-        let employeesSection="";
+                        editDescription = this.state.userData.description;
+                        editAvatar = <img 
+                        className="avatar" 
+                                    src={this.state.userData.avatar_url != ""? this.state.userData.avatar_url:"https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"} 
+                                    alt="Imagen de usuario"
+                                /> ;
 
-        if(this.state.isCompany && this.state.candidates){
-                console.log("los candidatos son"+this.state.candidates)
+                    }else{
 
-                section=<CompanyFolderMenu candidates={this.state.candidates ? this.state.candidates:""}/>
+                        editName = this.c_input("Nombre", "text", "name" );
+                        editEmail = this.c_input("Email", "email", "email");
+                        editAvatar = this.c_input("Avatar link", "text", "avatar");
+                        if(!this.state.isCompany){
+                        editProvince = <DropdownProvinceList
+                                        className= "provinceDropdown"
+                                        label="Provincia"
+                                        defaultOption="Selecciona una provincia"
+                                        onChange={ (ev) => {
+                                            this.setState({province : ev.target.value});
+                                        }}
+                                        helperText={this.state.err_province}
+                                        />
+                        editCity = this.c_input("Ciudad", "text", "city");
+                        editSurname = this.c_input("Apellidos", "text", "surname");
+                        
+
+                        
+
+                            section = <InputChips
+                                defaultValue={this.state.userSkills}
+                                optionsLabelKey="name"
+                                
+                                label="Habilidades"
+                                placeholder="Escribe una habilidad"
+                                onChange={ (ev, value) => this.setState({ selectedSkills: value }) }
+                                options={this.state.skillList}
+                                />
+
+                        }
+                        
+                        
+
+                        editDescription =
+                        <TextField
+                                    className=" editDescriptionBox"
+                                    variant="outlined"
+                                    multiline
+                                    // label="Descripción"
+                                    rows="8"
+                                    placeholder={this.state.userData.description}
+                                    // defaultValue=""
+                                    onChange={ (ev) => this.setState({userData:{...this.state.userData, description: ev.target.value}  }) }
+                                    value={this.state.userData.description}
+                                    // helperText={this.state.err_description}
+                                    // error={!! this.state?.err_description}
+                                />					
+
+                        saveChanges = <i class="material-icons editIcon"
+                                        alt="icono editar perfil"
+                                        onClick={()=>this.saveChanges()}
+                                        >
+                                            save
+                                        </i>
+                    }
+
+                    let employeesSection="";
+
+                    if(this.state.isCompany && this.state.candidates){
+
+                            section=<CompanyFolderMenu candidates={this.state.candidates ? this.state.candidates:""}/>
+                                        
+                    }
+
+                    let offers 
+
+                    if(this.state.userOffers){
+                        if (this.state.userOffers.length > 0 && this.state.isCompany == true){
+
+                            offers = this.state.userOffers.map(offer =>
+                                
+        
+                                <div className="resultCard pt2 mb2  flex-dir-r pb2 pr2 br" onCLick = { ()=>this.pulsaOferta(this, offer) }>
+                                        
+                                        <div className="offerImage">
+                                            <img className="avatar" src={ offer._companyAvatar ? offer._companyAvatar : "/img/companyLogoPlaceholder.png" } alt="Imagen de la empresa"/>
+                                        </div>
+                                    
+                                    <div className="infoOfferContainer col2 flex-dir-c">
+                                        
+                                    
+                                        <h2 className="title">{ offer.title }</h2>
+                                        <h2 className="companyName pb1">{ offer._companyName }</h2>
+                                        
+                                        <div className="row1 flex-dir-r pb2">
+                                            <div className="offerInfo pt2 pb2">
+                                                { offer.city }  |  { offer.updated_At }
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="row2 pt3 flex-dir-r">
+                                            <div className="offerInfo pt2 pb2">
+                                                { (this.state.isCompany == false) ? offer.pivot.status : offer.created_at } |  {offer.min_salary} - {offer.max_salary} €
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        
+                            }
+                            else {
+                                
                                
-        }
-
-        let offers 
-
-        if (this.state.userOffers.length > 0){
-
-        offers = this.state.userOffers.map(offer =>
-            
-
-            <div className="resultCard pt2 mb2  flex-dir-r pb2 pr2 br" onCLick = {() => this.sendToOffer(offer.uid)}>
-					
-					<div className="offerImage">
-						<img className="avatar" src={ offer._companyAvatar ? offer._companyAvatar : "/img/companyLogoPlaceholder.png" } alt="Imagen de la empresa"/>
-					</div>
-				
-				<div className="infoOfferContainer col2 flex-dir-c">
+                                if(!this.state.isCompany){
+                                    offers = <p className="blackField">Aún no te has suscrito a ninguna oferta</p>
+                                }
+                                else{
+                                    offers = <p className="blackField">No hay ninguna oferta disponible</p>
+                                }
+                                
+                            }
+                    }else{
+                        offers = <ImageLabor
+								src="/img/searching.gif"
+								w={10}
+								measure="em"
+							/>
+                    }
+                        
                     
-                   
-					<h2 className="title">{ offer.title }</h2>
-				    <h2 className="companyName pb1">{ offer._companyName }</h2>
-					
-					<div className="row1 flex-dir-r pb2">
-						<div className="offerInfo pt2 pb2">
-							{ offer.city }  |  { offer.updated_At }
-						</div>
-					</div>
-					
-					<div className="row2 pt3 flex-dir-r">
-						<div className="offerInfo pt2 pb2">
-							{ (this.state.isCompany == false) ? offer.pivot.status : offer.created_at } |  {offer.min_salary} - {offer.max_salary} €
-						</div>
-					</div>
-				</div>
-			</div>
-        )
-     
-        }
-        else{
-            
-            if(!this.state.isCompany){
-                offers = <p className="blackField">Aún no te has suscrito a ninguna oferta</p>
-            }
-            else{
-                offers = <p className="blackField">Aún no has creado ninguna oferta</p>
-            }
-           
-        }
-		
-        return (
-            <div className="main mainProfile flex-dir-c">
-				
-				<div className="seccionHeader p1">
-					
-					<IconButton
-						aria-label="salir"
-						color="primary"
-						onClick={ () => this.pulsaCrearOferta() }
-					>
-						<AddIcon /> Crear oferta
-					</IconButton>
-					
-					<IconButton
-						aria-label="salir"
-						color="primary"
-						onClick={ () => this.pulsaLogout() }
-					>
-						<ExitToAppIcon /> Salir
-					</IconButton>
-					
-				</div>
-				
-				
-				
-				<div className="seccionBody flex-dir-r">
-					
-					<div className="cardUserInformation mr2 br ">
-					<div className="cardUserData br" >
-						
-						{/* <div className="cardInfo">
-							<h1 className="cardTitle"> {this.state.userData.username} </h1>
-							<div className="userTypeClass">{userType}</div> 
-						</div> */}
-						{/* <div className="cardInformationFields .aifs "> */}
-						
-							<div className="userAvatarContainer">
-									{ editAvatar }
-							</div>
-							<div className="userDataFieldContainer">
-								<div className="userDataField pt3">
-					
-									<div className="userDataFieldContent"><p className="bigField">{ editName }</p><p className="bigField">
-										{ editSurname }</p></div>
-									</div>
-									<div className="userDataField ">
+                    return (
+                        <div className="main mainProfile flex-dir-c">
+                            
+                            <div className="seccionHeader p1">
+                                
+                                <IconButton
+                                    aria-label="salir"
+                                    color="primary"
+                                    onClick={ () => this.pulsaCrearOferta() }
+                                >
+                                    <AddIcon /> Crear oferta
+                                </IconButton>
+                                
+                                <IconButton
+                                    aria-label="salir"
+                                    color="primary"
+                                    onClick={ () => this.pulsaLogout() }
+                                >
+                                    <ExitToAppIcon /> Salir
+                                </IconButton>
+                                
+                            </div>
+                            
+                            
+                            
+                            <div className="seccionBody flex-dir-r">
+                                
+                                <div className="cardUserInformation mr2 br ">
+                                <div className="cardUserData br" >
+                                    
+                                    {/* <div className="cardInfo">
+                                        <h1 className="cardTitle"> {this.state.userData.username} </h1>
+                                        <div className="userTypeClass">{userType}</div> 
+                                    </div> */}
+                                    {/* <div className="cardInformationFields .aifs "> */}
+                                    
+                                        <div className="userAvatarContainer">
+                                                { editAvatar }
+                                        </div>
+                                        <div className="userDataFieldContainer">
+                                            <div className="userDataField pt3">
+                                
+                                                <div className="userDataFieldContent"><p className="bigField">{ editName }</p><p className="bigField">
+                                                    { editSurname }</p></div>
+                                                </div>
+                                                <div className="userDataField ">
 
-										
-										<div className="userDataFieldContent"><p className="mediumField">{ editProvince }</p></div>
-										<div className="userDataFieldContent"><p className="mediumField">{ editCity }</p></div>
-						
-									</div>
-									<div className="userDataField pb4">
-										<div className="userDataFieldContent"><p className="mediumField ">{ editEmail }</p></div>
-									</div>
-			
-							</div>
-							<div className="editIconContainer">
+                                                    
+                                                    <div className="userDataFieldContent"><p className="mediumField">{ editProvince }</p></div>
+                                                    <div className="userDataFieldContent"><p className="mediumField">{ editCity }</p></div>
+                                    
+                                                </div>
+                                                <div className="userDataField pb4">
+                                                    <div className="userDataFieldContent"><p className="mediumField ">{ editEmail }</p></div>
+                                                </div>
+                        
+                                        </div>
+                                        <div className="editIconContainer">
 
-							<i className="material-icons editIcon"
-							alt="icono editar perfil"
-							onClick={()=>this.editProfileMode()}
-							>
-								edit
-							</i>
-							
-						{saveChanges}
+                                        <i className="material-icons editIcon"
+                                        alt="icono editar perfil"
+                                        onClick={()=>this.editProfileMode()}
+                                        >
+                                            edit
+                                        </i>
+                                        
+                                    {saveChanges}
 
-						</div> 
-						
-					</div>
-					<div className="cardUserEducation mt2 pt3 pr3 pb3 pl3 br flex-dir-r" >
-						<div className="addSkillContainer">
-							</div>
-							
-							{section}
+                                    </div> 
+                                    
+                                </div>
+                                <div className="cardUserEducation mt2 pt3 pr3 pb3 pl3 br flex-dir-r" >
+                                    <div className="addSkillContainer">
+                                        </div>
+                                        
+                                        {section}
 
-							
-							</div>
-						<div className="cardUserDescription mt2 pt3 pb3 pl5 pr5 aic jcc br flex-dir-c" >
-							<p className="descriptionBox mt2 ml2">{editDescription}</p>
-						</div>
-						{employeesSection}
-						
-					</div>
-					<div className={(this.state.userOffers.length > 0)?"cardUserOffer mr3 br":"cardUserOfferEmpty mr3 br"}>
-						
-						{ offers }
-					
-					</div>
-					
-					
-				</div>
-				
-                
+                                        
+                                        </div>
+                                    <div className="cardUserDescription mt2 pt3 pb3 pl5 pr5 aic jcc br flex-dir-c" >
+                                        <p className="descriptionBox mt2 ml2">{editDescription}</p>
+                                    </div>
+                                    {employeesSection}
+                                    
+                                </div>
+                                <div className={(this.state.userOffers?.length > 0)?"cardUserOffer mr3 br":"cardUserOfferEmpty mr3 br"}>
+                                    
+                                    { offers }
+                                
+                                </div>
+                                
+                                
+                            </div>
+                            
+                            
+                                
+                            
+                        </div>
+                    );
+            }else{
+
+                // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<< NOT MY PROFILE MODE >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+                let offers
+                let section
+
+                    if(this.state.isCompany == false){
+
+                        section = <div className="cardUserEducation mt2 pt3 pr3 pb3 pl3 br flex-dir-r" >
+                            <div className="addSkillContainer">
+                                </div>
+                                
+                                (this.state.userSkills.length === 0)
+                                    ?
+                                    <p/>
+                                    :<SkillChip className = "chipsContainer" skills = {this.state.userSkills}  
+                                    />
+
+                                
+                        </div>
+
+                        
+                    }
+                    if(this.state.userOffers){
+                        if (this.state.userOffers.length > 0 && this.state.isCompany == true){
+
+                            offers = this.state.userOffers.map(offer =>
+                                
+        
+                                <div className="resultCard pt2 mb2  flex-dir-r pb2 pr2 br" onCLick = {()=>this.pulsaOferta(this, offer)}>
+                                        
+                                        <div className="offerImage">
+                                            <img className="avatar" src={ offer._companyAvatar ? offer._companyAvatar : "/img/companyLogoPlaceholder.png" } alt="Imagen de la empresa"/>
+                                        </div>
+                                    
+                                    <div className="infoOfferContainer col2 flex-dir-c">
+                                        
+                                    
+                                        <h2 className="title">{ offer.title }</h2>
+                                        <h2 className="companyName pb1">{ offer._companyName }</h2>
+                                        
+                                        <div className="row1 flex-dir-r pb2">
+                                            <div className="offerInfo pt2 pb2">
+                                                { offer.city }  |  { offer.updated_At }
+                                            </div>
+                                        </div>
+                                        
+                                        <div className="row2 pt3 flex-dir-r">
+                                            <div className="offerInfo pt2 pb2">
+                                                { (this.state.isCompany == false) ? offer.pivot.status : offer.created_at } |  {offer.min_salary} - {offer.max_salary} €
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )
+                        
+                            }
+                            else if(this.state.isCompany == true){
+                                
+                               
+                                    offers = <p className="blackField">Aún no te has suscrito a ninguna oferta</p>
+                                
+                            }
+                    }else{
+                        offers = <ImageLabor
+								src="/img/searching.gif"
+								w={10}
+								measure="em"
+							/>
+                    }
                     
-                
-            </div>
-        );
-      }
+                    
+                    return (
+                        <div className="main mainProfile flex-dir-c">
+                            
+                            
+                            <div className="seccionBody p4 flex-dir-r">
+                                
+                                <div className="cardUserInformation mr2 br ">
+                                <div className="cardUserData br" >
+                                    
+                                    
+                                    
+                                        <div className="userAvatarContainer">
+                                            <img 
+                                                className="avatar" 
+                                                src={this.state.userData.avatar_url != ""? this.state.userData.avatar_url:"https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"} 
+                                                alt="Imagen de usuario"
+                                            /> ;
+                                        </div>
+                                        <div className="userDataFieldContainer">
+                                            <div className="userDataField pt3">
+                                
+                                                <div className="userDataFieldContent"><p className="bigField">{ this.state.userData.name }</p><p className="bigField">
+                                                    { this.state.userData.surname }</p></div>
+                                                </div>
+                                                <div className="userDataField ">
+
+                                                    
+                                                    <div className="userDataFieldContent"><p className="mediumField">{ this.state.userData.province }</p></div>
+                                                    <div className="userDataFieldContent"><p className="mediumField">{ this.state.userData.city }</p></div>
+                                    
+                                                </div>
+                                                <div className="userDataField pb4">
+                                                    <div className="userDataFieldContent"><p className="mediumField ">{ this.state.userData.email }</p></div>
+                                                </div>
+                        
+                                        </div>     
+                                    
+                                </div>
+                               
+                                    {section}
+
+                                    <div className="cardUserDescription mt2 pt3 pb3 pl5 pr5 aic jcc br flex-dir-c" >
+                                        <p className="descriptionBox mt2 ml2">{this.state.userData.description}</p>
+                                    </div>
+                                    
+                                    
+                                </div>
+                                <div className={(this.state.userOffers?.length > 0)?"cardUserOffer mr3 br":"cardUserOfferEmpty mr3 br"}>
+                                    
+                                    { offers }
+                                
+                                </div>
+                                
+                                
+                            </div>
+                            
+                            
+                                
+                            
+                        </div>
+                    );
+
+            }
+        }   
     }
+
 }
 
 
