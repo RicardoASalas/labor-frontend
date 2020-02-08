@@ -8,6 +8,7 @@ import ImageLabor from "../../components/image/image";
 import { connect } from "react-redux";
 import { getUrl, translateWorkday, numToStr, cache } from "../../utils/uti";
 import axios from "axios";
+import store from "../../redux/store";
 // import SearchResultLabor from "../../components/searchResult/searchResult";
 import IconButton from '@material-ui/core/IconButton';
 import CancelIcon from '@material-ui/icons/Cancel';
@@ -193,9 +194,19 @@ class OfferDetail extends React.Component {
 			
 			let offerUid = this.props.location.pathname.split("/")[3]
 			
-			if (this.props?.offerData.uid !== offerUid ){
+			
+			if (this.props?.offerData.uid !== offerUid  ){
 
-				console.log( "hola" );
+				//Si la uid recibida no coincide con la almacenada en cache se hace una nueva llamada a axios
+
+				let offerDetail = await cache(`http://localhost:3000/api/offer/find`, {offerUid});
+				console.log(offerDetail)
+
+				//Se guardan los datos de la oferta actual en redux
+				store.dispatch({
+					type: 'OFFER_DETAIL',
+					payload: offerDetail
+				});
 
 			}
 

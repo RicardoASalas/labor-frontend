@@ -30,7 +30,7 @@ export default function App() {
 					<Route path="/register" exact component={Register} />
 					<Route path="/search" exact component={Search} />
 					<Route path="/profile/:uid" exact component={Profile} />
-					
+					<Route path="/profile" exact component={Profile} />
 					<Route path="/offer/new" exact component={OfferRegister} />
 					<Route path="/offer/detail/:uid" exact component={OfferDetail} />
 					{/* <Route path="/offer/detail" exact component={OfferDetail} /> */}

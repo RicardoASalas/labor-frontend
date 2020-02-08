@@ -346,14 +346,14 @@ class Profile extends React.Component {
         
         if (! this.state.userData) {
 			return (
-				"Recarga"
-			);
-		};
-        // let userType = this.state.userData.userType === 1 ? "Empleado" : "Empresa";
+               <div className="loadingProfileIcon">
+                   <img src="http://resultados.federatio.com/img/cargando.gif" alt="icono de carga"/>
+               </div>
 
-        // if (this.state.userData.userType === 3){
-        //     userType = "Administrador";
-        // };
+				
+			);
+		}else{
+      
 		let editName;
 		let editSurname;
 		let editEmail;
@@ -603,6 +603,7 @@ class Profile extends React.Component {
                 
             </div>
         );
+      }
     }
 }
 
