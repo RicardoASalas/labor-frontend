@@ -32,7 +32,7 @@ class Profile extends React.Component {
 
     //si cambia la url, rerenderiza el coponente para actualizar los datos de usuario
     componentWillReceiveProps(){
-        
+
         window.location.reload(false)
         this.showData()
         this.getSkillsList()
@@ -324,7 +324,11 @@ class Profile extends React.Component {
 		this.props.history.push("/login")
 		
 	};
-	
+    
+    pulsaCrearOferta = ()=>{
+
+        this.props.history.push("/offer/new")
+    }
 	
 	
 	pulsaOferta = (offer) => {
@@ -549,6 +553,7 @@ class Profile extends React.Component {
                             
                             <div className="seccionHeader p1">
                                 
+                               { this.state.isCompany ?
                                 <IconButton
                                     aria-label="salir"
                                     color="primary"
@@ -556,7 +561,9 @@ class Profile extends React.Component {
                                 >
                                     <AddIcon /> Crear oferta
                                 </IconButton>
-                                
+                                :
+                                ""
+                                }
                                 <IconButton
                                     aria-label="salir"
                                     color="primary"

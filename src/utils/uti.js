@@ -166,7 +166,7 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0, flags = "
 	
 	
 	// Empiezo validación
-	const specialCharacters = "#·:$%&()?¿!¡@|+_-ºª";
+	const specialCharacters = ".#·:$%&()?¿!¡@|+_-ºª ";
 	
 	let regex;
 	let errorMessage = "";
