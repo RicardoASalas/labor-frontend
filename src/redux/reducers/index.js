@@ -3,7 +3,7 @@ import { session } from "../../utils/uti";
 const reducer = (state = {
 	
 	isLoggedIn: !!session.get(),
-	cart: []
+	searchPreFilters: {}
 	
 }, action) => {
 	
@@ -32,9 +32,31 @@ const reducer = (state = {
 			};
 			
 			
+		case "SEARCH_PREFILTERS":
+			return {
+				...state,
+				searchPreFilters: action.payload
+			};
+			
+		case "SEARCH_PREFILTERS_DELETE":
+			
+			// delete state.searchPreFilters[action.payload];
+			
+			let newObj = Object.keys(state.searchPreFilters).reduce( (_x) => {
+				return _x !== action.payload
+			});
+			
+			
+			return {
+				...state,
+				searchPreFilters: newObj
+			};
 			
 			
 			
+		
+		
+		
 		case "PRODUCT_DETAIL":
 			return {
 				...state,

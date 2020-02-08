@@ -38,6 +38,7 @@ export default class ImageLabor extends React.Component {
 				src={this.props.src}
 				alt={this.props.alt}
 				style={style}
+				onClick={this.props.onClick}
 			/>
 		);
 	};

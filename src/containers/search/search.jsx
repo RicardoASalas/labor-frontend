@@ -13,10 +13,11 @@ import axios from "axios";
 import { getUrl } from "../../utils/uti";
 import store from "../../redux/store";
 import ImageLabor from "../../components/image/image";
+import {connect} from "react-redux";
 
 
 
-export default class Search extends React.Component {
+class Search extends React.Component {
 	
 	constructor (props) {
 		super(props);
@@ -159,6 +160,23 @@ export default class Search extends React.Component {
 	
 	async componentDidMount () {
 		
+		// ¿Tengo que poner una provincia?
+		if (this.props?.searchPreFilters?.province) {
+			
+			// La pongo
+			this.setState({ province: this.props.searchPreFilters.province }, () => {
+				
+				// Elimino el filtro que acabo de usar
+				store.dispatch({
+					type: 'SEARCH_PREFILTERS_DELETE',
+					payload: "province"
+				});
+				
+			});
+			
+		};
+		
+		
 		try {
 			
 			this.setState({ loading: true });
@@ -220,7 +238,7 @@ export default class Search extends React.Component {
 						<DropdownProvinceList
 							className="mb5"
 							label="Provincia"
-							defaultOption="Todas"
+							defaultOption={ this.props?.searchPreFilters?.province ? this.props.searchPreFilters.province : "Todas"}
 							enableDefaultOption={true}
 							onChange={ (ev) => {
 								this.setState({province : ev.target.value});
@@ -314,3 +332,14 @@ export default class Search extends React.Component {
 };
 
 
+
+
+const mapStateToProps = (state) => {
+	return ({
+		searchPreFilters: state.searchPreFilters,
+		
+	})
+};
+
+	
+export default connect(mapStateToProps) (Search);

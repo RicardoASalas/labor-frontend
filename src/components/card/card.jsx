@@ -51,6 +51,7 @@ class CardLabor extends React.Component {
 						measure="px"
 						alt={this.props.alt}
 						br={0}
+						onClick={this.props.onClick}
 					/>
 					
 					<div className="pt3 pb3 pl3 pr3">
