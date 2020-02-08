@@ -314,7 +314,6 @@ class Profile extends React.Component {
 	
 	pulsaOferta = (offer) => {
 
-		console.log("hola")
 		// Guardo en redux la info de la oferta sobre la que he pulsado
 		store.dispatch({
 			type: 'OFFER_DETAIL',
@@ -481,7 +480,7 @@ class Profile extends React.Component {
                             offers = this.state.userOffers.map(offer =>
                                 
         
-                                <div className="resultCard pt2 mb2  flex-dir-r pb2 pr2 br" onCLick = { ()=>this.pulsaOferta(this, offer) }>
+                                <div className="resultCard pt2 mb2  flex-dir-r pb2 pr2 br" onClick = { ()=>this.pulsaOferta(offer) }>
                                         
                                         <div className="offerImage">
                                             <img className="avatar" src={ offer._companyAvatar ? offer._companyAvatar : "/img/companyLogoPlaceholder.png" } alt="Imagen de la empresa"/>
@@ -659,7 +658,7 @@ class Profile extends React.Component {
                             offers = this.state.userOffers.map(offer =>
                                 
         
-                                <div className="resultCard pt2 mb2  flex-dir-r pb2 pr2 br" onCLick = {()=>this.pulsaOferta(this, offer)}>
+                                <div className="resultCard pt2 mb2  flex-dir-r pb2 pr2 br" onClick = {()=>this.pulsaOferta(offer)}>
                                         
                                         <div className="offerImage">
                                             <img className="avatar" src={ offer._companyAvatar ? offer._companyAvatar : "/img/companyLogoPlaceholder.png" } alt="Imagen de la empresa"/>

@@ -199,13 +199,14 @@ class OfferDetail extends React.Component {
 
 				//Si la uid recibida no coincide con la almacenada en cache se hace una nueva llamada a axios
 
-				let offerDetail = await cache(`http://localhost:3000/api/offer/find`, {offerUid});
-				console.log(offerDetail)
+				// let offerDetail = await cache(`http://localhost:3000/api/offer/find`, {offerUid});
+				let offerDetail = await axios.post( getUrl(`/offer/find/`), {uid: offerUid});
 
+				
 				//Se guardan los datos de la oferta actual en redux
 				store.dispatch({
 					type: 'OFFER_DETAIL',
-					payload: offerDetail
+					payload: offerDetail.data[0]
 				});
 
 			}
