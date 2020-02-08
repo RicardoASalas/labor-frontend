@@ -43,8 +43,9 @@ class Profile extends React.Component {
         //hace una peticion a la api por medio de axios con filtro de uid y almacena en el estado userData
         // un objeto con los datos de usuario.
         try {
-
-            let urlUid = this.props.location.pathname.split("/")[3]
+            console.log(this.props.location)
+            let urlUid = this.props.location.pathname.split("/")[2]
+            console.log(urlUid)
             let sessionUid = this.props?.session.uid
             let res
 
@@ -59,6 +60,7 @@ class Profile extends React.Component {
             }else{
 
                 res = await axios.get(getUrl(`/user/${sessionUid}`));
+                
                 this.setState({ 
 
                     userData: res.data, 
@@ -67,10 +69,6 @@ class Profile extends React.Component {
                     isCompany: res.data.is_company })
 
             }
-
-            
-
-            
 
         
            
@@ -93,8 +91,8 @@ class Profile extends React.Component {
         //que esta subscrito el usuario loggeado y lo almacena en el estado userOffers.
 
             try {
-               
-                let uid = this.props.session.uid 
+                
+                let uid = this.state.userData.uid
                 let res1
                 let res2
                 if(!this.state.isCompany){
@@ -109,6 +107,7 @@ class Profile extends React.Component {
 
                 }
                 else{
+                 
 
                     // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
                     res1 = await axios.get(getUrl(`/offer/created/${uid}`));
@@ -138,7 +137,7 @@ class Profile extends React.Component {
             
             try {
                
-                let uid = this.props.session.uid 
+                let uid = this.state.userData.uid 
                 
                 if(!this.state.isCompany){
 
@@ -243,7 +242,7 @@ class Profile extends React.Component {
 
         try {
             
-            let uid = this.props.session.uid
+            let uid = this.state.userData.uid
 
             
             // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
@@ -641,11 +640,11 @@ class Profile extends React.Component {
                             <div className="addSkillContainer">
                                 </div>
                                 
-                                (this.state.userSkills.length === 0)
+                                {(this.state.userSkills.length === 0)
                                     ?
                                     <p/>
                                     :<SkillChip className = "chipsContainer" skills = {this.state.userSkills}  
-                                    />
+                                    />}
 
                                 
                         </div>
