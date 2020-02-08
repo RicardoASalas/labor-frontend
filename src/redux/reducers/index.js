@@ -40,11 +40,8 @@ const reducer = (state = {
 			
 		case "SEARCH_PREFILTERS_DELETE":
 			
-			// delete state.searchPreFilters[action.payload];
-			
-			let newObj = Object.keys(state.searchPreFilters).reduce( (_x) => {
-				return _x !== action.payload
-			});
+			let newObj = {... state.searchPreFilters};
+			delete newObj[action.payload];
 			
 			
 			return {
@@ -55,7 +52,7 @@ const reducer = (state = {
 			
 			
 		
-		
+		// --------------------------------------------------------------------
 		
 		case "PRODUCT_DETAIL":
 			return {
