@@ -188,8 +188,19 @@ class OfferDetail extends React.Component {
 	
 	async componentDidMount() {
 		
+
 		try {
 			
+			let offerUid = this.props.location.pathname.split("/")[3]
+			
+			if (this.props?.offerData.uid !== offerUid ){
+
+				console.log( "hola" );
+
+			}
+
+
+
 			if (! this.props.session.is_company) {
 				
 				// Pido todas las ofertas en las que estoy inscrito

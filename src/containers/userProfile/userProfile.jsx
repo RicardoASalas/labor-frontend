@@ -23,11 +23,10 @@ class Profile extends React.Component {
         super(props);
 
         this.state = {
-            
+           
             userSkills:[],
             userOffers:[],
             skillList:[],
-            // isCompany: true,
             editProfileMode: false,
         };
     }
@@ -53,9 +52,9 @@ class Profile extends React.Component {
 
             console.log("la respuesta de la peticion es "+res.data)
 
-            this.setState({ userData: res.data, editedData: res.data }, () => {
-                // this.state.userType = this.state.userData.userType === 0 ? "Cliente" : "Vendedor";
-            });
+            this.setState({ userData: res.data, editedData: res.data, isCompany: res.data.is_company })
+
+        
            
         } catch (err) {
             console.error(err);
