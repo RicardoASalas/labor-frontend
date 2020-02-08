@@ -43,7 +43,7 @@ class OfferDetail extends React.Component {
 		try {
 			
 			this.setState({ applied: true });
-			axios.post( getUrl(`/offer/apply/${this.props.offerData.id}/${this.props.session.uid}`) );
+			axios.post( getUrl(`/offer/apply/${this.props.offerData.uid}/${this.props.session.uid}`) );
 			
 		} catch (err) {
 			

@@ -22,7 +22,7 @@ class Profile extends React.Component {
         super(props);
 
         this.state = {
-
+          
             userSkills:[],
             skillList:[],
             editProfileMode: false,
@@ -30,79 +30,96 @@ class Profile extends React.Component {
         };
     }
 
+    //si cambia la url, rerenderiza el coponente para actualizar los datos de usuario
+    componentWillReceiveProps(){
+        
+        window.location.reload(false)
+        this.showData()
+        this.getSkillsList()
+           
+        
+    }
+
     componentDidMount() {  
 
-       
         this.showData()
         this.getSkillsList()
         
     }
     
-
-    async showData(){
-        //hace una peticion a la api por medio de axios con filtro de uid y almacena en el estado userData
-        // un objeto con los datos de usuario.
-        try {
-            console.log(this.props.location)
-            let urlUid = this.props.location.pathname.split("/")[2]
-            console.log(urlUid)
-            let sessionUid = this.props?.session.uid
-            let res
-
-            if(urlUid && urlUid !== sessionUid){
-
-                res = await axios.get(getUrl(`/user/${urlUid}`));
-                this.setState({ 
-                    userData: res.data, 
-                    isMyProfile:false, 
-                    isCompany: res.data.is_company })
-
-            }else{
-
-                res = await axios.get(getUrl(`/user/${sessionUid}`));
-                
-                this.setState({ 
-
-                    userData: res.data, 
-                    isMyProfile:true, 
-                    editedData: res.data, 
-                    isCompany: res.data.is_company })
-
-            }
-
+    
         
+       
+   async showData(){
+
+          //hace una peticion a la api por medio de axios con filtro de uid y almacena en el estado userData
+        // un objeto con los datos de usuario.
+      
+            try {
            
-        } catch (err) {
-            console.error(err);
-        }
-
-        //Llama a la funcion getAppliedOffers
-
-        this.getOffers();
-
-        this.getSkills()
+                
+                console.log(this.props.location)
+                let urlUid = this.props.location.pathname.split("/")[2]
+                console.log(urlUid)
+                let sessionUid = this.props?.session.uid
+                let res
+                
+                if(urlUid && urlUid !== sessionUid){
+    
+                    res = await axios.get(getUrl(`/user/${urlUid}`));
+                    this.setState({ 
+                        userData: res.data, 
+                        isMyProfile:false, 
+                        isCompany: res.data.is_company })
+    
+                }else{
+    
+                    res = await axios.get(getUrl(`/user/${sessionUid}`));
+                    
+                    this.setState({ 
+    
+                        userData: res.data, 
+                        isMyProfile:true, 
+                        editedData: res.data, 
+                        isCompany: res.data.is_company })
+    
+                }
+    
+            
+               
+            } catch (err) {
+                console.error(err);
+            }
+    
+            //Llama a la funcion getAppliedOffers
+    
+            this.getOffers();
+    
+            this.getSkills();
+        
+        
          
     }
 
 
     async getOffers(){
-
+        console.log(this.props.location)
         //Hace una peticion a la api del back que obtiene como resultado un array de objetos offerta a los 
         //que esta subscrito el usuario loggeado y lo almacena en el estado userOffers.
-
-            try {
+        try {
+            
+            let uid = this.state.userData.uid
+            let res1
+            let res2
+            if(!this.state.isCompany){
                 
-                let uid = this.state.userData.uid
-                let res1
-                let res2
-                if(!this.state.isCompany){
-
-                    // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
-                    res1 = await axios.get(getUrl(`/offer/applied/${uid}`));
-
-                    this.setState({ userOffers: res1.data }, () => {
-                        // this.state.userType = this.state.userData.userType === 0 ? "Cliente" : "Vendedor";
-                    });
+                // const res = await axios.get(getUrl(`/user/${id}?token=${token}`));
+                res1 = await axios.get(getUrl(`/offer/applied/${uid}`));
+                
+                this.setState({ userOffers: res1.data }, () => {
+                    // this.state.userType = this.state.userData.userType === 0 ? "Cliente" : "Vendedor";
+                });
+                console.log(this.state.userOffers)
 
 
                 }
@@ -190,7 +207,6 @@ class Profile extends React.Component {
 
         //Despues de presionar el boton de editar, cambia el estado editProfileMode al estado contrario 
         //al que estababa anteriormente
-
         this.setState({
             editProfileMode:!this.state.editProfileMode
         })
@@ -474,8 +490,9 @@ class Profile extends React.Component {
                     let offers 
 
                     if(this.state.userOffers){
-                        if (this.state.userOffers.length > 0 && this.state.isCompany == true){
-
+                        if (this.state.userOffers.length > 0){
+                            
+                            console.log("entra aquiiuiiii")
                             offers = this.state.userOffers.map(offer =>
                                 
         
@@ -499,7 +516,7 @@ class Profile extends React.Component {
                                         
                                         <div className="row2 pt3 flex-dir-r">
                                             <div className="offerInfo pt2 pb2">
-                                                { (this.state.isCompany == false) ? offer.pivot.status : offer.created_at } |  {offer.min_salary} - {offer.max_salary} €
+                                                { (this.state.isCompany == false) ? offer._status : offer.created_at } |  {offer.min_salary} - {offer.max_salary} €
                                             </div>
                                         </div>
                                     </div>
