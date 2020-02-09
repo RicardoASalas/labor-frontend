@@ -13,6 +13,33 @@ class FolderMenu extends React.Component {
         }
 
     }
+    translateStatus(status){
+        switch(this.props.status){
+            case 0:
+              
+              this.setState({status:"Pendiente"}) 
+              break
+            
+            case 1:
+              console.log("case 1") 
+              this.setState({status:"En revisión"})
+              break
+              
+            case 2: 
+            console.log("case 2")
+              this.setState({status:"Rechazado"})
+              break
+            
+            case 3: 
+            console.log("case 3")
+              this.setState({status:"Aceptado"})
+              break
+            
+            default: 
+              break
+     
+      }
+    }
 
     getCandidateInfo = (section) => {
        
@@ -32,11 +59,11 @@ class FolderMenu extends React.Component {
             })
 
        
-        }
-
-        
+        }    
         
     }
+
+   
 
 
     componentDidMount(){
@@ -53,14 +80,14 @@ class FolderMenu extends React.Component {
         
         
         let candidatesArray = this.state.filteredCandidates.map(candidate=>
-			<span className="results">
+			<span  className="results" >
 
 				<p className="fields">{candidate.name?candidate.name:""}</p>
 				<p className="fields">{candidate.surname?candidate.surname:""}</p>
 				<p className="fields">{candidate.email?candidate.email:""}</p>
 				<p className="fields">{candidate.nif?candidate.nif:""}</p>
 				<p className="fields">{candidate._offerTitle?candidate._offerTitle:""}</p>
-				<StatusTranslator status={candidate._status}/>
+				
 
 			</span>)
 

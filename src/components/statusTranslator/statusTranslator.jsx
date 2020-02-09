@@ -10,20 +10,20 @@ class StatusTranslator extends React.Component {
     }
     componentWillReceiveProps(){
     
-      this.translateStatus()
-    
+      this.translateStatus(this.props.status)
+
     }
 
     componentDidMount(){
       console.log("el status es didmount " + this.props.status)
-      this.translateStatus()
+      this.translateStatus(0)
         
     }
 
 
     translateStatus = (status) => {
       
-      switch(this.props.status){
+      switch(status){
         case 0:
           console.log("case 0")
           this.setState({status:"Pendiente"}) 
