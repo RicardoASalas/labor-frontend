@@ -322,7 +322,7 @@ class Profile extends React.Component {
 		
 		// Redirijo al login
 		this.props.history.push("/login")
-		
+	
 	};
     
     pulsaCrearOferta = ()=>{
@@ -496,7 +496,7 @@ class Profile extends React.Component {
                     if(this.state.userOffers){
                         if (this.state.userOffers.length > 0){
                             
-                            console.log("entra aquiiuiiii")
+                            
                             offers = this.state.userOffers.map(offer =>
                                 
         

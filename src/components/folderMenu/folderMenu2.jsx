@@ -8,7 +8,7 @@ class FolderMenu extends React.Component {
       super(props);
 
         this.state = {
-            candidates:props.candidadtes,
+            status:"",
             filteredCandidates:[]
         }
 
@@ -19,11 +19,11 @@ class FolderMenu extends React.Component {
         let candidatesArray = this.props.candidates
         let filteredCandidates
        
-        // console.log ( candidatesArray[0][0].pivot.status ); 
+        console.log ("el status de filtro es "+section ); 
         if(candidatesArray[0]){
 
-            filteredCandidates = candidatesArray[0].map(candidate => console.log(candidate._status))
-            filteredCandidates = candidatesArray[0].filter(candidate => candidate._status === section)
+            
+            filteredCandidates = candidatesArray[0].filter(candidate => candidate._status == section)
 
             this.setState({
 
@@ -38,15 +38,14 @@ class FolderMenu extends React.Component {
         
     }
 
+
     componentDidMount(){
         
         this.setState({
-
-            candidates: this.props.candidates
-
+            status:""
         })
-        
         this.getCandidateInfo(0);
+       
 
     }
   
