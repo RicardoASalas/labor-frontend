@@ -2,7 +2,7 @@
 import React, { Fragment } from "react";
 
 import "./offerRegister.scss";
-
+import InputChips from "../../components/inputChips/inputChips";
 import TextField from "@material-ui/core/TextField";
 import { Button } from '@material-ui/core';
 import { validate } from "../../utils/uti"
@@ -371,6 +371,21 @@ class OfferRegister extends React.Component {
 					
 				</Fragment>
 			);
+
+			// case 3:
+
+			// 	<div className="inputChips">
+			// 		<InputChips
+            //                     defaultValue={this.state.userSkills}
+            //                     optionsLabelKey="name"
+                                
+            //                     label="Habilidades"
+            //                     placeholder="Escribe una habilidad"
+            //                     onChange={ (ev, value) => this.setState({ selectedSkills: value }) }
+            //                     options={this.state.skillList}
+            //                     />
+			// 	</div>
+				
 			
 			
 			

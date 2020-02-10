@@ -14,6 +14,8 @@ import IconButton from '@material-ui/core/IconButton';
 import CancelIcon from '@material-ui/icons/Cancel';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import VisibilityIcon from '@material-ui/icons/Visibility';
+import SkillChip from "../../components/skillChip/skillChip";
+
 
 
 
@@ -25,14 +27,30 @@ class OfferDetail extends React.Component {
 		this.state = {
 			
 			alreadyApplied: true,
+
 			
 		};
 		
 	};
 	
-	
+	async pulsaCancelar(){
+
+		try {
+			
+			
+			axios.get( getUrl(`/offer/cancel/${this.props.offerData.uid}/${this.props.session.uid}`) );
+			cache("appliedOffers", {uid: this.props.session.uid}, "fresh")
+			this.setState({ alreadyApplied: false });
+			
+		} catch (err) {
+			
+			console.log( err );
+			
+		};
+	}
 	
 	async pulsaInscribirse() {
+		
 		
 		if (! this.props.session.uid) {
 			return console.error( "Se ha intentado aplicar a una oferta sin tener una UID." );
@@ -42,8 +60,11 @@ class OfferDetail extends React.Component {
 		
 		try {
 			
-			this.setState({ applied: true });
+			
 			axios.post( getUrl(`/offer/apply/${this.props.offerData.uid}/${this.props.session.uid}`) );
+			cache("appliedOffers", {uid: this.props.session.uid}, "fresh")
+			this.setState({ alreadyApplied: true });
+			
 			
 		} catch (err) {
 			
@@ -57,8 +78,11 @@ class OfferDetail extends React.Component {
 	
 	
 	pulsaPerfil(uid) {
-		console.log(uid)
-		this.props.history.push(`/profile/${uid}`);
+		
+			
+			this.props.history.push(`/profile/${uid}`)
+
+
 	};
 	
 	
@@ -104,7 +128,7 @@ class OfferDetail extends React.Component {
 									
 									<div
 										className="hitbox flex-dir-r"
-										onClick={ () => this.pulsaPerfil(_x.uid) }
+										
 									>
 										
 										<div className="col1 flex-dir-c">
@@ -187,7 +211,6 @@ class OfferDetail extends React.Component {
 	};
 	
 	
-	
 	async componentDidMount() {
 		
 
@@ -210,6 +233,14 @@ class OfferDetail extends React.Component {
 					payload: offerDetail.data[0]
 				});
 
+				let skills = await axios.get( getUrl(`/skill/applied/${offerUid}`))
+
+				this.setState({
+					offerSkills:<div className="skills flex-dir-r aic">
+							       <skillChip skills= {skills}/>
+								 </div>
+				})
+
 			}
 
 
@@ -222,10 +253,14 @@ class OfferDetail extends React.Component {
 				
 				// Busco la oferta actual entre las que estoy inscrito
 				let applied = false;
+
+				console.log(this.props.session.uid)
 				
 				for (let _x of offers) {
 					if (this.props.offerData.id === _x.id) {
+
 						applied = true;
+				
 						break;
 					};
 				};
@@ -272,8 +307,7 @@ class OfferDetail extends React.Component {
 			
 			<div className="offerDetailMain">
 				
-				<div className="header br flex-dir-c headerClick "
-				onClick={ () => this.pulsaPerfil(this.props.offerData._companyUid) }>
+				<div className="header br flex-dir-c ">
 					
 					<div className="flex-dir-r">
 						
@@ -297,14 +331,14 @@ class OfferDetail extends React.Component {
 						<div className="companyInfo jcc">
 							
 							<h1>{this.props.offerData.title}</h1>
-							<h2>{this.props.offerData._companyName}</h2>
-							
-							<div className="botonInscribirse flex jcfe">
+							<h2 onClick = { () => this.pulsaPerfil(this.props.offerData._companyUid) } className="goToCompanyProfile">{this.props.offerData._companyName}</h2>
+							<div className ="buttonsOffer" >
+							<div className="botonInscribirse flex jcfe m1">
 								
 								{ this.state.alreadyApplied ? 
 									<Button
 										disabled
-										className="buttonApply"
+										className="buttonApply "
 										variant="contained"
 										color="secondary"
 										onClick={ () => this.pulsaInscribirse() }
@@ -315,7 +349,7 @@ class OfferDetail extends React.Component {
 									:
 									
 									<Button
-										className="buttonApply"
+										className="buttonApply "
 										variant="contained"
 										color="secondary"
 										onClick={ () => this.pulsaInscribirse() }
@@ -325,6 +359,34 @@ class OfferDetail extends React.Component {
 								}
 								
 							</div>
+							<div className="botonInscribirse flex jcfe m1">
+								
+								{ !this.state.alreadyApplied ? 
+									<Button
+										disabled
+										className="buttonApply "
+										variant="contained"
+										color="secondary"
+										onClick={ () => this.pulsaCancelar() }
+									>
+										cancelar
+									</Button>
+									
+									:
+									
+									<Button
+										className="buttonApply "
+										variant="contained"
+										color="secondary"
+										onClick={ () => this.pulsaCancelar() }
+									>
+										Cancelar
+									</Button>									
+								}
+								
+							</div>
+							</div>
+							
 							
 						</div>
 						
@@ -395,6 +457,8 @@ class OfferDetail extends React.Component {
 								<p>Indefinido</p>
 							</div>
 						</div>
+
+						{this.state?.Offerskills}
 						
 					</div>
 						
