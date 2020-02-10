@@ -177,12 +177,12 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0, flags = "
 		// Específicos
 		case "nif":
 			regex = RegExp("^([0-9]{8})([a-z]{1})$", flags);
-			errorMessage = "El NIF/NIE no es válido.";
+			errorMessage = "El NIF/NIE no es válido. Ejemplo: 12345678A";
 		break;
 		
 		case "cif":
-			regex = RegExp("^([ABCDEFGHJKLMNPQRSUVW])([0-9]{7})([0-9A-J])$", flags);
-			errorMessage = "El CIF no es válido.";
+			regex = RegExp("^([ABCDEFGHJKLMNPQRSUVW]{1})([0-9]{7})([0-9A-J])$", flags);
+			errorMessage = "El CIF no es válido. Ejemplo: A1234567B";
 		break;
 		
 		case "email": 
