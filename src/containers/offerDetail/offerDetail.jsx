@@ -121,9 +121,37 @@ class OfferDetail extends React.Component {
 							// );
 							
 							return (
-								
+								<div className="candidateContainer">
+									<div className="botones flex-dir-r">
+										
+										<IconButton className="button"
+											aria-label="aceptar candidato"
+											color="primary"
+											onClick={ () => console.log("Aceptar") }
+										>
+											<CheckCircleIcon />
+										</IconButton>
+										
+										<IconButton className="button"
+											aria-label="aceptar candidato"
+											color="primary"
+											onClick={ () => console.log("Aceptar") }
+										>
+											<VisibilityIcon />
+										</IconButton>
+										
+										<IconButton className="button"
+											aria-label="rechazar candidato"
+											color="secondary"
+											onClick={ () => console.log("Rechazar") }
+										>
+											<CancelIcon />
+										</IconButton>
+										
+									</div>
 								<div
 									className="resultCard br pt3 pb3 pr3 flex-dir-c mb2"
+									onClick = { () => this.pulsaPerfil(_x.uid) }
 								>
 									
 									<div
@@ -165,37 +193,11 @@ class OfferDetail extends React.Component {
 									
 									
 									
-									<div className="botones flex-dir-r pl4">
-										
-										<IconButton
-											aria-label="aceptar candidato"
-											color="primary"
-											onClick={ () => console.log("Aceptar") }
-										>
-											<CheckCircleIcon />
-										</IconButton>
-										
-										<IconButton
-											aria-label="aceptar candidato"
-											color="primary"
-											onClick={ () => console.log("Aceptar") }
-										>
-											<VisibilityIcon />
-										</IconButton>
-										
-										<IconButton
-											aria-label="rechazar candidato"
-											color="secondary"
-											onClick={ () => console.log("Rechazar") }
-										>
-											<CancelIcon />
-										</IconButton>
-										
-									</div>
 									
-									
+								
 								</div>
 								
+								</div>
 							)
 							
 						};
@@ -210,6 +212,26 @@ class OfferDetail extends React.Component {
 		
 	};
 	
+	async getSkills(){
+		let skills
+		try{
+			// pido las skills de la oferta
+			skills = await axios.get( getUrl(`/skill/applied/${this.props.offerData.uid}`))	
+			console.log("entra aquiiii")
+			// Establezco el estado
+			this.setState({ 
+
+				offerSkills: skills.data,
+				
+			});
+			
+		
+		} catch (err) {
+						
+			console.log( err );
+		};
+
+	}
 	
 	async componentDidMount() {
 		
@@ -233,17 +255,11 @@ class OfferDetail extends React.Component {
 					payload: offerDetail.data[0]
 				});
 
-				let skills = await axios.get( getUrl(`/skill/applied/${offerUid}`))
-
-				this.setState({
-
-					skills: skills
-					
-				})
+				
 
 			}
 
-
+				
 
 			if (! this.props.session.is_company) {
 				
@@ -267,7 +283,9 @@ class OfferDetail extends React.Component {
 				
 				
 				// Establezco el estado
-				this.setState({ alreadyApplied: applied });
+				this.setState({ 
+					alreadyApplied: applied
+				 });
 				
 				
 			} else {
@@ -277,7 +295,10 @@ class OfferDetail extends React.Component {
 				
 				
 				// Establezco el estado
-				this.setState({ candidateList: candidates.data[0] });
+				this.setState({ 
+
+					candidateList: candidates.data[0] 
+				});
 				
 				
 			};
@@ -288,8 +309,12 @@ class OfferDetail extends React.Component {
 			console.log( err );
 			
 		};	
+
+		this.getSkills()
 		
 	};
+
+	
 	
 	
 	
@@ -458,15 +483,33 @@ class OfferDetail extends React.Component {
 							</div>
 						</div>
 
-						<div className="skills flex-dir-r aic">
-							       <SkillChip skills= {this.state?.offerSkills}/>
-								 </div>
+						
 						
 					</div>
+
+					
 						
 					
 					
 				</div>
+				<div className="cardUserEducation mb2 mt2 pt3 pr3 pb3 pl3 br flex-dir-c" >
+                            <p className="mb2 sectionTitle">Habilidades</p>
+                            <div className="addSkillContainer">
+                                </div>
+                                
+                                {
+									
+                                    (this.state.offerSkills)
+                                    ?
+                                    <SkillChip className = "chipsContainer" skills = {this.state.offerSkills}  
+									/>
+									:
+									<p/>
+
+								}
+
+                                
+                        </div>
 				
 				
 				

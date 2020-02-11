@@ -28,11 +28,11 @@ export default function ChipsArray(props) {
     });
   }
 
-
+  
 
     const [chipData] = React.useState(skills);
 
-  
+    console.log(chipData)
 
   return (
     <Paper className={classes.root}>
