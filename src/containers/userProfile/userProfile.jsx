@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 import IconButton from '@material-ui/core/IconButton';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddIcon from '@material-ui/icons/Add';
-import { getUrl } from "../../utils/uti";
+import { getUrl, validate } from "../../utils/uti";
 
 
 class Profile extends React.Component {
@@ -225,36 +225,82 @@ class Profile extends React.Component {
 	
     
     async saveChanges(){
-
+		
         //Comprueba si existe this.state.*, si existe es que se ha editado el campo a traves del input
         //y entra en el condicional almacenando en el objeto que se mandara al back el nuevo valor
 
-         let editUserData = {}
+		let editUserData = {}
+		
+		let validation;
+		let correct = true;
 
-         if(this.state.name){
-             editUserData.name = this.state.name;
-         }
-         if(this.state.surname){
-             editUserData.surname = this.state.surname;
-         }
+		
 
-         if(this.state.email){
-            editUserData.email = this.state.email;
-        }
-        if(this.state.province){
-            editUserData.province = this.state.province;
-        }
-
-        if(this.state.city){
-            editUserData.city = this.state.city;
-        }
-        if(this.state.avatar){
-            editUserData.avatar_url = this.state.avatar;
-        }
-        if(this.state.userData.description){
-            editUserData.description = this.state.userData.description;
-        }
-
+		validation = validate(this.state.name, "abc", 1);
+		if (validation !== "") {
+			correct = false;
+		} else {
+			editUserData.name = this.state.name;
+		};
+		this.setState({ err_name: validation });
+		
+		
+		validation = validate(this.state.surname, "abc", 4);
+		if (validation !== "") {
+			correct = false;
+		} else {
+			editUserData.surname = this.state.surname;
+		};
+		this.setState({ err_surname: validation });
+		
+		
+		validation = validate(this.state.email, "email", 1, 30);
+		if (validation !== "") {
+			correct = false;
+		} else {
+			editUserData.email = this.state.email;
+		};
+		this.setState({ err_email: validation });
+		
+		
+		if (this.state.province === "") {
+			this.setState({ err_province: "No puede estar vacío."});
+		} else {
+			this.setState({ err_province: "" });
+			editUserData.province = this.state.province;
+		};
+		
+		
+		if (this.state.city === "") {
+			this.setState({ err_city: "No puede estar vacío."});
+		} else {
+			this.setState({ err_city: "" });
+			editUserData.city = this.state.city;
+		};
+		
+		
+		validation = validate(this.state.avatar, "abc123", 0, 256);
+		if (validation !== "") {
+			correct = false;
+		} else {
+			editUserData.avatar = this.state.avatar;
+		};
+		this.setState({ err_avatar: validation });
+		
+		
+		validation = validate(this.state.description, "abc123", 0, 256);
+		if (validation !== "") {
+			correct = false;
+		} else {
+			editUserData.description = this.state.description;
+		};
+		this.setState({ err_description: validation });	
+		
+		
+		if (!correct) return console.log("Guardado cancelado por validación errónea.");
+		
+		
+		
         try {
             
             let uid = this.state.userData.uid
@@ -467,7 +513,7 @@ class Profile extends React.Component {
                                     // defaultValue=""
                                     onChange={ (ev) => this.setState({userData:{...this.state.userData, description: ev.target.value}  }) }
                                     value={this.state.userData.description}
-                                    // helperText={this.state.err_description}
+                                    helperText={this.state.err_description}
                                     // error={!! this.state?.err_description}
                                 />					
 
