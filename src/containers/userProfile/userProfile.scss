@@ -69,7 +69,10 @@
         justify-content: center;
 
     }
+    
     .cardUserEducation{
+        display:flex;
+        flex-direction: column;
         width: 100%;
         height: 33%; 
         background-color:white;
@@ -123,6 +126,7 @@
     
     
     .cardUserOffer{
+        overflow: auto;
         width: 35%;
         height: 90%;
         background-color:var(--pri1);
@@ -131,6 +135,17 @@
             height: 40%;
             display:flex;
            justify-content: center;
+
+           .avatar{
+            justify-content: center;
+            align-items: center;
+            // height: 85%;
+            // width: 85%;
+            height:85%;
+            width:80%;
+            border-radius: 3px;
+            
+        }
 		}
     }
     
@@ -195,21 +210,23 @@
         justify-content: center;
         width: 30%;
         height: 100%;
+
+        .avatar{
+            justify-content: center;
+            align-items: center;
+            // height: 85%;
+            // width: 85%;
+            height:85%;
+            width:80%;
+            border-radius: 50%;
+            border-style: solid;
+            border-color: var(--colAzu);
+            border-width: thin;
+        }
         
 
     }
-    .avatar{
-        justify-content: center;
-        align-items: center;
-        // height: 85%;
-        // width: 85%;
-        height:85%;
-        width:80%;
-        border-radius: 50%;
-        border-style: solid;
-        border-color: var(--colAzu);
-        border-width: thin;
-    }
+   
 
     .MuiOutlinedInput-input{
         padding: 0.5rem;
@@ -278,6 +295,9 @@
             }
         }
     
+    }
+    .sectionTitle{
+        font-weight: bold;
     }
     .blackField{
         display: flex;

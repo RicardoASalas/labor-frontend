@@ -2,7 +2,7 @@
 import React, { Fragment } from "react";
 
 import "./offerRegister.scss";
-
+import InputChips from "../../components/inputChips/inputChips";
 import TextField from "@material-ui/core/TextField";
 import { Button } from '@material-ui/core';
 import { validate } from "../../utils/uti"
@@ -55,6 +55,33 @@ class OfferRegister extends React.Component {
 	};
 	
 	
+	async getSkillsList(){
+
+        //Hace una peticion a la api del back que obtiene como resultado un array de skills disponibles
+        let res
+            
+        try {
+           
+            
+            if(!this.state.isCompany){
+
+               
+                res = await axios.get(getUrl('/skill'));
+
+            }   
+           
+        } catch (err) {
+            console.error(err);
+        }      
+        
+        if(!this.state.isCompany){
+
+        
+            this.setState({skillList: res.data })
+
+        }
+        
+	}
 	
 	validateStep = () => {
 		
@@ -135,6 +162,7 @@ class OfferRegister extends React.Component {
 	
 	
 	send = async() => {
+
 		
 		let registerData = {
 			title: this.state.title,
@@ -153,6 +181,7 @@ class OfferRegister extends React.Component {
 			
 		};
 		
+			
 		
 		
 		if (this.validateStep()) {
@@ -164,21 +193,51 @@ class OfferRegister extends React.Component {
 			
 			
 			let uid = this.props.session.uid;
-			
-			console.log("la uid es uid")
+			let offerUid
+		
 			try {
 				
-				await axios.post( getUrl(`/offer/register/${uid}`), registerData);
+				offerUid = await axios.post( getUrl(`/offer/register/${uid}`), registerData);
+
+				// si se ha creado el estado selecteSkills es que se han hecho cambios y por lo tanto se
+				//dispara la peticion
+				if(this.state?.selectedSkills){
+					console.log(this.state.selectedSkills)
+					let skillsArray = [];
+					let selectedSkills = this.state.selectedSkills
+					let body={};
 					
-			} catch (err) {
-				
-				console.log( err );
-			};
+					// preparamos el array de skillsId
+					selectedSkills.forEach(element => {
+						skillsArray.push(element.id)
+					});
+						
+					body={skill: skillsArray}
+					console.log(body)
+					console.log(offerUid[0].data.uid)
+					//hacemos la peticion mandando por url el array de skills y el uid
+					await axios.post(getUrl(`/skill/apply/${offerUid.data.uid}`), body);
+					
+				}
+						
+				} catch (err) {
+					
+					console.log( err );
+				};
+
+			
+
 			// Redirección
 			this.props.history.push("/profile");
 		}
 		
 	};
+
+	componentDidMount(){
+
+		this.getSkillsList();
+
+	}
 	
 	
 	
@@ -359,10 +418,10 @@ class OfferRegister extends React.Component {
 							« Anterior
 						</Button>
 						
-						<Button className="btn mt3" variant="contained" color="secondary"
-							onClick={ () => this.send() }
+						<Button className="btn mt3" variant="contained" color="primary"
+							onClick={ () => this.setStep(3, true) }
 						>
-							Enviar
+							Siguiente
 						</Button>
 						
 					</div>
@@ -371,8 +430,39 @@ class OfferRegister extends React.Component {
 					
 				</Fragment>
 			);
-			
-			
+
+			case 3: return(
+
+				<Fragment>
+					<div className="inputChips">
+					<InputChips
+                                // defaultValue={this.state.userSkills}
+                                optionsLabelKey="name"
+                                
+                                label="Habilidades"
+                                placeholder="Escribe una habilidad"
+                                onChange={ (ev, value) => this.setState({ selectedSkills: value }) }
+                                options={this.state?.skillList}
+                                />
+					</div>
+					<div className="boxButtons">
+							
+						<Button className="btn mt3" variant="contained" color="primary"
+							onClick={ () => this.setStep(2, true) }
+						>
+							« Anterior
+						</Button>
+						
+						<Button className="btn mt3" variant="contained" color="secondary"
+									onClick={ () => this.send() }
+								>
+									Enviar
+						</Button>
+					
+					</div>
+				</Fragment>
+				
+			)	
 			
 			default: return "asd";
 			

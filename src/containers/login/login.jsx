@@ -85,6 +85,7 @@ export default class Login extends React.Component {
 			// Si soy empleado, pido mis ofertas para que vayan al caché
 			if (! data.is_company) {
 				cache("appliedOffers", {uid: data.uid}, "fresh")
+				
 			};
 			
 			

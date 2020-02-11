@@ -22,11 +22,11 @@ export default function ChipsArray(props) {
 
   let skills = []
   
-  
+  if(props.skills){
     props.skills.map(skill=>{
         return skills.unshift({id: skill.id, name: skill.name});
     });
-  
+  }
 
 
 

@@ -58,9 +58,8 @@ class Profile extends React.Component {
             try {
            
                 
-                console.log(this.props.location)
+             
                 let urlUid = this.props.location.pathname.split("/")[2]
-                console.log(urlUid)
                 let sessionUid = this.props?.session.uid
                 let res
                 
@@ -103,7 +102,7 @@ class Profile extends React.Component {
 
 
     async getOffers(){
-        console.log(this.props.location)
+        
         //Hace una peticion a la api del back que obtiene como resultado un array de objetos offerta a los 
         //que esta subscrito el usuario loggeado y lo almacena en el estado userOffers.
         try {
@@ -119,7 +118,7 @@ class Profile extends React.Component {
                 this.setState({ userOffers: res1.data }, () => {
                     // this.state.userType = this.state.userData.userType === 0 ? "Cliente" : "Vendedor";
                 });
-                console.log(this.state.userOffers)
+            
 
 
                 }
@@ -594,7 +593,7 @@ class Profile extends React.Component {
                     return (
                         <div className="main mainProfile flex-dir-c">
                             
-                            <div className="seccionHeader p1">
+                            <div className="seccionHeader p">
                                 
                                { this.state.isCompany ?
                                 <IconButton
@@ -665,7 +664,8 @@ class Profile extends React.Component {
                                     </div> 
                                     
                                 </div>
-                                <div className="cardUserEducation mt2 pt3 pr3 pb3 pl3 br flex-dir-r" >
+                                <div className="cardUserEducation mt2 pt3 pr3 pb3 aic pl3 br flex-dir-c" >
+                                    <p className="sectionTitle mb2 ">Habilidades</p>
                                     <div className="addSkillContainer">
                                         </div>
                                         
@@ -674,6 +674,7 @@ class Profile extends React.Component {
                                         
                                         </div>
                                     <div className="cardUserDescription mt2 pt3 pb3 pl5 pr5 aic jcc br flex-dir-c" >
+                                    <p className="mb2 sectionTitle">Description</p>
                                         <p className="descriptionBox mt2 ml2">{editDescription}</p>
                                     </div>
                                     {employeesSection}
@@ -703,7 +704,8 @@ class Profile extends React.Component {
 
                     if(this.state.isCompany == false){
 
-                        section = <div className="cardUserEducation mt2 pt3 pr3 pb3 pl3 br flex-dir-r" >
+                        section = <div className="cardUserEducation mt2 pt3 pr3 pb3 pl3 br flex-dir-c" >
+                            <p className="mb2 sectionTitle">Habilidades</p>
                             <div className="addSkillContainer">
                                 </div>
                                 
@@ -809,6 +811,7 @@ class Profile extends React.Component {
                                     {section}
 
                                     <div className="cardUserDescription mt2 pt3 pb3 pl5 pr5 aic jcc br flex-dir-c" >
+                                        <p className="mb2 sectionTitle">Description</p>
                                         <p className="descriptionBox mt2 ml2">{this.state.userData.description}</p>
                                     </div>
                                     
