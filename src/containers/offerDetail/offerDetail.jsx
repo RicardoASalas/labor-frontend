@@ -236,9 +236,9 @@ class OfferDetail extends React.Component {
 				let skills = await axios.get( getUrl(`/skill/applied/${offerUid}`))
 
 				this.setState({
-					offerSkills:<div className="skills flex-dir-r aic">
-							       <skillChip skills= {skills}/>
-								 </div>
+
+					skills: skills
+					
 				})
 
 			}
@@ -458,7 +458,9 @@ class OfferDetail extends React.Component {
 							</div>
 						</div>
 
-						{this.state?.Offerskills}
+						<div className="skills flex-dir-r aic">
+							       <SkillChip skills= {this.state?.offerSkills}/>
+								 </div>
 						
 					</div>
 						
