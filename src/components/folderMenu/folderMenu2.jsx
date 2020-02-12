@@ -82,10 +82,10 @@ class FolderMenu extends React.Component {
         let candidatesArray = this.state.filteredCandidates.map(candidate=>
 			<span  className="results" >
 
-				<p className="fields">{candidate.name?candidate.name:""}</p>
-				<p className="fields">{candidate.surname?candidate.surname:""}</p>
-				<p className="fields">{candidate.email?candidate.email:""}</p>
-				<p className="fields">{candidate.nif?candidate.nif:""}</p>
+				<p className="fields field1">{candidate.name?candidate.name:""}</p>
+				<p className="fields field2">{candidate.surname?candidate.surname:""}</p>
+				<p className="fields field3">{candidate.email?candidate.email:""}</p>
+				<p className="fields field4">{candidate.nif?candidate.nif:""}</p>
 				<p className="fields">{candidate._offerTitle?candidate._offerTitle:""}</p>
 				
 
@@ -101,6 +101,7 @@ class FolderMenu extends React.Component {
 					<p className="menuLink" onClick={()=>this.getCandidateInfo(2)}>Rechazado</p>
 				</div>
 				<div className="companyMenuResults">
+        <div className="fieldNames"><p>Nombre</p><p>Apellidos</p><p>Email</p><p>NIF</p><p>Oferta</p></div>
 					{candidatesArray}
 				</div>
 			</div>        

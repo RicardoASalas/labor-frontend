@@ -30,8 +30,20 @@
 		border-radius: 3px;
 		overflow: auto;
 		// align-items: center;
-		// justify-content: center;
-	
+		justify-content: flex-start;
+		
+	}
+
+	.fieldNames{
+		display:grid;
+		grid-template-columns: 15% 25% 30% 15% 15%;
+		grid-template-rows: 20px;
+		flex-direction: row;
+		font-weight: bold;
+		background-color: white;
+		padding-bottom: 0.2rem;
+		padding-top: 0.2rem;
+		padding-left: 1rem;
 	}
 	
 	.menuLink{
@@ -48,25 +60,29 @@
 	
 	.results{
 	
-		display:flex;
+		display:grid;
+		grid-template-columns: 15% 25% 30% 15% 15%;
+		grid-template-rows: 20px;
 		flex-direction: row;
 		color:#646464;
-		width: 100%;
-		margin-bottom: 0.5rem;
-		margin-top: 0.5rem;
+		// width: 100%;
+		margin-bottom: 0.2rem;
+		margin-top: 0.2rem;
 		padding-left: 1rem;
 		
 	}
 	
 	.results:hover{
 	   
-		display:flex;
+		display:grid;
+		grid-template-columns: 15% 25% 30% 15% 15%;
+		grid-template-rows: 20px;
 		flex-direction: row;
 		color: #607D8B;
 		cursor: pointer;
-		width: 100%;
-		margin-bottom: 0.5rem;
-		margin-top: 0.5rem;
+		// width: 100%;
+		margin-bottom: 0.2rem;
+		margin-top: 0.2rem;
 		padding-left: 1rem;
 		
 	}

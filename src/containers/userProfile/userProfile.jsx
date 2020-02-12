@@ -665,7 +665,13 @@ class Profile extends React.Component {
                                     
                                 </div>
                                 <div className="cardUserEducation mt2 pt3 pr3 pb3 aic pl3 br flex-dir-c" >
-                                    <p className="sectionTitle mb2 ">Habilidades</p>
+                                    {
+                                        !this.state.isCompany
+                                        ?
+                                        <p className="sectionTitle mb2 ">Habilidades</p>
+                                        :
+                                        <p className="sectionTitle mb2 ">Candidatos</p>
+                                    }
                                     <div className="addSkillContainer">
                                         </div>
                                         
