@@ -32,6 +32,26 @@ class OfferDetail extends React.Component {
 		};
 		
 	};
+
+	async pulsaBorrar(){
+
+		try {
+			
+			//borro la oferta
+			axios.get( getUrl(`/offer/delete/${this.props.offerData.uid}`) );
+
+			//redirijo a mi perfil de empresa
+			this.props.history.push(`/profile/${this.props.session.uid}`)
+			
+			
+			
+		} catch (err) {
+			
+			console.log( err );
+			
+		};
+
+	}
 	
 	async pulsaCancelar(){
 
@@ -372,7 +392,10 @@ class OfferDetail extends React.Component {
 							<div className ="buttonsOffer" >
 							<div className="botonInscribirse flex jcfe m1">
 								
-								{ this.state.alreadyApplied ? 
+					{!this.props.session.is_company
+									?
+									this.state.alreadyApplied 
+									? 
 									<Button
 										disabled
 										className="buttonApply "
@@ -393,12 +416,17 @@ class OfferDetail extends React.Component {
 									>
 										Inscribirse
 									</Button>									
-								}
 								
+								:
+								<p/>
+								}
 							</div>
 							<div className="botonInscribirse flex jcfe m1">
 								
-								{ !this.state.alreadyApplied ? 
+							{!this.props.session.is_company
+									? 
+									!this.state.alreadyApplied 
+									? 
 									<Button
 										disabled
 										className="buttonApply "
@@ -419,6 +447,15 @@ class OfferDetail extends React.Component {
 									>
 										Cancelar
 									</Button>									
+								:
+								<Button
+										className="buttonApply "
+										variant="contained"
+										color="secondary"
+										onClick={ () => this.pulsaBorrar() }
+									>
+										borrar
+									</Button>						
 								}
 								
 							</div>
