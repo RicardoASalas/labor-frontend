@@ -1,11 +1,5 @@
 
-.mainProfile {
-	
-	.seccionHeader {
-		margin-top: 4em;
-	}
-	
-}
+
 
 .loadingProfileIcon{
     height:100vh;
@@ -23,10 +17,15 @@
 
 	
 	.seccionBody {
-        height: 100%;
+        height: 95%;
         width:100%;
         justify-content: center;
-	}	
+    }	
+    .seccionHeader{
+        display:flex;
+        align-items: center;
+        height:5%;
+    }
 	
 	
     .cardUserInformation{

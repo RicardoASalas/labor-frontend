@@ -593,7 +593,7 @@ class Profile extends React.Component {
                     return (
                         <div className="main mainProfile flex-dir-c">
                             
-                            <div className="seccionHeader p">
+                            <div className="seccionHeader ">
                                 
                                { this.state.isCompany ?
                                 <IconButton
