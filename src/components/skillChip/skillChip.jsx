@@ -18,13 +18,18 @@ root: {
 }));
 
 export default function ChipsArray(props) {
+
   const classes = useStyles();
 
   let skills = []
-  
+
+  //recibo las skills como props y las mapeo para crear un array de objetos clave valor valido
   if(props.skills){
+
     props.skills.map(skill=>{
+
         return skills.unshift({id: skill.id, name: skill.name});
+        
     });
   }
 
@@ -32,7 +37,6 @@ export default function ChipsArray(props) {
 
     const [chipData] = React.useState(skills);
 
-    console.log(chipData)
 
   return (
     <Paper className={classes.root}>

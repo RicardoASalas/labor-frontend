@@ -74,6 +74,19 @@ class OfferDetail extends React.Component {
 		
 		
 	};
+
+	async cambiarStatus(userUid, status){
+		try{
+
+			await axios.get(getUrl(`/offer/status/${this.props.offerData.uid}/${userUid}/${status}`))
+
+		}catch(err){
+
+			console.log(err)
+
+		}
+
+	}
 	
 	
 	
@@ -127,7 +140,7 @@ class OfferDetail extends React.Component {
 										<IconButton className="button"
 											aria-label="aceptar candidato"
 											color="primary"
-											onClick={ () => console.log("Aceptar") }
+											onClick={ () => this.cambiarStatus(_x.uid, 3) }
 										>
 											<CheckCircleIcon />
 										</IconButton>
@@ -135,7 +148,7 @@ class OfferDetail extends React.Component {
 										<IconButton className="button"
 											aria-label="aceptar candidato"
 											color="primary"
-											onClick={ () => console.log("Aceptar") }
+											onClick={ () => this.cambiarStatus(_x.uid, 1) }
 										>
 											<VisibilityIcon />
 										</IconButton>
@@ -143,7 +156,7 @@ class OfferDetail extends React.Component {
 										<IconButton className="button"
 											aria-label="rechazar candidato"
 											color="secondary"
-											onClick={ () => console.log("Rechazar") }
+											onClick={ () => this.cambiarStatus(_x.uid, 2) }
 										>
 											<CancelIcon />
 										</IconButton>
@@ -217,7 +230,7 @@ class OfferDetail extends React.Component {
 		try{
 			// pido las skills de la oferta
 			skills = await axios.get( getUrl(`/skill/applied/${this.props.offerData.uid}`))	
-			console.log("entra aquiiii")
+			
 			// Establezco el estado
 			this.setState({ 
 
@@ -270,7 +283,6 @@ class OfferDetail extends React.Component {
 				// Busco la oferta actual entre las que estoy inscrito
 				let applied = false;
 
-				console.log(this.props.session.uid)
 				
 				for (let _x of offers) {
 					if (this.props.offerData.id === _x.id) {

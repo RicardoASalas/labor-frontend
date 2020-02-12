@@ -94,6 +94,8 @@ class FolderMenu extends React.Component {
         return (
             <div className="companyMenu">
 				<div className="companyMenuLinks">
+
+          
 					<p className="menuLink" onClick={()=>this.getCandidateInfo(0)}>Pendiente</p>
 					<p className="menuLink" onClick={()=>this.getCandidateInfo(1)}>Revision</p>
 					<p className="menuLink" onClick={()=>this.getCandidateInfo(2)}>Rechazado</p>
