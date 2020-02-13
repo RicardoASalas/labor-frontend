@@ -511,13 +511,13 @@ class Profile extends React.Component {
                                         
                                         <div className="row1 flex-dir-r pb2">
                                             <div className="offerInfo pt2 pb2">
-                                                { offer.city }  |  { offer.updated_At }
+                                                { offer.city }  { offer.updated_At && "|"}  { offer.updated_At }
                                             </div>
                                         </div>
                                         
                                         <div className="row2 pt3 flex-dir-r">
                                             <div className="offerInfo pt2 pb2">
-                                                { (this.state.isCompany == false) ? offer._status : offer.created_at } |  {offer.min_salary} - {offer.max_salary} €
+                                                { (this.state.isCompany == false) ? offer._status : offer.created_at }   {offer.min_salary} - {offer.max_salary} €
                                             </div>
                                         </div>
                                     </div>
