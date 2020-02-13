@@ -222,7 +222,7 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0, flags = "
 		break;
 
 		case "abc_":
-			regex = RegExp("^[a-záéíóúñ][a-z\s]*$", flags);
+			regex = RegExp("^[a-záéíóúñ\s][a-z\s]*$", flags);
 			errorMessage = "Sólo puede contener letras y espacios.";
 		break;
 		case "abc123":
@@ -230,7 +230,7 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0, flags = "
 			errorMessage = "Sólo puede contener letras y números.";
 		break;
 		case "abc123_":
-			regex = RegExp("^[a-záéíóúñ0-9][a-z0-9\s]*$", flags);
+			regex = RegExp("^[a-záéíóúñ0-9\s][a-z0-9\s]*$", flags);
 			errorMessage = "Sólo puede contener letras, números y espacios.";
 		break;
 		case "abc123!":
