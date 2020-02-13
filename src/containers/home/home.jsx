@@ -38,7 +38,7 @@ class Home extends Component {
 							w={500}
 							h={200}
 							
-							onClick={ () => this.props.history.push("/profile/") }
+							onClick={ () => this.props.history.push("/profile/c5e45a95dd7f87") }
 						/>
 						
 						<CardLabor
