@@ -123,7 +123,7 @@ export default class searchResultLabor extends React.Component {
 					
 					<div className="row1 flex-dir-r pb2">
 						<div className="offerInfo pt2 pb2">
-							{ this.props?.city }  {this.props.date && " |" + this.props.date }
+							{ this.props?.province } ({ this.props?.city})   {this.props.date && " | " + this.props.date }
 						</div>
 					</div>
 					
@@ -131,7 +131,7 @@ export default class searchResultLabor extends React.Component {
 					
 					<div className="row2 pt3 flex-dir-r">
 						<div className="offerInfo pt2 pb2">
-							{ this.props?.contractType } {hoursWeek && "| " + hoursWeek} {salary && "| " + salary}
+							{ this.props?.contractType } {salary && this.props?.contractType && "| "} {salary}
 						</div>
 					</div>
 					

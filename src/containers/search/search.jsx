@@ -286,11 +286,10 @@ class Search extends React.Component {
 									title={_x.title}
 									companyName={_x._companyName}
 									description={_x.description}
+									province={_x.province}
 									city={_x.city}
 									date={_x.created_at}
 									contractType={_x.contractType}
-									minHoursWeek={20}
-									maxHoursWeek={25}
 									minSalary={_x.min_salary}
 									maxSalary={_x.max_salary}
 									
