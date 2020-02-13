@@ -42,12 +42,12 @@ class Search extends React.Component {
 	shouldComponentUpdate(nextProps, nextState) {
 		
 		if (this.state.keyword !== nextState.keyword) {
-			this.debounce();
+			this.debounce(this.state);
 		} else if (
 			this.state.province !== nextState.province ||
-			this.state.filter !== nextState.filter			
+			this.state.sort !== nextState.sort			
 		) {
-			this.search();
+			this.search(nextState);	
 		};
 		
 		
@@ -64,11 +64,11 @@ class Search extends React.Component {
 		
 		return (
 			<FormControlLabel
-				checked={ this.state.filter === stateKey }
+				checked={ this.state.sort === stateKey }
 				control={<Radio color="primary" />}
 				label={label}
 				labelPlacement="end"
-				onChange={ () => this.setState({ filter: stateKey }) }
+				onChange={ () => this.setState({ sort: stateKey }) }
 			/>
 		);
 	};
@@ -83,7 +83,7 @@ class Search extends React.Component {
 	
 	
 	
-	debounce() {
+	debounce(objState) {
 		
 		// Si ya estoy en un timeout, salgo y cancelo
         if (this.state?.debounce_timeout) {
@@ -94,7 +94,7 @@ class Search extends React.Component {
 		
         // Empiezo un timeout
         const loop = setTimeout(() => {
-			this.search();
+			this.search(objState);
 		}, 500);
 		
 		
@@ -105,13 +105,13 @@ class Search extends React.Component {
 	
 	
 	
-	async search () {
+	async search (objState) {
 		
 		try {
 			
-			let keyword = this.state.keyword;
-			let province = this.state.province;
-			let sort = this.state.sort;
+			let keyword = objState.keyword;
+			let province = objState.province;
+			let sort = objState.sort;
 			
 			
 			// Construyo el body
@@ -188,8 +188,13 @@ class Search extends React.Component {
 			
 			
 			// Pongo el resultado como estado
-			this.setState({ offerList: res.data });
-			this.setState({ loading: false });
+			this.setState({ offerList: res.data }, () => {
+				this.setState({ loading: false });
+			});
+			
+			
+			this.forceUpdate();
+			
 			
 			
 		} catch (err) {
