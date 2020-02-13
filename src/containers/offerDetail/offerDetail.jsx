@@ -359,6 +359,13 @@ class OfferDetail extends React.Component {
 		};
 		
 		
+		if ( Object.keys(this.props.session).length === 0 ) {
+			this.props.history.push("/login");
+			
+			return null;
+		};
+		
+		
 		
 		return (
 			
