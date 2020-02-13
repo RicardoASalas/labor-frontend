@@ -420,7 +420,7 @@ class Profile extends React.Component {
                         className="avatar" 
                                     src={this.state.userData.avatar_url != ""? this.state.userData.avatar_url:"https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"} 
                                     alt="Imagen de usuario"
-                                /> ;
+                                /> 
 
                     }else{
 
@@ -746,7 +746,7 @@ class Profile extends React.Component {
                                                 className="avatar" 
                                                 src={this.state.userData.avatar_url != ""? this.state.userData.avatar_url:"https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"} 
                                                 alt="Imagen de usuario"
-                                            /> ;
+                                            /> 
                                         </div>
                                         <div className="userDataFieldContainer">
                                             <div className="userDataField pt3">
