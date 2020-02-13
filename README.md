@@ -67,7 +67,7 @@ Esquema DB
 
 - Perfil
 	- De empresa o de empleado
-	- Visualización de información personal, habilidades, descripción, título, sector, ofertas...
+	- Visualización y edición de información personal, habilidades, descripción, título, sector, ofertas.
 
 - Ofertas
 	- Sólo una empresa puede crear una oferta de empleo.
@@ -75,6 +75,7 @@ Esquema DB
 	- Vista detalle de la oferta.
 	- Personas inscritas a la oferta de empleo, sólo visible por el creador.
 	- Botón de eliminación de oferta, sólo visible por el creador.
+	- Gestión de candidatos, sólo visible por el creador.
 	- Botón de inscripción a la oferta, sólo visible por empleados.
 
 - Búsqueda
