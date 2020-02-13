@@ -167,6 +167,7 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0, flags = "
 	
 	// Empiezo validación
 	const specialCharacters = ".#·:$%&()?¿!¡@|+_-ºª ";
+	const spanishCharacters = "áéíóúñ";
 	
 	let regex;
 	let errorMessage = "";
@@ -191,11 +192,11 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0, flags = "
 		break;
 		
 		case "phone":
-			regex = RegExp("^[0-9()+-\s]*$", flags);
+			regex = RegExp("^[0-9()+-\s ]*$", flags);
 			errorMessage = "El teléfono no es válido.";
 		break;
 		case "city":
-			regex = RegExp("^[a-záéíóúñ'`´\s]*$", flags);
+			regex = RegExp(`^[a-z${spanishCharacters}'\s ]*$`, flags);
 			errorMessage = "Sólo puede contener letras y caracteres '`´.";
 		break;		
 		
@@ -210,35 +211,35 @@ export const validate = (str = "", type, minLength = 0, maxLenght = 0, flags = "
 			errorMessage = `Sólo puede contener letras los siguientes caracteres especiales: ${specialCharacters} `;
 		break;
 		case "123!_":
-			regex = RegExp(`^[0-9${specialCharacters}\s]*$`, flags);
+			regex = RegExp(`^[0-9${specialCharacters}\s ]*$`, flags);
 			errorMessage = `Sólo puede contener letras, espacios y los siguientes caracteres especiales: ${specialCharacters} `;
 		break;
 		
 		
 		
 		case "abc":
-			regex = RegExp("^[a-záéíóúñ]*$", flags);
+			regex = RegExp(`^[a-z${spanishCharacters}]*$`, flags);
 			errorMessage = "Sólo puede contener letras.";
 		break;
 
 		case "abc_":
-			regex = RegExp("^[a-záéíóúñ\s][a-z\s]*$", flags);
+			regex = RegExp(`^[a-z${spanishCharacters}\s ]*$`, flags);
 			errorMessage = "Sólo puede contener letras y espacios.";
 		break;
 		case "abc123":
-			regex = RegExp("^[a-záéíóúñ0-9]*$", flags);
+			regex = RegExp(`^[a-z${spanishCharacters}0-9]*$`, flags);
 			errorMessage = "Sólo puede contener letras y números.";
 		break;
 		case "abc123_":
-			regex = RegExp("^[a-záéíóúñ0-9\s][a-z0-9\s]*$", flags);
+			regex = RegExp(`^[a-z${spanishCharacters}0-9\s ]*$`, flags);
 			errorMessage = "Sólo puede contener letras, números y espacios.";
 		break;
 		case "abc123!":
-			regex = RegExp(`^[a-záéíóúñ0-9${specialCharacters}]*$`, flags);
+			regex = RegExp(`^[a-z${spanishCharacters}0-9${specialCharacters}]*$`, flags);
 			errorMessage = `Sólo puede contener letras, números y los siguientes caracteres especiales: ${specialCharacters} `;
 		break;
 		case "abc123!_":
-			regex = RegExp(`^[a-záéíóúñ0-9${specialCharacters}\s]*$`, flags);
+			regex = RegExp(`^[a-z${spanishCharacters}0-9${specialCharacters}\s ]*$`, flags);
 			errorMessage = `Sólo puede contener letras, números, espacios y los siguientes caracteres especiales: ${specialCharacters} `;
 		break;
 		

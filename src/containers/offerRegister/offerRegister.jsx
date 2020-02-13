@@ -97,7 +97,7 @@ class OfferRegister extends React.Component {
 				if (validation !== "") { correct = false };
 				this.setState({ err_title: validation });
 				
-				validation = validate(this.state.sector, "abc_", 4, 32);
+				validation = validate(this.state.sector, "abc_", 1, 32);
 				if (validation !== "") { correct = false };
 				this.setState({ err_sector: validation });
 				
