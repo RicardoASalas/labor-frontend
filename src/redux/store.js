@@ -15,12 +15,12 @@ export default store;
 import { applyMiddleware, createStore } from "redux";
 import reducer from "./reducers";
 import { save, load } from "redux-localstorage-simple";
-import { session } from "../utils/uti";
+// import { session } from "../utils/uti";
 
 
 
 const createStoreWithMiddleware = applyMiddleware(
-	save({ states: ["cart"] })
+	save({ states: ["session", "offerData"] })
 )(createStore);
 
 const store = createStoreWithMiddleware(
@@ -28,14 +28,11 @@ const store = createStoreWithMiddleware(
 	load({
 		preloadedState:{
 			
-			isLoggedIn: !!session.get(),
-			
-			cart:[],
-			totalPrice: 0,
+			session: {}
 			
 		},
-		states: ["cart"] }),
-	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+		states: ["session", "offerData"]
+	}), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 );
 
 export default store;

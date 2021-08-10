@@ -6,28 +6,23 @@
 
 * {
 	box-sizing: border-box;
+	// background: var(--bac);
 }
 
 .home {
-	display: flex;
-	flex-direction: column;
-	min-height: 100vh;
 
-	background: var(--bac);
+	min-height: 100vh;
+	margin-left: 10%;
+	margin-right: 10%;
+
+	// background: var(--bac);
 	
 	.mainHome {
-		// flex: 1;
-		padding: 0.2em 0;
-		background: var(--bac);
-		display: flex;
-		flex-direction: column;
-		justify-content: flex-start;
-		// .sliderProductosHome {
-		// 	margin-left: 1em;
-		// 	font-weight: bold;
-		// 	font-size: 1.5em;
-		// 	color: var(--pri09);
-		// }
+		
+		.titulo {
+			align-self: flex-start;
+		}
+		
 	}
 
 	/* ----- Slider Section ------ */

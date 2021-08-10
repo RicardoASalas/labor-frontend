@@ -1,191 +1,140 @@
-import React, { Fragment } from "react";
-import { NavLink, withRouter } from "react-router-dom";
-import axios from "axios";
-import { connect } from "react-redux";
+import React, { Fragment } from 'react';
+import { withRouter } from "react-router-dom";
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
 
-import { session, getUrl } from "../../utils/uti";
-import { login } from "../../redux/actions/users";
-import { rdx_productSearchResults } from "../../redux/actions/products";
+import HomeIcon from '@material-ui/icons/Home';
+import WorkIcon from '@material-ui/icons/Work';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import Face from '@material-ui/icons/Face';
 
-import "./header.css";
+import { connect } from 'react-redux';
+import ImageLabor from "../image/image";
+import "./header.scss";
 
 
-
-class Header extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            
-        };
-    }
+const useStyles = makeStyles({
 	
+	root: {
+		flexGrow: 1,
+	},
 	
+	link: {
+		textDecoration: "none",
+		color: "black",
+		cursor: "pointer"
+	},
 	
-    // BotonesHeader() {
-    //     let nCesta = this.props.cart ? Object.keys(this.props.cart).length : 0;
-    //     let strNCesta = nCesta === 0 ? "" : `(${nCesta})`;
-
-    //     const userType = session.get()?.userType;
-        
-    //     if (this.props.isLoggedIn && userType) {
-    //         // si estoy logeado...
-            
-    //         switch (userType) {
-
-    //             case 1:
-    //                 //en el caso de que sea sólo comprador..
-                    
-    //                 return (
-    //                     <Fragment>
-    //                         <button>
-    //                             <NavLink exact to="/profile">
-    //                                 Perfil
-    //                             </NavLink>
-    //                         </button>
-    //                         <button>
-    //                             <NavLink exact to="/cart">
-    //                                 Cesta {strNCesta}
-    //                             </NavLink>
-    //                         </button>
-    //                         <button className="logoutButton" onClick={() => this.pulsaLogout()}>
-    //                             Logout
-    //                         </button>
-    //                     </Fragment>
-    //                 );
-
-    //             case 2:
-                    
-    //                 return (
-    //                     <Fragment>
-    //                         <button>
-    //                             <NavLink exact to="/profile">
-    //                                 Perfil
-    //                             </NavLink>
-    //                         </button>
-    //                         <button>
-    //                             <NavLink exact to="/storage">
-    //                                 Mi inventario
-    //                             </NavLink>
-    //                         </button>
-    //                         <button>
-    //                             <NavLink exact to="/cart">
-    //                                 Cesta {strNCesta}
-    //                             </NavLink>
-    //                         </button>
-    //                         <button className="logoutButton" onClick={() => this.pulsaLogout()}>
-    //                             Logout
-    //                         </button>
-    //                     </Fragment>
-    //                 );
-
-    //             case 3:
-    //                 return (
-    //                     <Fragment>
-    //                         <button>
-    //                             <NavLink exact to="/admin">
-    //                                 Admin
-    //                             </NavLink>
-    //                         </button>
-    //                         <button>
-    //                             <NavLink exact to="/profile">
-    //                                 Perfil
-    //                             </NavLink>
-    //                         </button>
-    //                         <button>
-    //                             <NavLink exact to="/storage">
-    //                                 Mi inventario
-    //                             </NavLink>
-    //                         </button>
-    //                         <button>
-    //                             <NavLink exact to="/cart">
-    //                                 Cesta {strNCesta}
-    //                             </NavLink>
-    //                         </button>
-    //                         <button className="logoutButton" onClick={() => this.pulsaLogout()}>
-    //                             Logout
-    //                         </button>
-    //                     </Fragment>
-    //                 );
-
-    //             default:
-    //                 console.log( "USERTYPE ERROR - not buyer, not seller, not admin" );
-                
-    //         }
-    //     } else {
-    //         //visito la página de forma anónima..
-    //         return (
-    //             <Fragment>
-    //                 <button>
-    //                     <NavLink exact to="/login">
-    //                         Acceder
-    //                     </NavLink>
-    //                 </button>
-    //                 <button>
-    //                     <NavLink exact to="/register">
-    //                         Registrarse
-    //                     </NavLink>
-    //                 </button>
-    //                 <button>
-    //                     <NavLink exact to="/cart">
-    //                         Cesta {strNCesta}
-    //                     </NavLink>
-    //                 </button>
-    //             </Fragment>
-    //         );
-    //     }
-	// }
-	
-	
-	
-    pulsaLogout() {
-        let token = session.get().token;
-		
-        // Hago la llamada para borrar mi token
-        axios.get(getUrl(`/user/logout?token=${token}`));
-		
-        // Borro mis datos de sesión
-        session.del();
-
-        // Digo que no estoy logeado (con redux)
-        login(false);
-
-        // Redirección
-        this.props.history.push("/");
+	logoCorporativo: {
+		position: "absolute"
 	}
 	
-	
-	
-    render() {
-        return (
-            <header>
-                <div className="logo">
-                    <NavLink to="/">
-                        {/* <img src="/img/logo.png" alt="logo" /> */}
-                        <img src="https://trello-attachments.s3.amazonaws.com/5e1f276fc18d582b4781c087/5e1f2e19295ba37cfa41ebe6/d070adb352870f4da9f32d1f43ceee01/labor.png" alt="logo" />
-                    </NavLink>
-                </div>
-				
-				
-				<div className="cajaBusqueda">
-					<input type="text" placeholder="Búsqueda" />
-				</div>
+});
 
-                
+
+
+const CenteredTabs = (props) => {
+	
+	const classes = useStyles();
+	const [value, setValue] = React.useState(0);
+	
+	
+	const handleChange = (event, newValue) => {
+		
+		setValue(newValue);
+		
+		
+		switch (newValue) {
+			case 0: 
+				props.history.push("/");
+			break;
+			case 1: 
+				props.history.push("/search");
+			break;
+			case 2: 
+				props.session?.username ? props.history.push("/profile") : props.history.push("/login");
+			break;
+			
+			default: break;
+		}
+		
+	};
+	
+	
+	
+	return (
+		
+		<Fragment className="mainHeader">
+			
+			<Paper className={classes.root}>
 				
-            </header>
-        );
-    }
+				<div className={classes.logoCorporativo}>
+					<ImageLabor
+						className=""
+						src="https://trello-attachments.s3.amazonaws.com/5e1f2e19295ba37cfa41ebe6/1000x1000/93d5c1c8cceb6c32b1d9b50a01380268/labor_logo5.png"
+						w={70}
+						alt="imagen de la empresa"
+						measure="px"
+						br={15}
+					/>
+				</div>
+				
+				
+				<Tabs
+					value={value}
+					onChange={handleChange}
+					indicatorColor="primary"
+					textColor="primary"
+					centered
+				>
+					
+					<Tab
+						label="Home"
+						icon={<HomeIcon />}
+					/>
+					
+					<Tab
+						label="Ofertas"
+						icon={<WorkIcon />}
+					/>
+					
+					{ props.session?.username ? 
+						
+						<Tab
+							label="Perfil"
+							icon={<Face />}
+						/>
+						
+						:
+						
+						<Tab
+							label="Acceder"
+							icon={<AccountCircle />}
+						/>
+						
+					}
+					
+					
+					
+				</Tabs>
+				
+			</Paper>
+			
+		</Fragment>
+		
+	);
 }
 
 
 
-const mapStateToProps = state => {
-    return {
-        
-    };
+const mapStateToProps = (state) => {
+	return ({
+		session: state.session,
+		
+	})
 };
 
-export default connect(mapStateToProps)(withRouter(Header));
 
-// withRouter(Header) es para meter Header en el contexto de "Route" para que tenga el history y toa la movida
+export default connect(mapStateToProps) (withRouter(CenteredTabs));

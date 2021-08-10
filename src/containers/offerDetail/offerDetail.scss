@@ -1,0 +1,161 @@
+
+.offerDetailMain {
+    // background-color:var(--bac);
+	display: flex;
+	flex-direction: column;
+    justify-content: flex-start;
+   
+	width: 100wh;
+	height: fit-content;
+	
+	margin: 0 10%;
+	margin-top: 2em;
+
+	.candidateContainer{
+		display:flex;
+		flex-direction: row;
+		
+		.resultCard{
+			width:95%;
+		}
+
+		.botones{
+
+			flex-direction: column;
+			width:5%;
+			button{
+				margin: 0;
+				padding:0.5rem;
+			}
+		}
+	}
+	
+	.header {
+		
+		background: white;
+		padding: 1em;
+		
+		margin-bottom: 0.5em;
+			
+		display: flex;
+		justify-content: center;
+		box-shadow: 0;
+		transition: box-shadow 0.3s;
+		border: 1px solid #eee;	
+		
+		
+		.image {
+			// width: 10%;
+			
+			display: flex;
+			justify-content: flex-start;
+		}
+		
+		.vacantes {
+			font-size: 0.85em;
+			text-align: center;
+			color: var(--colGri);
+		}
+		
+		.companyInfo {
+			width: 100%;
+			
+			display: flex;
+			flex-direction: column;
+			.goToCompanyProfile:hover{
+				cursor:pointer;
+				color:var(--colAzu);
+			}
+			.buttonsOffer{
+				display:flex;
+				flex-direction: row;
+				justify-content: flex-end;
+			}
+			
+		}
+		
+
+		.botonInscribirse {
+			height: 3em;
+		}
+		
+		
+		.offerInfo {
+			display: flex;
+			flex-wrap: wrap; 
+			
+			
+			
+			.info {
+				margin-right: 2em;
+				color: var(--colGri);
+				
+				.material-icons {
+					color: black;
+				}
+			}
+			
+		}
+		
+	}
+	.cardUserEducation{
+        display:flex;
+        flex-direction: column;
+		width: 100%;
+        background-color:white;
+        
+    }
+
+	.headerClick{
+		box-shadow: 0;
+		transition: box-shadow 0.3s;
+		border: 1px solid #eee;	
+		
+
+	}
+	.MuiPaper-elevation1{
+        box-shadow:0px 0px 0px 0px;
+	}
+	.sectionTitle{
+		font-weight: bold;
+		width: fit-content;
+    }
+
+	.headerClick:hover {
+		box-shadow: 0 0 10px #515151b9;
+		cursor: pointer
+	}
+	
+	
+	
+	
+	.body {
+		
+		background: white;
+		padding: 1em;
+		
+		margin-bottom: 0.5em;
+			
+		display: flex;
+		justify-content: center;
+
+		// overflow-y: auto;
+		
+		
+		.description {
+			font-size: 0.9em;
+		}
+		
+	}
+	
+	
+	
+	.descriptionCandidate {
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+	
+	
+}

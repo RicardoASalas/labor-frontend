@@ -1,0 +1,94 @@
+
+.companyMenu{
+	
+    display:flex;
+    flex-direction: row;
+    height:100%;
+    width: 100%;
+	background-color:white;
+	
+	
+	.companyMenuLinks{
+		display:flex;
+		flex-direction: column;
+		height:100%;
+		width: 15%;
+		background-color:white;
+		// align-items: center;
+		justify-content: center;
+	
+	}
+	.companyMenuResults{
+		display:flex;
+		flex-direction: column;
+		height:100%;
+		width: 85%;
+		background-color:#F2F2F2;
+		border-style: solid;
+		border-width: thin;
+		border-color: #607D8B ;
+		border-radius: 3px;
+		overflow: auto;
+		// align-items: center;
+		justify-content: flex-start;
+		
+	}
+
+	.fieldNames{
+		display:grid;
+		grid-template-columns: 15% 25% 30% 15% 15%;
+		grid-template-rows: 20px;
+		flex-direction: row;
+		font-weight: bold;
+		background-color: white;
+		padding-bottom: 0.2rem;
+		padding-top: 0.2rem;
+		padding-left: 1rem;
+	}
+	
+	.menuLink{
+		margin: 1rem;
+		font-weight: bold;
+		color: #607D8B;
+	}
+	.menuLink:hover{
+		margin: 1rem;
+		font-weight: bold;
+		color: var(--colAzu);
+		cursor: pointer;
+	}
+	
+	.results{
+	
+		display:grid;
+		grid-template-columns: 15% 25% 30% 15% 15%;
+		grid-template-rows: 20px;
+		flex-direction: row;
+		color:#646464;
+		// width: 100%;
+		margin-bottom: 0.2rem;
+		margin-top: 0.2rem;
+		padding-left: 1rem;
+		
+	}
+	
+	.results:hover{
+	   
+		display:grid;
+		grid-template-columns: 15% 25% 30% 15% 15%;
+		grid-template-rows: 20px;
+		flex-direction: row;
+		color: #607D8B;
+		cursor: pointer;
+		// width: 100%;
+		margin-bottom: 0.2rem;
+		margin-top: 0.2rem;
+		padding-left: 1rem;
+		
+	}
+	
+	.fields{
+		margin-right: 1rem;
+	}
+	
+}

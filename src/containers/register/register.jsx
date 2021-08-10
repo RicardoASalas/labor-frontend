@@ -1,322 +1,486 @@
 
-import React from "react";
+import React, { Fragment } from "react";
 
+import "./register.scss";
+
+import TextField from "@material-ui/core/TextField";
+import { FormControl, Button, Radio, RadioGroup, FormControlLabel } from '@material-ui/core';
+import { validate } from "../../utils/uti";
+import DropdownProvinceList from "../../components/dropdownProvinces/dropdownProvinces";
 import axios from "axios";
-import { getUrl } from "../../utils/uti";
-
-import './register.scss';
+import { getUrl, /*session*/ } from "../../utils/uti";
 
 
-class Register extends React.Component {
+export default class Register extends React.Component {
 	
-    constructor (props) {
+	constructor (props) {
 		super(props);
 		
 		this.state = {
-            username: "",
-            email: "",
-            password: "",
-            password2: "",
-            secretQ: "",
-            secretA: "",
-            phone: "",
-            userType: 0,
-            address: "",
-            country: "",
-            city: "",
-            paypal: "",
-            cNumber: "",
-            cOwner: "",
-            expireM: "",
-            expireY: "",
-
-            message: "",
-			errorTime: 0,
-			messageClassName: "error",
+			
+			step: 1,
+			province: "",
+			city: "",
+			userTypeSelectionPending: true,
+			
 		};
 		
-        this.pulsaRegistro = this.pulsaRegistro.bind(this);
-    };
-    
-    handleChange = (ev) =>{
-         
-        this.setState({[ev.target.name]: ev.target.type === 'number' ? +ev.target.value : ev.target.value});
-        
-    }
-
-    resetState () {
-
-        this.setState(
-        {
-            username: "",
-            email: "",
-            password: "",
-            password2: "",
-            secretQ: "",
-            secretA: "",
-            phone: "",
-            userType: 1,
-            address: "",
-            country: "",
-            city: "",
-            paypal: "",
-            cNumber: "",
-            cOwner: "",
-            expireM: "",
-            expireY: "",
-
-            message: "",
-			errorTime: 0,
-			messageClassName: "error",
-		});
-
-    }
-
-   
-    async pulsaRegistro ()  {
-
-        //Comprobamos que todos los campos esten rellenados
-
-        let arrRegister = ["username","email","password","password2","secretQ","secretA",
-        "phone","userType","address","country","city"];
-
-        for (let _x of arrRegister) {
-            if (this.state[_x] === "") {
-                this.muestraError("Todos los campos son requeridos.");
-                return;
-            };
-        };
-
+	};
+	
+	
+	
+	componentDidMount() {
+		
+		// axios.get("http://localhost:3000/api/test")
+		// .then((res) => {console.log( res )})
 		
 		
-        if (this.state.paypal === "" && this.state.cNumber === "") {
-            this.muestraError(`Debes de introducir una dirección paypal o una tarjeta de crédito válida.`);
-            return;
-        };
-
-
-        if (! /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(this.state.email) ) {
-            this.muestraError("Introduce un e-mail válido.");
-            return;
-        };
-
-        if (this.state.paypal !== "") {
-            if (! /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/.test(this.state.paypal) ) {
-                this.muestraError("Introduce un paypal válido.");
-                return;
-            };
-        }
-        
-        if (this.state.password.length < 4) {
-            this.muestraError("El password debe de tener al menos 4 caracteres.");
-            return;
-        };
-
-        if (! /[\d()+-]/g.test(this.state.phone) ) {
-            this.muestraError("El teléfono debe ser válido");
-            return;
-        };
-
-        if (! /[a-z]/gi.test(this.state.address) ) {
-            this.muestraError("La dirección debe ser válida.");
-            return;
-        };
-
-        if (! /[a-z]/gi.test(this.state.country) ) {
-            this.muestraError("El país debe ser válido.");
-            return;
-        };
-
-        if (! /[a-z]/gi.test(this.state.city) ) {
-            this.muestraError("La ciudad debe ser válida.");
-            return;
-        };
-
-		if (this.state.secretQ.length < 4) {
-            this.muestraError("La pregunta secreta debe tener al menos 4 caracteres.");
-            return;
+		// axios.post("http://localhost:3000/api/test", {"key": "asdf"})
+		// .then((res) => {console.log( res )})
+		
+		
+		/*
+		axios.post("https://localhost:3000/api/user/register", {
+			"username": "Ricardooo",
+			"email": "ricardo@labor.com",
+			"password": "1234",
+			"province": "Valencia",
+			"city": "Valencia",
+			"is_company": false,
+			"name": "Ricardo",
+			"surname": "Salas",
+			"nif": "25774146S",
+			"phone": "647009123",
+			"website": "www.asd.es",
+			"description": "test"
+		}).then((res) => {console.log( res )})
+		.catch( (err) => {console.log( err )} )
+		*/
+		
+	}
+	
+	
+	inputToStatus = (ev, stateKey) => {
+		this.setState({ [stateKey]: ev.target.value });
+	};
+	
+	handleUserTypeSelection = (ev) => {
+		this.setState({ isEnterprise: ev.target.value === "true" });
+		this.setState({ userTypeSelectionPending: false });
+	};
+	
+	
+	
+	setStep = (futureStep, isBack = false, asd) => {
+		
+		if (isBack) {
+			this.setState({ step: futureStep });
+			return;
 		};
-		if (this.state.secretA.length < 4) {
-            this.muestraError("La respuesta secreta debe tener al menos 4 caracteres.");
-            return;
+		
+		if (this.validateStep()) {
+			this.setState({ step: futureStep });
 		};
-
-        if (this.state.cNumber !== "") {
-            if (! /[0-9]/g.test(this.state.cNumber) ) {
-                this.muestraError("El numero de la tarjeta debe de ser válido.");
-                return;
-            };
-
-            if (! /[a-z]/gi.test(this.state.cOwner) ) {
-                this.muestraError("El titular de la tarjeta debe ser válido.");
-                return;
-            };
-        
-            if (! /[0-9]/g.test(this.state.expireM) ) {
-                this.muestraError("El mes de caducidad debe de ser válido.");
-                return;
-            };
-            if (this.state.expireM.length !== 2) {
-                this.muestraError("El mes de caducidad debe tener 2 caracteres.");
-                return;
-            }
-            if (this.state.expireY.length !== 2) {
-                this.muestraError("El año de caducidad debe tener 2 caracteres.");
-                return;
-            }
-        
-            if (! /[0-9]/g.test(this.state.expireY) ) {
-                this.muestraError("El año de caducidad debe de ser válido.");
-                return;
-            };
-        }
+		
+	};
+	
+	
+	
+	validateStep = () => {
+		
+		let validation;
+		let correct = true;
 		
 		
-		
-        if (this.state.password !== this.state.password2) {
-            this.muestraError("Los dos passwords deben coincidir");
-            return;
-		}
-		
-		
-		
-        // Procedemos a registrar el nuevo usuario en la base de datos
-        try {
+		switch (this.state.step) {
 			
-            let objectBilling = {
-                "address": this.state.address.trim(),
-                "country": this.state.country.trim(),
-                "city": this.state.city.trim(),
-                "paypal": this.state.paypal.trim(),
-                "card": {
-                    "number": this.state.cNumber,
-                    "owner": this.state.cOwner,
-                    "expireDate": [this.state.expireM, this.state.expireY]
-                }
-            };
-
-            let tipoUsuario = parseInt(this.state.userType) + 1;
-           
-			// Construcción del cuerpo del producto.
-			let body = {
-                username: this.state.username.trim(),
-                email: this.state.email.trim(),
-                password: this.state.password,
-                secretQuestion: this.state.secretQ.trim(),
-                secretAnswer: this.state.secretA.trim(),
-                phone: this.state.phone.trim(),
-                userType: tipoUsuario,
-                billing: objectBilling
-            };
-
-            await axios.post( getUrl(`/user/register`), body);
+			case 1:
+				
+				validation = validate(this.state.username, "abc123", 4, 12);
+				if (validation !== "") { correct = false };
+				this.setState({ err_username: validation });
+				
+				validation = validate(this.state.email, "email", 1, 30);
+				if (validation !== "") { correct = false };
+				this.setState({ err_email: validation });
+				
+				validation = validate(this.state.password, "abc123!", 4);
+				if (validation !== "") { correct = false };
+				this.setState({ err_password: validation });
+				
+				validation = validate(this.state.password2, "abc123!", 4);
+				if (validation !== "") { correct = false };
+				this.setState({ err_password2: validation });
+				
+				if (this.state?.password !== this.state?.password2) {
+					this.setState({ err_password2: "Las contraseñas deben coincidir." });
+					correct = false;
+				};
+				
+				if (this.state.province === "") {
+					this.setState({ err_province: "No puede estar vacío."});
+				} else {
+					this.setState({ err_province: "" });
+				};
+				
+				validation = validate(this.state.city, "city", 1);
+				if (validation !== "") { correct = false };
+				this.setState({ err_city: validation });
+				
+				if (this.state.userTypeSelectionPending) { correct = false };
+				this.setState({ err_isEnterprise: "Debes elegir si eres trabajador o empresa." });
+				
+			break;
 			
-			// Muestro
-            this.muestraError("Usuario registrado con éxito.", 2, false);
-            
-            setTimeout ( () => {
-                //reseteamos los valores de los input
-                this.resetState();
-                //redireccionamos a login
-                this.props.history.push("/login");
-            },1500)
-            
 			
-		} catch (err) {
+			case 2:
+				
+				validation = validate(this.state.name, "abc", 1);
+				if (validation !== "") { correct = false };
+				this.setState({ err_name: validation });
+				
+				validation = validate(this.state.phone, "phone", 9);
+				if (validation !== "") { correct = false };
+				this.setState({ err_phone: validation });
+				
+				
+				if (! this.state.isEnterprise) {
+					
+					validation = validate(this.state.surname, "abc", 4);
+					if (validation !== "") { correct = false };
+					this.setState({ err_surname: validation });
+					
+					validation = validate(this.state.nif, "nif", 9);
+					if (validation !== "") { correct = false };
+					this.setState({ err_nif: validation });
+					
+				} else {
+					
+					validation = validate(this.state.cif, "cif", 9, 9);
+					if (validation !== "") { correct = false };
+					this.setState({ err_cif: validation });
+					
+					validation = validate(this.state.sector, "abc_", 2);
+					if (validation !== "") { correct = false };
+					this.setState({ err_sector: validation });
+					
+				};
+				
+			break;
 			
-			if(err.response) {
-                if(err.response.data) {
-                    this.muestraError("Ha ocurrido un error durante el registro.");
-                }
-                return;
-            }
-            console.log(err);
-		};
-    }
-
-    muestraError (message, timeout = 3, isError = true) {
-		
-		// Pongo la clase
-		let className = isError ? "error" : "success";
-		this.setState({messageClassName: className});
-		
-		
-		// Pongo el mensaje
-		this.setState({message: message});
-		
-		
-		// Ya estoy en loop
-		if (this.state.errorTime > 0) {
-			this.setState({errorTime: timeout});
-			return; // y salgo
+			
+			default: break;
+			
 		};
 		
 		
-		this.setState({errorTime: timeout}); // Entro por primera vez, pongo tiempo
+		return correct;
+		
+	};
+	
+	
+	
+	send = async () => {
+		
+		// Si no es correcta la validación, no sigo
+		if (! this.validateStep()) return;
 		
 		
-		// Loop
-		let loop = setInterval( ()=> {
+		// Axios
+		try {
 			
-			if (this.state.errorTime <= 0) {
-				this.setState({message: ""});
-				clearInterval(loop); // salgo del loop
+			// Genero body
+			let registerData = {
+				username: this.state.username,
+				email: this.state.email,
+				password: this.state.password,
+				
+				province: this.state.province,
+				city: this.state.city,
+				is_company: this.state.isEnterprise,
+				
+				name: this.state.name,
+				phone: this.state.phone,
+				
+				description: `Descripción de ${this.state.name}.`,
+				
 			};
 			
 			
-			this.setState( preState => ( {errorTime: preState.errorTime - 1}) );
+			if (this.state.isEnterprise) {
+				registerData.sector = this.state.sector;
+				registerData.cif = this.state.cif;
+			} else {
+				registerData.surname = this.state.surname;
+				registerData.nif = this.state.nif;
+			};
 			
-		}, 1000);
+			
+			
+			// Hago la llamada
+			let res = await axios.post( getUrl("/user/register"), registerData);
+			let data = res.data;
+			
+			
+			if (data.success) {
+				
+				// Muestro mensaje de éxito
+				this.setState({ success: "Cuenta creada con éxito. Redirigiendo..." });
+				
+				
+				// Redirección
+				setTimeout( () => {
+					this.props.history.push("/login");
+				}, 1500);
+				
+			};
+			
+			
+			
+			
+			
+		} catch (err) {
+			
+			
+			
+			let res = err?.response?.data;
+			
+			
+			if (!res) {
+				return console.error( err );
+			};
+			
+			
+			
+			if (res.errorCode === "user_register_1") {
+				this.setState({ error: "El nombre de usuario o el email ya está en uso." });
+			};			
+			
+			
+			
+			if (res.errorCode === "user_login_2") {
+				
+				// Guardo datos de sesión
+				// session.set({
+				// 	username: res.username,
+				// 	userId: res.userId,
+				// 	token: res.token,
+				// 	userType: res.userType
+				// });
+				
+				
+				// Muestro mensaje
+				// this.muestraError("Ya estabas logeado.", 2);
+				
+				
+				// Digo que estoy logeado
+				// login(true);
+				
+				
+				// Redirijo
+				setTimeout( () => {
+					this.props.history.push("/");
+				}, 2000);
+				
+				
+				return;
+				
+			};
+			
+			
+		};
+		
+		
 		
 	};
 
-    render() {
-       
-		return(
-			<div className="registerMain">
-            {/* <pre>{JSON.stringify(this.state, null,2)}</pre> */}
-
-				<div className="registerCard">
-					<h2>Cuenta</h2>
-					<div className="registerCardInfoA">
-                        <input className="inputRegister" type="text" placeholder="Nombre de usuario" name="username" value={this.state.username}  onChange={this.handleChange} ></input>
-                        <input className="inputRegister" type="text" placeholder="E-mail"  name="email" value={this.state.email}  onChange={this.handleChange} ></input>
-                        <input className="inputRegister" type="password" placeholder="Password"  name="password" value={this.state.password}  onChange={this.handleChange} ></input>
-                        <input className="inputRegister" type="password" placeholder="Repite password"  name="password2" value={this.state.password2}  onChange={this.handleChange} ></input>
-                        <input className="inputRegister" type="text" placeholder="Pregunta secreta"  name="secretQ" value={this.state.secretQ}  onChange={this.handleChange} ></input>
-                        <input className="inputRegister" type="text" placeholder="Respuesta secreta"  name="secretA" value={this.state.secretA}  onChange={this.handleChange} ></input>
-                    </div>
-                    <h2>Personal</h2>
-                    <div className="registerCardInfoB">
-                        <input className="inputRegister" type="text" placeholder="Dirección" name="address" value={this.state.address}  onChange={this.handleChange} ></input>
-                        <input className="inputRegister" type="text" placeholder="Teléfono" name="phone" value={this.state.phone}  onChange={this.handleChange} ></input>
-                        <input className="inputRegister" type="text" placeholder="Ciudad" name="city" value={this.state.city}  onChange={this.handleChange} ></input>
-                        <input className="inputRegister" type="text" placeholder="País" name="country" value={this.state.country}  onChange={this.handleChange} ></input>
-                        <select className="registerDropdown br" name="userType" onChange={this.handleChange}>
-						    	<option value="0">Soy comprador</option>
-						    	<option value="1">Soy vendedor</option>
-						</select>
-					</div>
-                    <h2>Facturación</h2>
-                    <div className="registerCardInfoB">
-                        <input className="inputRegister" type="text" placeholder="Número de tarjeta" name="cNumber" value={this.state.cNumber}  onChange={this.handleChange} ></input>
-                        <input className="inputRegister" type="text" placeholder="Nombre de propietario" name="cOwner" value={this.state.cOwner}  onChange={this.handleChange} ></input>
-                        <input className="inputRegister" type="text" placeholder="Mes caducidad" name="expireM" value={this.state.expireM}  onChange={this.handleChange} ></input>
-                        <input className="inputRegister" type="text" placeholder="Año caducidad" name="expireY" value={this.state.expireY}  onChange={this.handleChange} ></input>
-                        <input className="inputRegister" type="text" placeholder="Paypal" name="paypal" value={this.state.paypal}  onChange={this.handleChange} ></input>
-                    </div>
-					
-                    <button onClick={this.pulsaRegistro}>Registrar</button>
-                    <p className={this.state.messageClassName}> {this.state.message} </p>
-                    
-				</div>
-
-			</div>
+	
+	c_input = (label, type, stateKey, className) => {
+		
+		let errTxt = this.state?.[`err_${stateKey}`];
+		let err = !! errTxt;
+		
+		
+		return (
+			
+			<FormControl className="mt3">
+				<TextField
+					className={className}
+					error={ err }
+					helperText={ errTxt }
+					// id="outlined-basic"
+					type={type}
+					label={label}
+					variant="outlined"
+					onChange={ (ev) => this.inputToStatus(ev, stateKey) }
+					value={this.state[stateKey] ? this.state[stateKey] : ""}
+				/>
+			</FormControl>
+			
 		);
+		
 	};
 	
 	
-};
+	
+	showForm() {
+		
+		switch (this.state.step) {
+			
+			case 1: return (
+				<Fragment>
+					
+					{ this.c_input("Nombre de usuario", "text", "username") }
+					{ this.c_input("Email", "email", "email") }
+					{ this.c_input("Contraseña", "password", "password") }
+					{ this.c_input("Repite contraseña", "password", "password2") }
+					<div className="flex-dir-r">
+						
+						<DropdownProvinceList
+							className="mt3 mr3"
+							label="Provincia"
+							defaultOption="Selecciona una provincia"
+							onChange={ (ev) => {
+								this.setState({province : ev.target.value});
+							}}
+							helperText={this.state.err_province}
+						/>
+						
+						{ this.c_input("Ciudad", "text", "city", "wfc") }
+						
+					</div>
+					<div className="flex-dir-r">
+						<RadioGroup
+							className="mt3"
+							aria-label="Employed or enterprise"
+							name="isEnterprise"
+							// value={this.state.isEnterprise}
+							onChange={ this.handleUserTypeSelection }
+						>
+						<FormControlLabel
+							value={ "false" }
+							control={<Radio color="primary" />}
+							label="Soy empleado"
+							labelPlacement="end"
+						/>
+						<FormControlLabel
+							value={ "true" }
+							control={<Radio color="primary" />}
+							label="Soy empresa"
+							labelPlacement="end"
+						/>
+						</RadioGroup>
+						</div>
+						
+						<p className="error">
+							{this.state?.err_isEnterprise}
+						</p>
+						
+					<Button className="mt3" variant="contained" color="primary"
+						onClick={ () =>{ 
+							
+							this.setStep(2)
+						}}
+					>
+						Siguiente
+					</Button>
+				</Fragment>
+			);
+			
+			
+			
+			case 2:
+			
+				if (! this.state.isEnterprise){
+					return (
+						<Fragment>
+
+							{ this.c_input("Name", "text", "name") }
+							{ this.c_input("Surname", "text", "surname") }
+							{ this.c_input("Teléfono", "text", "phone") }
+							{ this.c_input("NIF", "text", "nif") }
+			
 
 
-export default Register;
+							<div className="boxButtons">
+								
+								<Button className="btn mt3" variant="contained" color="primary"
+									onClick={ () => this.setStep(1, true) }
+								>
+									« Anterior
+								</Button>
+								
+								<Button className="btn mt3" variant="contained" color="secondary"
+									onClick={ () => this.send() }
+								>
+									Enviar
+								</Button>
+								
+							</div>
+							
+							
+							<p className={ (this.state.error === "") ? "hidden" : "error mt5" }>{this.state.error}</p>
+							<p className={ (this.state.success === "") ? "hidden" : "success mt5" }>{this.state.success}</p>
+							
+						</Fragment>
+					);
+					
+				} else {
+					
+					return (
+						<Fragment>
+		
+							{ this.c_input("Name", "text", "name") }
+							{ this.c_input("Teléfono", "text", "phone") }
+							{ this.c_input("CIF", "text", "cif") }
+							{ this.c_input("Sector", "text", "sector") }
+
+							<div className="boxButtons">
+								
+								<Button className="btn mt3" variant="contained" color="primary"
+									onClick={ () => this.setStep(1, true) }
+								>
+									« Anterior
+								</Button>
+								
+								<Button className="btn mt3" variant="contained" color="secondary"
+									onClick={ () => this.send() }
+								>
+									Enviar
+								</Button>
+								
+							</div>
+							
+							
+							<p className={ (this.state.message === "") ? "hidden" : "error mt5" }>{this.state.error}</p>
+							
+						</Fragment>
+					);
+				};
+				
+			default: return "asd";
+			
+		};		
+		
+	};
+	
+	
+	
+	render() {
+		return (
+			<div className="registerMain">
+				<form className="br bs mt3">
+					
+					<div className="titulo">
+						<h2> Registro </h2>
+					</div>
+					
+					
+					{this.showForm()}
+					
+				</form>
+			</div>
+		);
+	
+	};
+}

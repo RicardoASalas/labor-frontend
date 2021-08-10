@@ -1,0 +1,319 @@
+
+
+
+.loadingProfileIcon{
+    height:100vh;
+    width: 100%;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+}
+.mainProfile {
+    display:flex;
+    height: 100vh;
+    width: 100%;
+    
+
+	
+	.seccionBody {
+        height: 95%;
+        width:100%;
+        justify-content: center;
+    }	
+    .seccionHeader{
+        display:flex;
+        align-items: center;
+        height:5%;
+    }
+	
+	
+    .cardUserInformation{
+        width: 55%;
+        height: 90%;
+        display:flex;
+        flex-direction: column;
+        .cardInformationFields{
+            align-items: flex-start;
+            background-color:white;
+            height: 100%;
+        }
+    }
+    .editIconContainer{
+        display:flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        height:100%;
+        padding: 1rem;
+        .editIcon:hover{
+            width: 20px;
+            height: 20px;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+        .editIcon{
+            width: 20px;
+            height: 20px;
+            margin-bottom: 1rem;
+            color:var(--colAzu);
+        }
+    }
+
+    .cardUserData{
+        width: 100%;
+        height: 33%; 
+        background-color:white;
+        display:flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+    
+    .cardUserEducation{
+        display:flex;
+        flex-direction: column;
+        width: 100%;
+        height: 33%; 
+        background-color:white;
+        .skillContainer{
+            height: 4rem;
+            width: 4rem;
+            background-color: gray;
+            border-radius: 15%;
+            
+    
+        }
+    }
+    .cardUserDescription{
+        width: 100%;
+        height: 33%; 
+        background-color:white;
+        .descriptionBox{
+            width: 100%;
+            height: 100%;
+            hyphens: auto;
+            word-break: break-all;
+            // font-weight: bold;
+            color: #646464;
+            white-space: pre-wrap;
+            overflow-y: auto;
+            padding-right:3rem;
+         
+        }
+        .editDescriptionBox{
+            width: 100%;
+            height: 85%;
+            hyphens: auto;
+            word-break: break-all;
+            // font-weight: bold;
+            color: #646464;
+            white-space: pre-wrap;
+            
+         
+        }
+        
+    }
+    .MuiPaper-elevation1{
+        box-shadow:0px 0px 0px 0px;
+    }
+    .cardUserOfferEmpty{
+        width: 35%;
+        height: 90%;
+        background-color:white;
+    }
+
+    
+    
+    .cardUserOffer{
+        overflow: auto;
+        width: 35%;
+        height: 90%;
+        background-color:var(--pri1);
+        .offerImage {
+            width: 25%;
+            height: 40%;
+            display:flex;
+           justify-content: center;
+
+           .avatar{
+            justify-content: center;
+            align-items: center;
+            // height: 85%;
+            // width: 85%;
+            height:85%;
+            width:80%;
+            border-radius: 15%;
+            
+        }
+		}
+    }
+    
+    .infoOfferContainer{
+        width: 75%;
+        height: 100%;
+    }
+    .offerContainer{
+        .cardOffers {
+            flex-direction: column;
+            align-items: center;
+            display:flex;
+            width: 30%;
+            
+        }
+        
+
+    }
+    .crossContainer{
+        
+        display:flex;
+        justify-content: flex-end;
+        .closingCross{
+            width: 1rem;
+            height: 1rem;
+        }
+
+    }
+    
+    .cardInfo {
+        flex-direction: row;
+      
+        width: 60%;
+   
+      
+        
+    }
+
+    .cardOffers {
+        flex-direction: column;
+        align-items: center;
+        display:flex;
+        width: 30%;
+        
+    }
+
+
+    .userDataFieldContainer{
+        color: var(--pri9);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 70%;
+        height:100%;
+    }
+    .userAvatarContainer{
+
+        color: var(--pri9);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30%;
+        height: 100%;
+
+        .avatar{
+            justify-content: center;
+            align-items: center;
+            // height: 85%;
+            // width: 85%;
+            height:10em;
+            width:11em;
+            border-radius: 15%;
+            // border-style: solid;
+            // border-color: var(--colAzu);
+            // border-width: thin;
+        }
+        
+
+    }
+   
+
+    .MuiOutlinedInput-input{
+        padding: 0.5rem;
+        padding-bottom: 0.7rem;
+        display:flex;
+        align-items: center;
+    }
+
+    .provinceDropdown{
+        font-size:1rem;
+        padding:-2;
+    }
+
+    .MuiOutlinedInput-multiline{
+        padding:0.5rem;
+        
+    }
+    // .makeStyles-root-78{
+    //     height:100%;
+    // }
+    // .offersMenu{
+    //     height:100%;
+    // }
+    // .makeStyles-tabs-69{
+    //     width: 20%;
+    // }
+    .userDataField {
+        display:flex;
+        color: var(--pri9);
+        align-items: center;
+        justify-content: center;
+        
+    
+        
+    
+        .userDataFieldContent {
+            display: flex;
+            flex-direction: row;
+            
+            margin-top: 1em;
+            margin-right: 1rem;
+            justify-content: center;
+            align-items: center;
+            
+            .bigField{
+                display: flex;
+                margin-right:0.5rem;
+                font-weight: bold;
+                font-size: 2rem;
+                justify-content: center;
+                align-items: center;
+            }
+            .mediumField{
+                display: flex;
+                margin-right:0.5rem;
+                font-size: 1.5rem;
+                justify-content: center;
+                align-items: center;
+                color: #607D8B;
+            }
+            .smallField{
+                display: flex;
+                margin-right:0.5rem;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    
+    }
+    .sectionTitle{
+        font-weight: bold;
+    }
+    .blackField{
+        display: flex;
+        margin-top: 3rem;
+        margin-right:0.5rem;
+        font-size: 1.2rem;
+        font-weight: bold;
+        justify-content: center;
+        align-items: center;
+        color: #646464;
+    }
+
+    .userTypeClass {
+        color: var(--pri6);
+        margin-top: 0.3em;
+        background-color: blue;
+    }
+
+
+}
